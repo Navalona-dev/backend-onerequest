@@ -1,0 +1,208 @@
+<?php
+
+namespace App\Entity;
+
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\CodeCouleurRepository;
+use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\CodeCouleurController;
+use App\DataPersister\CodeCouleurDataPersister;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
+
+#[ORM\Entity(repositoryClass: CodeCouleurRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => 'code_couleur:list']), 
+        new Get(normalizationContext: ['groups' => 'code_couleur:item']),
+        new Post(),          
+       
+        new Put(),
+        new Patch(),
+        new Delete(),
+
+        new Post( // toggleActive clairement identifié
+            uriTemplate: '/code_couleurs/{id}/toggle-active',
+            controller: CodeCouleurController::class,
+            read: true,
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Activer/Désactiver un code couleur',
+                    'description' => 'Cette opération active ou désactive un code couleur existant.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        new Post( 
+            processor: CodeCouleurDataPersister::class,
+        ),
+    ],
+)]
+
+class CodeCouleur
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bgColor = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $textColor = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $btnColor = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $colorOne = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $colorTwo = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $updatedAt = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\ManyToOne(inversedBy: 'codeCouleurs')]
+    private ?Site $site = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getBgColor(): ?string
+    {
+        return $this->bgColor;
+    }
+
+    public function setBgColor(?string $bgColor): static
+    {
+        $this->bgColor = $bgColor;
+
+        return $this;
+    }
+
+    public function getTextColor(): ?string
+    {
+        return $this->textColor;
+    }
+
+    public function setTextColor(?string $textColor): static
+    {
+        $this->textColor = $textColor;
+
+        return $this;
+    }
+
+    public function getBtnColor(): ?string
+    {
+        return $this->btnColor;
+    }
+
+    public function setBtnColor(?string $btnColor): static
+    {
+        $this->btnColor = $btnColor;
+
+        return $this;
+    }
+
+    public function getColorOne(): ?string
+    {
+        return $this->colorOne;
+    }
+
+    public function setColorOne(?string $colorOne): static
+    {
+        $this->colorOne = $colorOne;
+
+        return $this;
+    }
+
+    public function getColorTwo(): ?string
+    {
+        return $this->colorTwo;
+    }
+
+    public function setColorTwo(?string $colorTwo): static
+    {
+        $this->colorTwo = $colorTwo;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTime $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTime $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): static
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+}

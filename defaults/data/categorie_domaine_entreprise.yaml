@@ -1,0 +1,39 @@
+data1:
+  nom: "Secteur Public & Institutions"
+  description: "Comprend les administrations publiques, collectivités locales et services étatiques qui traitent les demandes citoyennes, délivrent des documents officiels ou gèrent les politiques publiques."
+
+data2:
+  nom: "Éducation & Formation"
+  description: "Couvre les établissements d’enseignement et organismes de formation qui facilitent l’apprentissage, l’acquisition de compétences et la recherche académique."
+
+data3:
+  nom: "Santé & Services Médicaux"
+  description: "Inclut les structures de soins, les laboratoires et les professionnels de santé chargés du bien-être, du diagnostic, du traitement et du suivi des patients."
+
+data4:
+  nom: "Entreprises & Services Professionnels"
+  description: "Regroupe les sociétés offrant des prestations aux particuliers ou aux entreprises : consulting, maintenance, prestations intellectuelles, etc."
+
+data5:
+  nom: "Logement & Immobilier"
+  description: "Couvre les acteurs de la vente, location, gestion ou construction de biens immobiliers, incluant agences, promoteurs, bailleurs sociaux, etc."
+
+data6:
+  nom: "Transport & Mobilité"
+  description: "Rassemble les entreprises qui assurent le déplacement de personnes ou de marchandises, la logistique urbaine ou interrégionale."
+
+data7:
+  nom: "Associatif & Humanitaire"
+  description: "Comprend les organisations à but non lucratif engagées dans l’aide sociale, le bénévolat, la solidarité, ou la défense de causes humanitaires ou environnementales."
+
+data8:
+  nom: "Numérique & Technologie"
+  description: "Couvre les entreprises technologiques et informatiques qui développent des logiciels, plateformes numériques, hébergements ou services IT."
+
+data9:
+  nom: "Loisirs & Divertissement"
+  description: "Rassemble les activités culturelles, touristiques, sportives ou événementielles visant à divertir ou enrichir l’expérience personnelle."
+
+data10:
+  nom: "Juridique & Financier"
+  description: "Inclut les professions réglementées comme les avocats, notaires, cabinets de conseil, ainsi que les banques, assurances et organismes financiers."

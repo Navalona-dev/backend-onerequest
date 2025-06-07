@@ -1,0 +1,169 @@
+# Secteur Public & Institutions (categoryId: 1)
+data1:
+  nom: "Mairie / Collectivités"
+  description: "Gestion d’actes d’état civil, demandes citoyennes."
+  categoryId: 1
+
+data2:
+  nom: "Ministères / Services publics"
+  description: "Traitement administratif, subventions."
+  categoryId: 1
+
+data3:
+  nom: "Organismes sociaux"
+  description: "Aides, allocations, démarches sociales."
+  categoryId: 1
+
+# Éducation & Formation (categoryId: 2)
+data4:
+  nom: "Écoles / Universités"
+  description: "Inscriptions, relevés de notes, certificats."
+  categoryId: 2
+
+data5:
+  nom: "Centres de formation"
+  description: "Programmes, demandes de sessions."
+  categoryId: 2
+
+data6:
+  nom: "Instituts de recherche"
+  description: "Accès à des projets ou programmes scientifiques."
+  categoryId: 2
+
+# Santé & Services Médicaux (categoryId: 3)
+data7:
+  nom: "Hôpitaux / Cliniques"
+  description: "Rendez-vous, dossiers médicaux."
+  categoryId: 3
+
+data8:
+  nom: "Laboratoires d’analyse"
+  description: "Résultats d’examens, dépistages."
+  categoryId: 3
+
+data9:
+  nom: "Pharmacies / Mutuelles"
+  description: "Demandes de remboursement, ordonnances."
+  categoryId: 3
+
+# Entreprises & Services Professionnels (categoryId: 4)
+data10:
+  nom: "Agences de communication"
+  description: "Briefs, devis, collaboration."
+  categoryId: 4
+
+data11:
+  nom: "Sociétés de prestation"
+  description: "Demande de service, maintenance."
+  categoryId: 4
+
+data12:
+  nom: "Cabinets de conseil"
+  description: "Analyse, accompagnement, audits."
+  categoryId: 4
+
+# Logement & Immobilier (categoryId: 5)
+data13:
+  nom: "Agences immobilières"
+  description: "Visites, locations, ventes."
+  categoryId: 5
+
+data14:
+  nom: "Bailleurs sociaux"
+  description: "Demande de logement, renouvellement."
+  categoryId: 5
+
+data15:
+  nom: "Promoteurs immobiliers"
+  description: "Accès à des programmes neufs."
+  categoryId: 5
+
+# Transport & Mobilité (categoryId: 6)
+data16:
+  nom: "Compagnies de transport"
+  description: "Réservations, assistance."
+  categoryId: 6
+
+data17:
+  nom: "Sociétés de livraison"
+  description: "Suivi de colis, réclamations."
+  categoryId: 6
+
+data18:
+  nom: "Transports publics"
+  description: "Cartes, horaires, signalement."
+  categoryId: 6
+
+# Associatif & Humanitaire (categoryId: 7)
+data19:
+  nom: "ONG / Associations"
+  description: "Aide sociale, dons, missions."
+  categoryId: 7
+
+data20:
+  nom: "Fondations"
+  description: "Soutien aux projets, mécénat."
+  categoryId: 7
+
+data21:
+  nom: "Groupes communautaires"
+  description: "Participation, adhésion."
+  categoryId: 7
+
+# Numérique & Technologie (categoryId: 8)
+data22:
+  nom: "Développeurs / Freelances IT"
+  description: "Projets, prestations techniques."
+  categoryId: 8
+
+data23:
+  nom: "Sociétés de logiciels"
+  description: "Support technique, licences."
+  categoryId: 8
+
+data24:
+  nom: "Hébergeurs web"
+  description: "Services d’hébergement, sécurité."
+  categoryId: 8
+
+# Loisirs & Divertissement (categoryId: 9)
+data25:
+  nom: "Tourisme"
+  description: "Activités de voyage, hébergement, excursions."
+  categoryId: 9
+
+data26:
+  nom: "Agence de voyage"
+  description: "Organisation de séjours, réservations, forfaits touristiques."
+  categoryId: 9
+
+data27:
+  nom: "Événementiel"
+  description: "Organisation d’événements (mariages, séminaires, concerts…)."
+  categoryId: 9
+
+data28:
+  nom: "Salle de sport"
+  description: "Espace de remise en forme."
+  categoryId: 9
+
+data29:
+  nom: "Cinéma / Théâtre"
+  description: "Diffusion ou représentation d’œuvres culturelles."
+  categoryId: 9
+
+# Juridique & Financier (categoryId: 10)
+data30:
+  nom: "Banques"
+  description: "Demandes de crédit, ouverture de compte."
+  categoryId: 10
+
+data31:
+  nom: "Assurances"
+  description: "Souscription, sinistres, remboursements."
+  categoryId: 10
+
+data32:
+  nom: "Cabinets juridiques"
+  description: "Assistance, rédaction d’actes, conseils."
+  categoryId: 10
