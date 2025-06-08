@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Privilege;
 use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +36,7 @@ class DefaultsLoader
     {
         $this->categorieDomaineEntreprise();
         $this->domaineEntreprise();
+        $this->privilege();
         $this->copyFiles();
 
     }
@@ -73,6 +75,24 @@ class DefaultsLoader
                 $domaine->setCreatedAt($date);
 
                 $this->em->persist($domaine);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function privilege() {
+        $privileges = Yaml::parseFile('defaults/data/privilege.yaml');
+
+        foreach ($privileges as $label => $content) {
+            list($isNew, $privilege) = $this->maybeCreate(Privilege::class, ['label' => $label]);
+            if($isNew){
+                $privilege->setTitle($content['title']);
+                $privilege->setLabel($label);
+                $privilege->setDescription($content['description']);
+                $date = new \datetime();
+                $privilege->setCreatedAt($date);
+
+                $this->em->persist($privilege);
                 $this->em->flush();
             }
         }

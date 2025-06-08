@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class SiteController extends AbstractController
+final class SiteToggleController extends AbstractController
 {
     public function __invoke(Site $data, EntityManagerInterface $em): JsonResponse
     {

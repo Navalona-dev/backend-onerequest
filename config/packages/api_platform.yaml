@@ -5,6 +5,8 @@ api_platform:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+    eager_loading:
+        max_joins: 100
     formats:
         json: ['application/json']
         jsonld: ['application/ld+json']

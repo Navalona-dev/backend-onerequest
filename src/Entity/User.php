@@ -10,52 +10,91 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use App\ApiResource\Filter\RoleFilter;
 use ApiPlatform\Metadata\GetCollection;
+use App\DataPersister\AddUserDataPersister;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(), 
-        new Get(),            
+        new GetCollection(normalizationContext: ['groups' => 'user:list', 'enable_max_depth' => true]), 
+        new Get(normalizationContext: ['groups' => 'user:item']),          
         new Post(),
         new Put(),
         new Patch(),
         new Delete(),
+        new Post( 
+            processor: AddUserDataPersister::class,
+        ),
     ]
 )]
+#[ApiFilter(RoleFilter::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
+    #[Groups(['user:list', 'user:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $password = null;
 
+    #[Groups(['user:list', 'user:item'])]
     #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
+    #[Groups(['user:list', 'user:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $createdAt = null;
 
+    #[Groups(['user:list', 'user:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $updatedAt = null;
 
+    #[Groups(['user:list', 'user:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profile = null;
+
+    #[Groups(['user:list', 'user:item'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSuperAdmin = null;
+
+    #[Groups(['user:list', 'user:item'])]
+    #[MaxDepth(1)]
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Site $site = null;
+    
+    #[Groups(['user:list', 'user:item'])]
+    #[MaxDepth(1)]
+    #[ORM\ManyToMany(targetEntity: Privilege::class, mappedBy: 'users')]
+    private Collection $privileges;
+
+    public function __construct()
+    {
+        $this->privileges = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -176,6 +215,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // Cette méthode est utilisée pour effacer des données sensibles.
         // Par exemple, si tu stockes un mot de passe en clair temporairement.
         // Ici on ne fait rien car ce n’est pas nécessaire.
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function isSuperAdmin(): ?bool
+    {
+        return $this->isSuperAdmin;
+    }
+
+    public function setIsSuperAdmin(?bool $isSuperAdmin): static
+    {
+        $this->isSuperAdmin = $isSuperAdmin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Privilege>
+     */
+    public function getPrivileges(): Collection
+    {
+        return $this->privileges;
+    }
+
+    public function addPrivilege(Privilege $privilege): static
+    {
+        if (!$this->privileges->contains($privilege)) {
+            $this->privileges->add($privilege);
+            $privilege->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrivilege(Privilege $privilege): static
+    {
+        if ($this->privileges->removeElement($privilege)) {
+            $privilege->removeUser($this);
+        }
+
+        return $this;
     }
 
 }

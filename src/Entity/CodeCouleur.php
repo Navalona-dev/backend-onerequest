@@ -12,10 +12,11 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\CodeCouleurRepository;
 use Doctrine\Common\Collections\Collection;
-use App\Controller\Api\CodeCouleurController;
 use App\DataPersister\CodeCouleurDataPersister;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\CodeCouleurToggleController;
+use App\Controller\Api\CodeCouleurGetActiveController;
 
 #[ORM\Entity(repositoryClass: CodeCouleurRepository::class)]
 #[ApiResource(
@@ -30,13 +31,29 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
         new Post( // toggleActive clairement identifié
             uriTemplate: '/code_couleurs/{id}/toggle-active',
-            controller: CodeCouleurController::class,
+            controller: CodeCouleurToggleController::class,
             read: true,
             deserialize: false,
             extraProperties: [
                 'openapi_context' => [
                     'summary' => 'Activer/Désactiver un code couleur',
                     'description' => 'Cette opération active ou désactive un code couleur existant.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        new Get(
+            uriTemplate: '/code_couleurs/{id}/get-active',
+            controller: CodeCouleurGetActiveController::class,
+            read: true,
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récuperer un code couleur activé',
+                    'description' => 'Cette opération récupère un code couleur activé.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']
@@ -52,6 +69,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 class CodeCouleur
 {
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

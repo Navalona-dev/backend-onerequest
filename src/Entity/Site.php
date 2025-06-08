@@ -11,9 +11,9 @@ use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SiteRepository;
 use ApiPlatform\Metadata\ApiResource;
-use App\Controller\Api\SiteController;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\SiteToggleController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Delete(),
         new Post(
             uriTemplate: '/sites/{id}/toggle-active',
-            controller: SiteController::class,
+            controller: SiteToggleController::class,
             read: true,
             deserialize: false,
             extraProperties: [
@@ -46,28 +46,28 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class Site
 {
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $createdAt = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'sites')]
     private ?Entreprise $entreprise = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -79,12 +79,20 @@ class Site
     private Collection $codeCouleurs;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     private ?bool $isActive = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+   
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'site')]
+    private Collection $users;
 
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,6 +198,36 @@ class Site
     public function setIsActive(?bool $isActive): static
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getSite() === $this) {
+                $user->setSite(null);
+            }
+        }
 
         return $this;
     }
