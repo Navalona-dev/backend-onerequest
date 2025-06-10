@@ -14,8 +14,10 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\ApiResource\Filter\RoleFilter;
 use ApiPlatform\Metadata\GetCollection;
+use App\DataPersister\UserDataPersister;
 use App\DataPersister\AddUserDataPersister;
 use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\UserConnectedController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -31,8 +33,25 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new Put(),
         new Patch(),
         new Delete(),
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/users/{email}/get-user-admin-connected',
+            controller: UserConnectedController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer un utilisateur connecté',
+                    'description' => 'Cette opération récupère un utilisateur connecté.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Post( 
-            processor: AddUserDataPersister::class,
+            processor: UserDataPersister::class,
         ),
     ]
 )]
@@ -85,16 +104,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[MaxDepth(1)]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Site $site = null;
-    
+
+    /**
+     * @var Collection<int, Privilege>
+     */
     #[Groups(['user:list', 'user:item'])]
-    #[MaxDepth(1)]
-    #[ORM\ManyToMany(targetEntity: Privilege::class, mappedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Privilege::class, inversedBy: 'users')]
     private Collection $privileges;
 
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
     }
+    
 
     public function getId(): ?int
     {
@@ -253,7 +275,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->privileges->contains($privilege)) {
             $this->privileges->add($privilege);
-            $privilege->addUser($this);
         }
 
         return $this;
@@ -261,11 +282,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removePrivilege(Privilege $privilege): static
     {
-        if ($this->privileges->removeElement($privilege)) {
-            $privilege->removeUser($this);
-        }
+        $this->privileges->removeElement($privilege);
 
         return $this;
     }
 
+    
 }

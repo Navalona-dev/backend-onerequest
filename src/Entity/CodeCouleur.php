@@ -22,7 +22,9 @@ use App\Controller\Api\CodeCouleurGetGlobalActiveController;
 #[ORM\Entity(repositoryClass: CodeCouleurRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(normalizationContext: ['groups' => 'code_couleur:list']), 
+        new GetCollection(
+            normalizationContext: ['groups' => 'code_couleur:list'],
+        ),
         new Get(
             normalizationContext: ['groups' => 'code_couleur:item'],
             uriTemplate: '/code_couleurs/get-global-active',
