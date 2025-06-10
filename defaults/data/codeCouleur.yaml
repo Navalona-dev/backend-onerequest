@@ -1,0 +1,21 @@
+data1: 
+  bgColor: "#3b82f6"
+  textColor: "#3b82f6"
+  textColorHover: "#2563eb"
+  btnColor: "#3b82f6"
+  btnColorHover: "#2563eb"
+  color1: null
+  color2: null
+  isDefault: false
+  isGlobal: true
+
+data2: 
+  bgColor: "#ef4444"
+  textColor: "#ef4444"
+  textColorHover: "#dc2626"
+  btnColor: "#ef4444"
+  btnColorHover: "#dc2626"
+  color1: null
+  color2: null
+  isDefault: true
+  isGlobal: false

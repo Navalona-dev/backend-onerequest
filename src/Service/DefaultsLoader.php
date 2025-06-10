@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Privilege;
+use App\Entity\CodeCouleur;
 use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,6 +38,7 @@ class DefaultsLoader
         $this->categorieDomaineEntreprise();
         $this->domaineEntreprise();
         $this->privilege();
+        $this->CodeCouleur();
         $this->copyFiles();
 
     }
@@ -93,6 +95,31 @@ class DefaultsLoader
                 $privilege->setCreatedAt($date);
 
                 $this->em->persist($privilege);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function CodeCouleur() {
+        $codeCouleurs = Yaml::parseFile('defaults/data/codeCouleur.yaml');
+
+        foreach ($codeCouleurs as $label => $content) {
+            list($isNew, $codeCouleur) = $this->maybeCreate(CodeCouleur::class, ['label' => $label]);
+            if($isNew){
+                $codeCouleur->setLabel($label);
+                $codeCouleur->setBgColor($content['bgColor']);
+                $codeCouleur->setTextColor($content['textColor']);
+                $codeCouleur->setBtnColor($content['btnColor']);
+                $codeCouleur->setTextColorHover($content['textColorHover']);
+                $codeCouleur->setBtnColorHover($content['btnColorHover']);
+                $codeCouleur->setColorOne($content['color1']);
+                $codeCouleur->setColorTwo($content['color2']);
+                $codeCouleur->setIsDefault($content['isDefault']);
+                $codeCouleur->setIsGlobal($content['isGlobal']);
+                $date = new \datetime();
+                $codeCouleur->setCreatedAt($date);
+
+                $this->em->persist($codeCouleur);
                 $this->em->flush();
             }
         }

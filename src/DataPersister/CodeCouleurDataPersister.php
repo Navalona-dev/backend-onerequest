@@ -35,6 +35,9 @@ class CodeCouleurDataPersister implements ProcessorInterface
             }
 
             $data->setIsActive(true);
+            $data->setCreatedAt(new \DateTime());
+        } else if ($data instanceof CodeCouleur && strtoupper($operation->getMethod()) === 'PUT') {
+            $data->setUpdatedAt(new \DateTime());
         }
 
         $this->entityManager->persist($data);

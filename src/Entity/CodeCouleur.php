@@ -17,19 +17,35 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurToggleController;
 use App\Controller\Api\CodeCouleurGetActiveController;
+use App\Controller\Api\CodeCouleurGetGlobalActiveController;
 
 #[ORM\Entity(repositoryClass: CodeCouleurRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'code_couleur:list']), 
+        new Get(
+            normalizationContext: ['groups' => 'code_couleur:item'],
+            uriTemplate: '/code_couleurs/get-global-active',
+            controller: CodeCouleurGetGlobalActiveController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer un code couleur global activé',
+                    'description' => 'Cette opération récupère un code couleur global activé.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Get(normalizationContext: ['groups' => 'code_couleur:item']),
-        new Post(),          
-       
+        new Post(),  
         new Put(),
         new Patch(),
         new Delete(),
-
-        new Post( // toggleActive clairement identifié
+        new Post( 
             uriTemplate: '/code_couleurs/{id}/toggle-active',
             controller: CodeCouleurToggleController::class,
             read: true,
@@ -45,22 +61,7 @@ use App\Controller\Api\CodeCouleurGetActiveController;
                 ]
             ]
         ),
-        new Get(
-            uriTemplate: '/code_couleurs/{id}/get-active',
-            controller: CodeCouleurGetActiveController::class,
-            read: true,
-            deserialize: false,
-            extraProperties: [
-                'openapi_context' => [
-                    'summary' => 'Récuperer un code couleur activé',
-                    'description' => 'Cette opération récupère un code couleur activé.',
-                    'responses' => [
-                        '200' => ['description' => 'Succès'],
-                        '404' => ['description' => 'Non trouvé']
-                    ]
-                ]
-            ]
-        ),
+        
         new Post( 
             processor: CodeCouleurDataPersister::class,
         ),
@@ -109,6 +110,25 @@ class CodeCouleur
     #[Groups(['code_couleur:list', 'code_couleur:item'])]
     #[ORM\ManyToOne(inversedBy: 'codeCouleurs')]
     private ?Site $site = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isGlobal = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDefault = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $textColorHover = null;
+
+    #[Groups(['code_couleur:list', 'code_couleur:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $btnColorHover = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $label = null;
 
     public function getId(): ?int
     {
@@ -219,6 +239,66 @@ class CodeCouleur
     public function setSite(?Site $site): static
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getIsGlobal(): ?bool
+    {
+        return $this->isGlobal;
+    }
+
+    public function setIsGlobal(?bool $isGlobal): static
+    {
+        $this->isGlobal = $isGlobal;
+
+        return $this;
+    }
+
+    public function getIsDefault(): ?bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setIsDefault(?bool $isDefault): static
+    {
+        $this->isDefault = $isDefault;
+
+        return $this;
+    }
+
+    public function getTextColorHover(): ?string
+    {
+        return $this->textColorHover;
+    }
+
+    public function setTextColorHover(?string $textColorHover): static
+    {
+        $this->textColorHover = $textColorHover;
+
+        return $this;
+    }
+
+    public function getBtnColorHover(): ?string
+    {
+        return $this->btnColorHover;
+    }
+
+    public function setBtnColorHover(?string $btnColorHover): static
+    {
+        $this->btnColorHover = $btnColorHover;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): static
+    {
+        $this->label = $label;
 
         return $this;
     }

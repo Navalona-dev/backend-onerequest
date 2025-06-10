@@ -16,28 +16,17 @@ class CodeCouleurRepository extends ServiceEntityRepository
         parent::__construct($registry, CodeCouleur::class);
     }
 
-    //    /**
-    //     * @return CodeCouleur[] Returns an array of CodeCouleur objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+  
+    public function getIsActiveGlobal()
+    {
+        return $this->createQueryBuilder('c')
+        ->where('c.isActive = :active')
+        ->andWhere('c.isGlobal = true OR c.isDefault = true')
+        ->setParameter('active', true)
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
 
-    //    public function findOneBySomeField($value): ?CodeCouleur
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+   
 }
