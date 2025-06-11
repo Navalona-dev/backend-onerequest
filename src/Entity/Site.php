@@ -169,6 +169,18 @@ class Site
     #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     private ?bool $isCurrent = null;
 
+    #[Groups(['site:list', 'site:item', 'region:list', 'region:item'])]
+    #[ORM\ManyToOne(inversedBy: 'sites')]
+    private ?Region $region = null;
+
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresse = null;
+
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telephone = null;
+
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
@@ -320,6 +332,42 @@ class Site
     public function setIsCurrent(?bool $isCurrent): static
     {
         $this->isCurrent = $isCurrent;
+
+        return $this;
+    }
+
+    public function getRegion(): ?Region
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?Region $region): static
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): static
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): static
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }
