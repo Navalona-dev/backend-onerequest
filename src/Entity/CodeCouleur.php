@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use App\DataPersister\CodeCouleurDataPersister;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\CodeCouleurBySiteController;
 use App\Controller\Api\CodeCouleurToggleController;
 use App\Controller\Api\CodeCouleurGetActiveController;
 use App\Controller\Api\CodeCouleurGetGlobalActiveController;
@@ -47,6 +48,7 @@ use App\Controller\Api\CodeCouleurGetGlobalActiveController;
         new Put(),
         new Patch(),
         new Delete(),
+       
         new Post( 
             uriTemplate: '/code_couleurs/{id}/toggle-active',
             controller: CodeCouleurToggleController::class,

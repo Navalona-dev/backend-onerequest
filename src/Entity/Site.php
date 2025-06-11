@@ -14,18 +14,59 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\SiteToggleController;
+use App\Controller\Api\UserBySiteController;
+use App\Controller\Api\UserConnectedController;
+use App\Controller\Api\SiteSetCurrentController;
+use App\Controller\Api\SiteUseCurrentController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\CodeCouleurBySiteController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'site:list']), 
+        new Get(
+            normalizationContext: ['groups' => 'site:item'],
+            uriTemplate: '/sites/current',
+            controller: SiteUseCurrentController::class,
+            read: false,
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récuperer un site sélectionné',
+                    'description' => 'Cette opération recupère un site selectionné.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+       
         new Get(normalizationContext: ['groups' => 'site:item']),          
         new Post(),
         new Put(),
         new Patch(),
         new Delete(),
+        
+        new Put(
+            uriTemplate: '/sites/{id}/selected',
+            controller: SiteSetCurrentController::class,
+            read: false,
+            deserialize: false,
+            denormalizationContext: ['groups' => ['site:update']],
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Rendre un site sélectionné',
+                    'description' => 'Cette opération rend un site selectionné.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Post(
             uriTemplate: '/sites/{id}/toggle-active',
             controller: SiteToggleController::class,
@@ -35,6 +76,41 @@ use Symfony\Component\Serializer\Attribute\Groups;
                 'openapi_context' => [
                     'summary' => 'Activer/Désactiver un site',
                     'description' => 'Cette opération active ou désactive un site existant.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'site:item'],
+            uriTemplate: '/sites/{id}/users',
+            controller: UserBySiteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer utilisateurs par site',
+                    'description' => 'Cette opération récupère utilisateurs par site.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/sites/{id}/code-couleurs',
+            controller: CodeCouleurBySiteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer code couleur par site',
+                    'description' => 'Cette opération récupère code couleur par site.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']
@@ -88,6 +164,10 @@ class Site
    
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'site')]
     private Collection $users;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
+    private ?bool $isCurrent = null;
 
     public function __construct()
     {
@@ -228,6 +308,18 @@ class Site
                 $user->setSite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsCurrent(): ?bool
+    {
+        return $this->isCurrent;
+    }
+
+    public function setIsCurrent(?bool $isCurrent): static
+    {
+        $this->isCurrent = $isCurrent;
 
         return $this;
     }

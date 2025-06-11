@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Controller\Api;
+
+use App\Entity\User;
+use App\Repository\SiteRepository;
+use App\Repository\UserRepository;
+use App\Controller\Api\UserController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+class SiteUseCurrentController extends AbstractController
+{
+    public function __invoke(SiteRepository $siteRepo): JsonResponse
+    {
+        $site = $siteRepo->findOneBy(['isCurrent' => true]);
+
+        if (!$site) {
+            throw new NotFoundHttpException('Site non trouvé.');
+        }
+
+        return new JsonResponse([
+            'id' => $site->getId(),
+            'nom' => $site->getNom(),
+            'isCurrent' => $site->getIsCurrent(),
+            'message' => 'Un site trouvé.',
+        ]);
+    }
+}
+

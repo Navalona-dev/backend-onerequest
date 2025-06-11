@@ -50,6 +50,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
                 ]
             ]
         ),
+       
         new Post( 
             processor: UserDataPersister::class,
         ),
@@ -251,7 +252,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isSuperAdmin(): ?bool
+    public function getIsSuperAdmin(): ?bool
     {
         return $this->isSuperAdmin;
     }
