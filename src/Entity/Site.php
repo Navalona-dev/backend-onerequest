@@ -12,13 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SiteRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\DataPersister\SiteAddDataPersister;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\SiteToggleController;
 use App\Controller\Api\UserBySiteController;
+use App\DataPersister\SiteUpdateDataPersister;
 use App\Controller\Api\UserConnectedController;
 use App\Controller\Api\SiteSetCurrentController;
 use App\Controller\Api\SiteUseCurrentController;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\Api\AddRegionBySiteController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
 
@@ -46,11 +49,10 @@ use App\Controller\Api\CodeCouleurBySiteController;
        
         new Get(normalizationContext: ['groups' => 'site:item']),          
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
         
-        new Put(
+        new Patch(
             uriTemplate: '/sites/{id}/selected',
             controller: SiteSetCurrentController::class,
             read: false,
@@ -118,17 +120,42 @@ use App\Controller\Api\CodeCouleurBySiteController;
                 ]
             ]
         ),
+        new Post(
+            uriTemplate: '/sites/{id}/select-region',
+            controller: AddRegionBySiteController::class,
+            read: true,
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Sélectionner ou ajouter une region du site',
+                    'description' => 'Cette opération selectionne ou ajout une région d\' un site existant.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Post( 
+            processor: SiteAddDataPersister::class,
+        ),
+
+        new Patch( 
+            processor: SiteUpdateDataPersister::class,
+        ),
+       
     ],
 )]
 class Site
 {
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 

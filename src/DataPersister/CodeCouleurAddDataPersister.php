@@ -7,7 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\CodeCouleur;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CodeCouleurDataPersister implements ProcessorInterface
+class CodeCouleurAddDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager
@@ -36,9 +36,7 @@ class CodeCouleurDataPersister implements ProcessorInterface
 
             $data->setIsActive(true);
             $data->setCreatedAt(new \DateTime());
-        } else if ($data instanceof CodeCouleur && strtoupper($operation->getMethod()) === 'PUT') {
-            $data->setUpdatedAt(new \DateTime());
-        }
+        } 
 
         $this->entityManager->persist($data);
         $this->entityManager->flush();

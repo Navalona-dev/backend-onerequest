@@ -16,7 +16,9 @@ use App\ApiResource\Filter\RoleFilter;
 use ApiPlatform\Metadata\GetCollection;
 use App\DataPersister\UserDataPersister;
 use App\DataPersister\AddUserDataPersister;
+use App\DataPersister\UserAddDataPersister;
 use Doctrine\Common\Collections\Collection;
+use App\DataPersister\UserUpdateDataPersister;
 use App\Controller\Api\UserConnectedController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -30,7 +32,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new GetCollection(normalizationContext: ['groups' => 'user:list', 'enable_max_depth' => true]), 
         new Get(normalizationContext: ['groups' => 'user:item']),          
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
         new Get(
@@ -52,8 +53,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         ),
        
         new Post( 
-            processor: UserDataPersister::class,
+            processor: UserAddDataPersister::class,
         ),
+
+        new Patch( 
+            processor: UserUpdateDataPersister::class,
+        ),
+        
     ]
 )]
 #[ApiFilter(RoleFilter::class)]

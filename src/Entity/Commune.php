@@ -19,7 +19,6 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection(normalizationContext: ['groups' => 'commune:list']), 
         new Get(normalizationContext: ['groups' => 'commune:item']),            
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
     ]

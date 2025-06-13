@@ -3,18 +3,20 @@
 namespace App\DataPersister;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
-class UserDataPersister implements ProcessorInterface
+class UserUpdateDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private UserRepository $userRepo
     ) {}
 
     public function supports($data, array $context = []): bool
@@ -24,24 +26,10 @@ class UserDataPersister implements ProcessorInterface
 
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
+
         $method = strtoupper($operation->getMethod());
-        // POST: Création => vérifier s'il existe déjà un utilisateur avec cet email
-        if ($method === 'POST') {
-            $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $data->getEmail()]);
-            
-            if ($existingUser !== null) {
-                throw new BadRequestHttpException(json_encode([
-                    'message' => 'Un compte avec cet email existe déjà.'
-                ]));
-            }
-
-            $hashedPassword = $this->passwordHasher->hashPassword($data, 'password12345');
-            $data->setPassword($hashedPassword);
-            $data->setCreatedAt(new \DateTime());
-        }
-
-        // PUT: Mise à jour => vérifier s'il existe un autre utilisateur avec ce mail
-        if ($method === 'PUT') {
+          // PUT: Mise à jour => vérifier s'il existe un autre utilisateur avec ce mail
+          if ($method === 'PaTCH') {
             $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $data->getEmail()]);
 
             if ($existingUser !== null && $existingUser->getId() !== $data->getId()) {

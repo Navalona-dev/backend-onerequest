@@ -22,7 +22,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new GetCollection(normalizationContext: ['groups' => 'privilege:list']), 
         new Get(normalizationContext: ['groups' => 'privilege:item']),           
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
     ]

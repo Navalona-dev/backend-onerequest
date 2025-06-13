@@ -2,18 +2,23 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\RegionRepository;
-use ApiPlatform\Metadata\ApiResource;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Put;  
-use Symfony\Component\Serializer\Attribute\Groups;
+use ApiPlatform\Metadata\Delete;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RegionRepository;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\DataPersister\RegionDataPersister;
+use Doctrine\Common\Collections\Collection;
+use App\DataPersister\RegionAddDataPersister;
+use App\Controller\Api\SiteByRegionController;
+use App\DataPersister\RegionDeleteDataPersister;
+use App\DataPersister\RegionUpdateDataPersister;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: RegionRepository::class)]
 #[ApiResource(
@@ -21,9 +26,39 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection(normalizationContext: ['groups' => 'region:list']), 
         new Get(normalizationContext: ['groups' => 'region:item']),           
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
+
+        new Get(
+            normalizationContext: ['groups' => 'region:item'],
+            uriTemplate: '/regions/{id}/sites',
+            controller: SiteByRegionController::class,
+            read: false, 
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer les sites par région',
+                    'description' => 'Cette opération récupère les sites par région.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        
+        new Post( 
+            processor: RegionAddDataPersister::class,
+        ),
+
+        new Patch( 
+            processor: RegionUpdateDataPersister::class,
+        ),
+
+        new Delete( 
+            processor: RegionDeleteDataPersister::class,
+        ),
+        
     ]
 )]
 class Region
@@ -47,14 +82,13 @@ class Region
     /**
      * @var Collection<int, Site>
      */
-    #[Groups(['region:list', 'region:item'])]
+    ##[Groups(['region:list', 'region:item'])]
     #[ORM\OneToMany(targetEntity: Site::class, mappedBy: 'region')]
     private Collection $sites;
 
     /**
      * @var Collection<int, Commune>
      */
-    #[Groups(['region:list', 'region:item'])]
     #[ORM\OneToMany(targetEntity: Commune::class, mappedBy: 'region')]
     private Collection $communes;
 

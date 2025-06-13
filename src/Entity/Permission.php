@@ -21,7 +21,6 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection(),  
         new Get(),            
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
     ]

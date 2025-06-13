@@ -21,7 +21,6 @@ use Doctrine\Common\Collections\ArrayCollection;
         new GetCollection(),  
         new Get(),            
         new Post(),
-        new Put(),
         new Patch(),
         new Delete(),
     ]

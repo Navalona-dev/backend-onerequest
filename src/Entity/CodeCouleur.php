@@ -14,9 +14,11 @@ use App\Repository\CodeCouleurRepository;
 use Doctrine\Common\Collections\Collection;
 use App\DataPersister\CodeCouleurDataPersister;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\DataPersister\CodeCouleurAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
 use App\Controller\Api\CodeCouleurToggleController;
+use App\DataPersister\CodeCouleurUpdateDataPersister;
 use App\Controller\Api\CodeCouleurGetActiveController;
 use App\Controller\Api\CodeCouleurGetGlobalActiveController;
 
@@ -45,7 +47,6 @@ use App\Controller\Api\CodeCouleurGetGlobalActiveController;
         ),
         new Get(normalizationContext: ['groups' => 'code_couleur:item']),
         new Post(),  
-        new Put(),
         new Patch(),
         new Delete(),
        
@@ -67,7 +68,11 @@ use App\Controller\Api\CodeCouleurGetGlobalActiveController;
         ),
         
         new Post( 
-            processor: CodeCouleurDataPersister::class,
+            processor: CodeCouleurAddDataPersister::class,
+        ),
+
+        new Patch( 
+            processor: CodeCouleurUpdateDataPersister::class,
         ),
     ],
 )]
