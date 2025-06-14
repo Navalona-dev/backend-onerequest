@@ -8,6 +8,8 @@ data1:
   color2: null
   isDefault: false
   isGlobal: true
+  libelle: "Couleur globale"
+  isActive: true
 
 data2: 
   bgColor: "#ef4444"
@@ -19,3 +21,5 @@ data2:
   color2: null
   isDefault: true
   isGlobal: false
+  libelle: "couleur par défaut"
+  isActive: false

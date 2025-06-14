@@ -18,6 +18,7 @@ use App\Controller\Api\SiteByRegionController;
 use App\DataPersister\RegionDeleteDataPersister;
 use App\DataPersister\RegionUpdateDataPersister;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\Api\CommuneByRegionController;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: RegionRepository::class)]
@@ -39,6 +40,24 @@ use Symfony\Component\Serializer\Attribute\Groups;
                 'openapi_context' => [
                     'summary' => 'Récupérer les sites par région',
                     'description' => 'Cette opération récupère les sites par région.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'region:item'],
+            uriTemplate: '/regions/{id}/communes',
+            controller: CommuneByRegionController::class,
+            read: false, 
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer les communes par région',
+                    'description' => 'Cette opération récupère les communes par région.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']

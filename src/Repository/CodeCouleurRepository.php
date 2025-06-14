@@ -21,7 +21,6 @@ class CodeCouleurRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
         ->where('c.isActive = :active')
-        ->andWhere('c.isGlobal = true OR c.isDefault = true')
         ->setParameter('active', true)
         ->setMaxResults(1)
         ->getQuery()

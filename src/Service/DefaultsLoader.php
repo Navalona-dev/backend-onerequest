@@ -116,6 +116,8 @@ class DefaultsLoader
                 $codeCouleur->setColorTwo($content['color2']);
                 $codeCouleur->setIsDefault($content['isDefault']);
                 $codeCouleur->setIsGlobal($content['isGlobal']);
+                $codeCouleur->setLibelle($content['libelle']);
+                $codeCouleur->setIsActive($content['isActive']);
                 $date = new \datetime();
                 $codeCouleur->setCreatedAt($date);
 

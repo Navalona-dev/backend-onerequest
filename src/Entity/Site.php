@@ -70,7 +70,7 @@ use App\Controller\Api\CodeCouleurBySiteController;
             ]
         ),
         new Post(
-            uriTemplate: '/sites/{id}/toggle-active',
+            uriTemplate: '/sites/toggle-active',
             controller: SiteToggleController::class,
             read: true,
             deserialize: false,
@@ -207,6 +207,10 @@ class Site
     #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
+
+    #[Groups(['site:list', 'site:item', 'region:list', 'region:item'])]
+    #[ORM\ManyToOne(inversedBy: 'sites')]
+    private ?Commune $commune = null;
 
     public function __construct()
     {
@@ -395,6 +399,18 @@ class Site
     public function setTelephone(?string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getCommune(): ?Commune
+    {
+        return $this->commune;
+    }
+
+    public function setCommune(?Commune $commune): static
+    {
+        $this->commune = $commune;
 
         return $this;
     }

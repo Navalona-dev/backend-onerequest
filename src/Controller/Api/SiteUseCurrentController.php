@@ -22,7 +22,7 @@ class SiteUseCurrentController extends AbstractController
         $site = $siteRepo->findOneBy(['isCurrent' => true]);
 
         if (!$site) {
-            throw new NotFoundHttpException('Site non trouvé.');
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
         }
 
         return new JsonResponse([
