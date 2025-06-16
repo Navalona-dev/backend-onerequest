@@ -14,12 +14,13 @@ use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\DomaineEntrepriseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: DomaineEntrepriseRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(), 
-        new Get(),            
+        new GetCollection(normalizationContext: ['groups' => 'domaine_entreprise:list']), 
+        new Get(normalizationContext: ['groups' => 'domaine_entreprise:item']),            
         new Post(),
         new Patch(),
         new Delete(),
@@ -27,20 +28,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 )]
 class DomaineEntreprise
 {
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $libelle = null;
 
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $createdAt = null;
 
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $updatedAt = null;
 
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -50,6 +56,7 @@ class DomaineEntreprise
     #[ORM\OneToMany(targetEntity: Entreprise::class, mappedBy: 'domaineEntreprise')]
     private Collection $entreprise;
 
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\ManyToOne(inversedBy: 'domaines')]
     private ?CategorieDomaineEntreprise $categorieDomaineEntreprise = null;
 

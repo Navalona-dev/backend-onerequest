@@ -7,13 +7,14 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;  
 use ApiPlatform\Metadata\Delete;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CommuneRepository;
 use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
 use App\DataPersister\CommuneAddDataPersister;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\DataPersister\CommuneDeleteDataPersister;
 use App\DataPersister\CommuneUpdateDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -30,6 +31,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new Patch( 
             processor: CommuneUpdateDataPersister::class,
+        ),
+        new Delete( 
+            processor: CommuneDeleteDataPersister::class,
         ),
     ]
 )]

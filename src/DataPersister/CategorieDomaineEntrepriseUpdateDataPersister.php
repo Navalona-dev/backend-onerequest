@@ -7,11 +7,12 @@ use App\Entity\Region;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
+use App\Entity\CategorieDomaineEntreprise;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class RegionDeleteDataPersister implements ProcessorInterface
+class CategorieDomaineEntrepriseUpdateDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -19,34 +20,18 @@ class RegionDeleteDataPersister implements ProcessorInterface
 
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof Region;
+        return $data instanceof CategorieDomaineEntreprise;
     }
 
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $method = strtoupper($operation->getMethod());
 
-        if ($method === "DELETE") {
-            $sites = $data->getSites();
-
-            foreach($sites as $site) {
-                $site->setRegion(null);
-                $this->entityManager->persist($site);
-            }
-
-            $communes = $region->getCommunes();
-
-            foreach($communes as $commune) {
-                $sites = $commune->getSites();
-                foreach($sites as $site) {
-                    $site->setCommune(null);
-                    $this->entityManager->persist($site);
-                }
-                $this->entityManager->remove($commune);
-            }
+        if ($method === 'PATCH') {
+            $data->setUpdatedAt(new \DateTime());
         } 
         
-        $this->entityManager->remove($data);
+        $this->entityManager->persist($data);
 
         $this->entityManager->flush();
 

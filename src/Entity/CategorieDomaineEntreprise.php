@@ -13,35 +13,46 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use App\Repository\CategorieDomaineEntrepriseRepository;
+use App\DataPersister\CategorieDomaineEntrepriseAddDataPersister;
 
 #[ORM\Entity(repositoryClass: CategorieDomaineEntrepriseRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(),  
-        new Get(),            
+        new GetCollection(normalizationContext: ['groups' => 'categorie_domaine_entreprise:list']), 
+        new Get(normalizationContext: ['groups' => 'categorie_domaine_entreprise:item']),           
         new Post(),
         new Put(),
         new Patch(),
         new Delete(),
+        new Post( 
+            processor: CategorieDomaineEntrepriseAddDataPersister::class,
+        ),
+
     ]
 )]
 class CategorieDomaineEntreprise
 {
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $createdAt = null;
 
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $updatedAt = null;
 
