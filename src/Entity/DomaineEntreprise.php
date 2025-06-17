@@ -15,6 +15,9 @@ use Doctrine\Common\Collections\Collection;
 use App\Repository\DomaineEntrepriseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\DataPersister\DomaineEntrepriseAddDataPersister;
+use App\DataPersister\DomaineEntrepriseDeleteDataPersister;
+use App\DataPersister\DomaineEntrepriseUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: DomaineEntrepriseRepository::class)]
 #[ApiResource(
@@ -24,6 +27,18 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Post(),
         new Patch(),
         new Delete(),
+
+        new Post( 
+            processor: DomaineEntrepriseAddDataPersister::class,
+        ),
+
+        new Patch( 
+            processor: DomaineEntrepriseUpdateDataPersister::class,
+        ),
+
+        new Delete( 
+            processor: DomaineEntrepriseDeleteDataPersister::class,
+        ),
     ]
 )]
 class DomaineEntreprise

@@ -15,19 +15,48 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Repository\CategorieDomaineEntrepriseRepository;
+use App\Controller\Api\DomaineEntrepriseByCategorieController;
 use App\DataPersister\CategorieDomaineEntrepriseAddDataPersister;
+use App\DataPersister\CategorieDomaineEntrepriseDeleteDataPersister;
+use App\DataPersister\CategorieDomaineEntrepriseUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: CategorieDomaineEntrepriseRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'categorie_domaine_entreprise:list']), 
-        new Get(normalizationContext: ['groups' => 'categorie_domaine_entreprise:item']),           
+        new Get(normalizationContext: ['groups' => 'categorie_domaine_entreprise:item']), 
+        new Get(
+            normalizationContext: ['groups' => 'site:item'],
+            uriTemplate: '/categorie_domaine_entreprises/{id}/domaines',
+            controller: DomaineEntrepriseByCategorieController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer les domaines d\'entreprise par categorie',
+                    'description' => 'Cette opération récupère les domaines d\'entreprise par catégorie.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),          
         new Post(),
         new Put(),
         new Patch(),
         new Delete(),
+        
         new Post( 
             processor: CategorieDomaineEntrepriseAddDataPersister::class,
+        ),
+
+        new Patch( 
+            processor: CategorieDomaineEntrepriseUpdateDataPersister::class,
+        ),
+
+        new Delete( 
+            processor: CategorieDomaineEntrepriseDeleteDataPersister::class,
         ),
 
     ]
