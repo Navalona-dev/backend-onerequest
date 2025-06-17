@@ -55,7 +55,7 @@ class CreateEntrepriseCommand extends Command
     
         $entreprise = new Entreprise();
         $entreprise->setNom($nom);
-        $entreprise->setDomaineEntreprise($domaine);
+        $entreprise->addDomaineEntreprise($domaine);
     
         $this->em->persist($entreprise);
         $this->em->flush();

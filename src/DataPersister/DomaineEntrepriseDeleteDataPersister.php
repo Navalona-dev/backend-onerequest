@@ -29,10 +29,15 @@ class DomaineEntrepriseDeleteDataPersister implements ProcessorInterface
         $method = strtoupper($operation->getMethod());
 
         if ($method === 'DELETE') {
-            $entreprises = $data->getEntreprise();
+            $entreprises = $data->getEntreprises();
             foreach($entreprises as $entreprise) {
                 $entreprise->setDomaineEntreprise(null);
                 $this->entityManager->persist($entreprise);
+            }
+
+            $typeDemande = $data->getTypeDemandes();
+            foreach($typeDemande as $type) {
+                $this->entityManager->remove($type);
             }
         } 
         

@@ -38,6 +38,11 @@ class CategorieDomaineEntrepriseDeleteDataPersister implements ProcessorInterfac
                     $this->entityManager->persist($entreprise);
                 }
 
+                $typeDemande = $domaine->getTypeDemandes();
+                foreach($typeDemande as $type) {
+                    $this->entityManager->remove($type);
+                }
+
                 $this->entityManager->remove($domaine);
             }
            

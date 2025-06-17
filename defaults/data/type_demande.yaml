@@ -1,0 +1,614 @@
+data1:
+  nom: "Demande d’acte de naissance/mariage"
+  description: "Demande officielle d’un document d’état civil."
+  domaineId: 1
+
+data2:
+  nom: "Demande de certificat de résidence"
+  description: "Justificatif de domicile auprès de la collectivité."
+  domaineId: 1
+  
+data3:
+  nom: "Déclaration de travaux"
+  description: "Demande de permission de construire ou rénover."
+  domaineId: 1
+  
+data4:
+  nom: "Demande de subvention"
+  description: "Aide financière pour un projet ou une structure."
+  domaineId: 2
+  
+data5:
+  nom: "Dépôt de dossier administratif"
+  description: "Transmission de documents pour étude ou validation."
+  domaineId: 2
+  
+data6:
+  nom: "Requête d’information publique"
+  description: "Demande d’accès à des informations détenues par une administration ou une institution publique."
+  domaineId: 2
+
+data7:
+  nom: "Suivi de dossier citoyen"
+  description: "Consultation de l’état d’avancement d’un dossier soumis auprès d’un service public."
+  domaineId: 2
+
+data8:
+  nom: "Demande d’aide sociale"
+  description: "Soumission d’une demande pour bénéficier d’un soutien financier, matériel ou moral."
+  domaineId: 3
+
+data9:
+  nom: "Dépôt de dossier de retraite"
+  description: "Transmission des pièces nécessaires pour initier ou mettre à jour un dossier de retraite."
+  domaineId: 3
+
+data10:
+  nom: "Renouvellement de droits"
+  description: "Demande de prolongation ou de réactivation de droits sociaux ou médicaux."
+  domaineId: 3
+
+data11:
+  nom: "Demande d’inscription"
+  description: "Inscription à une formation, un établissement ou un programme académique."
+  domaineId: 4
+
+data12:
+  nom: "Relevé de notes"
+  description: "Obtention ou consultation des résultats académiques d’un élève ou étudiant."
+  domaineId: 4
+
+data13:
+  nom: "Demande de certificat de scolarité"
+  description: "Obtention d’un document attestant la fréquentation d’un établissement scolaire."
+  domaineId: 4
+
+data14:
+  nom: "Candidature à un programme"
+  description: "Soumission d’un dossier de candidature pour intégrer un cursus ou une session de formation."
+  domaineId: 4
+
+data15:
+  nom: "Demande de diplôme"
+  description: "Obtention du document officiel attestant la réussite à un cycle de formation."
+  domaineId: 4
+  
+data16:
+  nom: "Demande de session de formation"
+  description: "Demande pour assister à une session ou un module de formation programmé."
+  domaineId: 5
+
+data17:
+  nom: "Demande de devis de formation"
+  description: "Demande d’évaluation financière pour une formation spécifique."
+  domaineId: 5
+
+data18:
+  nom: "Validation des acquis"
+  description: "Procédure visant à faire reconnaître officiellement des compétences acquises par l’expérience."
+  domaineId: 5
+
+data18b:
+  nom: "Inscription à un atelier"
+  description: "Participation à une session pratique ou thématique organisée dans le cadre d’une formation ou d’un événement."
+  domaineId: 5
+
+data19:
+  nom: "Accès à une publication"
+  description: "Demande d’obtention ou de consultation d’un article scientifique ou d’un rapport de recherche."
+  domaineId: 6
+
+data20:
+  nom: "Demande de participation à un projet"
+  description: "Candidature ou demande d’intégration à un projet de recherche ou d’innovation."
+  domaineId: 6
+
+data21:
+  nom: "Soumission de candidature de recherche"
+  description: "Proposition formelle d’un sujet de recherche ou d’un projet scientifique à valider par une institution."
+  domaineId: 6
+
+data22:
+  nom: "Collaboration scientifique"
+  description: "Proposition de partenariat pour mener des recherches conjointes ou échanger des expertises scientifiques."
+  domaineId: 6
+
+data23:
+  nom: "Accès au dossier médical"
+  description: "Demande de consultation ou de téléchargement des informations médicales personnelles."
+  domaineId: 7
+
+data24:
+  nom: "Demande de bulletin d’hospitalisation"
+  description: "Obtention d’un justificatif d’hospitalisation pour usage administratif ou personnel."
+  domaineId: 7
+
+data25:
+  nom: "Téléconsultation"
+  description: "Prise de rendez-vous ou réalisation d’une consultation médicale à distance via des outils numériques."
+  domaineId: 7
+
+data26:
+  nom: "Demande de résultats d’analyse"
+  description: "Accès ou retrait des résultats d’un examen médical ou biologique."
+  domaineId: 8
+
+data27:
+  nom: "Suivi de test PCR / sanguin"
+  description: "Consultation de l’état ou du résultat d’un test PCR ou d’une analyse sanguine."
+  domaineId: 8
+
+data28:
+  nom: "Réclamation sur un résultat"
+  description: "Signalement d’une erreur ou demande de vérification d’un résultat d’analyse."
+  domaineId: 8
+
+data29:
+  nom: "Demande de remboursement"
+  description: "Soumission d’une demande de remboursement pour des frais médicaux ou pharmaceutiques."
+  domaineId: 9
+
+data30:
+  nom: "Vérification de couverture santé"
+  description: "Vérification des garanties et services pris en charge par la mutuelle ou l’assurance santé."
+  domaineId: 9
+
+data31:
+  nom: "Téléchargement d’ordonnance"
+  description: "Accès ou génération d’une ordonnance médicale sous format numérique."
+  domaineId: 9
+
+data32:
+  nom: "Demande de devis"
+  description: "Obtention d’un chiffrage estimatif pour un service ou une prestation."
+  domaineId: 10
+
+data33:
+  nom: "Proposition de projet"
+  description: "Présentation d’un projet ou d’une idée dans le cadre d’une collaboration ou d’une mission."
+  domaineId: 10
+
+data34:
+  nom: "Brief de campagne"
+  description: "Soumission d’un cahier des charges ou d’une orientation stratégique pour une campagne de communication."
+  domaineId: 10
+
+data35:
+  nom: "Révision de maquette"
+  description: "Demande de modification ou validation d’un prototype visuel ou d’un support de communication."
+  domaineId: 10
+
+data36:
+  nom: "Demande d’intervention"
+  description: "Demande de déplacement d’un technicien ou d’un professionnel pour une prestation technique."
+  domaineId: 11
+
+data37:
+  nom: "Demande de support"
+  description: "Assistance technique ou fonctionnelle concernant un service ou un produit."
+  domaineId: 11
+
+data38:
+  nom: "Demande de maintenance"
+  description: "Entretien préventif ou curatif d’un équipement, matériel ou infrastructure."
+  domaineId: 11
+
+data39:
+  nom: "Suivi de ticket"
+  description: "Consultation de l’état d’avancement d’une demande ou incident technique signalé."
+  domaineId: 11
+
+data40:
+  nom: "Demande de diagnostic"
+  description: "Analyse préalable d’une situation ou d’un besoin pour évaluer les axes d’amélioration."
+  domaineId: 12
+
+data41:
+  nom: "Audit organisationnel"
+  description: "Évaluation des processus internes d’une organisation afin d’optimiser son fonctionnement."
+  domaineId: 12
+
+data42:
+  nom: "Proposition d'accompagnement"
+  description: "Soumission d’un plan de suivi ou d’un soutien personnalisé pour un projet ou une organisation."
+  domaineId: 12
+
+data43:
+  nom: "Simulation de coûts"
+  description: "Évaluation estimative des coûts liés à un service ou une prestation."
+  domaineId: 12
+
+data44:
+  nom: "Demande de visite"
+  description: "Planification d’une visite d’un bien immobilier pour location ou achat."
+  domaineId: 13
+
+data45:
+  nom: "Dépôt de dossier locatif"
+  description: "Transmission des documents requis pour postuler à la location d’un logement."
+  domaineId: 13
+
+data46:
+  nom: "Estimation d’un bien"
+  description: "Demande d’évaluation de la valeur d’un bien immobilier."
+  domaineId: 13
+
+data47:
+  nom: "Consultation d’annonce"
+  description: "Accès aux annonces de biens disponibles à la vente ou à la location."
+  domaineId: 13
+
+data48:
+  nom: "Demande de logement social"
+  description: "Soumission d’une demande pour bénéficier d’un logement à loyer modéré."
+  domaineId: 14
+
+data49:
+  nom: "Suivi de dossier locatif"
+  description: "Consultation de l’état d’avancement d’un dossier de demande de logement."
+  domaineId: 14
+
+data50:
+  nom: "Réclamation technique"
+  description: "Signalement d’un problème technique ou besoin d’intervention dans un logement."
+  domaineId: 14
+
+data51:
+  nom: "Renouvellement de bail"
+  description: "Demande de prolongation ou renouvellement du contrat de location."
+  domaineId: 14
+
+data52:
+  nom: "Demande d’information programme neuf"
+  description: "Obtention de détails sur un projet immobilier en cours de commercialisation."
+  domaineId: 15
+
+data53:
+  nom: "Visite virtuelle"
+  description: "Accès à une présentation interactive d’un bien immobilier à distance."
+  domaineId: 15
+
+data54:
+  nom: "Réservation d’un bien"
+  description: "Blocage d’un lot ou d’un logement dans un programme immobilier en vue d’un achat."
+  domaineId: 15
+
+data55:
+  nom: "Simulation de financement"
+  description: "Estimation des mensualités ou capacités d’emprunt pour un projet immobilier."
+  domaineId: 15
+
+data56:
+  nom: "Réservation de billet"
+  description: "Achat ou réservation préalable d’un billet de transport (bus, avion, train, etc.)."
+  domaineId: 16
+
+data57:
+  nom: "Réclamation sur un trajet"
+  description: "Signalement d’un problème ou d’un désagrément rencontré lors d’un trajet."
+  domaineId: 16
+
+data58:
+  nom: "Demande d’assistance"
+  description: "Demande d’aide ou d’intervention lors d’un incident en déplacement."
+  domaineId: 16
+
+data59:
+  nom: "Suivi d’itinéraire"
+  description: "Consultation en temps réel ou planifiée d’un trajet ou d’un transport."
+  domaineId: 16
+
+data60:
+  nom: "Suivi de colis"
+  description: "Consultation de la position ou du statut d’un colis en cours de livraison."
+  domaineId: 17
+
+data61:
+  nom: "Déclaration de perte"
+  description: "Notification officielle d’un colis ou d’un objet perdu durant l’acheminement."
+  domaineId: 17
+
+data62:
+  nom: "Demande de réexpédition"
+  description: "Instruction pour envoyer à nouveau un colis ou courrier non livré."
+  domaineId: 17
+
+data63:
+  nom: "Réclamation qualité"
+  description: "Signalement concernant la mauvaise qualité du service ou de la livraison."
+  domaineId: 17
+
+data64:
+  nom: "Demande de carte d’abonnement"
+  description: "Souscription ou renouvellement d’une carte pour accéder à des services de transport récurrents."
+  domaineId: 18
+
+data65:
+  nom: "Signalement de problème"
+  description: "Transmission d’un incident technique ou logistique rencontré lors de l’utilisation des transports."
+  domaineId: 18
+
+data66:
+  nom: "Consultation des horaires"
+  description: "Recherche d’horaires ou de fréquences des lignes de transport public."
+  domaineId: 18
+
+data67:
+  nom: "Perte d’objet"
+  description: "Déclaration d’un objet personnel égaré à bord d’un moyen de transport."
+  domaineId: 18
+
+data68:
+  nom: "Demande d’adhésion"
+  description: "Soumission d’une demande pour rejoindre une association ou organisation à but non lucratif."
+  domaineId: 19
+
+data69:
+  nom: "Proposition de bénévolat"
+  description: "Offre de participation à des actions ou événements en tant que bénévole."
+  domaineId: 19
+
+data70:
+  nom: "Don en ligne"
+  description: "Contribution financière effectuée via une plateforme sécurisée au profit d'une cause."
+  domaineId: 19
+
+data71:
+  nom: "Demande d'information"
+  description: "Demande de précisions ou de documentation sur les actions ou projets associatifs."
+  domaineId: 19
+
+data72:
+  nom: "Demande de mécénat"
+  description: "Sollicitation de soutien financier ou matériel auprès d’une fondation ou entreprise mécène."
+  domaineId: 20
+
+data73:
+  nom: "Proposition de projet soutenu"
+  description: "Soumission d’un projet en vue d’un accompagnement ou financement par une fondation."
+  domaineId: 20
+
+data74:
+  nom: "Candidature à un appel à projets"
+  description: "Participation à un appel à projets lancé par une fondation ou organisme."
+  domaineId: 20
+
+data75:
+  nom: "Rapport d’utilisation de fonds"
+  description: "Présentation détaillée de l’utilisation des subventions ou fonds reçus."
+  domaineId: 20
+
+data76:
+  nom: "Adhésion à un groupe local"
+  description: "Demande pour rejoindre un collectif ou communauté active dans une zone géographique."
+  domaineId: 21
+
+data77:
+  nom: "Proposition d’événement"
+  description: "Soumission d’une idée ou d’un plan pour organiser un événement communautaire."
+  domaineId: 21
+
+data78:
+  nom: "Signalement d’un problème local"
+  description: "Déclaration d’une situation à résoudre dans un quartier ou une collectivité."
+  domaineId: 21
+
+data79:
+  nom: "Consultation citoyenne"
+  description: "Participation ou demande de participation à une initiative de concertation publique."
+  domaineId: 21
+
+data80:
+  nom: "Proposition de mission"
+  description: "Soumission d’un projet ou mission à réaliser dans le cadre d’un service informatique."
+  domaineId: 22
+
+data81:
+  nom: "Demande de devis"
+  description: "Demande de tarification estimative pour une prestation technique ou de développement."
+  domaineId: 22
+
+data82:
+  nom: "Suivi de projet"
+  description: "Consultation de l’avancement et des étapes réalisées dans un projet IT."
+  domaineId: 22
+
+data83:
+  nom: "Maintenance technique"
+  description: "Demande d’intervention pour corriger ou optimiser une solution logicielle ou système."
+  domaineId: 22
+
+data84:
+  nom: "Demande de support technique"
+  description: "Assistance demandée en cas de dysfonctionnement ou de besoin d’aide technique."
+  domaineId: 23
+
+data85:
+  nom: "Activation de licence"
+  description: "Procédure pour activer un produit logiciel via une clé de licence fournie."
+  domaineId: 23
+
+data86:
+  nom: "Suivi de bug"
+  description: "Consultation de l’état d’un signalement d’anomalie dans un logiciel."
+  domaineId: 23
+
+data87:
+  nom: "Upgrade de version"
+  description: "Mise à jour vers une version plus récente d’un logiciel ou produit numérique."
+  domaineId: 23
+
+data88:
+  nom: "Création de compte d’hébergement"
+  description: "Demande d'ouverture d’un compte pour héberger un site ou une application en ligne."
+  domaineId: 24
+
+data89:
+  nom: "Support DNS / SSL"
+  description: "Assistance concernant la configuration DNS ou l’installation de certificats SSL."
+  domaineId: 24
+
+data90:
+  nom: "Restauration de données"
+  description: "Demande de récupération de fichiers ou de bases de données à partir d’une sauvegarde."
+  domaineId: 24
+
+data91:
+  nom: "Résiliation de service"
+  description: "Demande d’arrêt ou d’annulation d’un service d’hébergement ou de domaine."
+  domaineId: 24
+
+data92:
+  nom: "Demande de brochure"
+  description: "Demande d’envoi ou de téléchargement de documentation touristique ou commerciale."
+  domaineId: 25
+
+data93:
+  nom: "Réservation d’excursion"
+  description: "Demande de réservation pour une activité touristique ou un circuit guidé."
+  domaineId: 25
+
+data94:
+  nom: "Renseignement sur circuits"
+  description: "Demande d’information sur les itinéraires, horaires et programmes touristiques."
+  domaineId: 25
+
+data95:
+  nom: "Guide touristique"
+  description: "Demande de mise à disposition ou de contact avec un guide pour une visite."
+  domaineId: 25
+
+data96:
+  nom: "Réservation de séjour"
+  description: "Demande de réservation d’un hébergement ou d’un pack vacances."
+  domaineId: 26
+
+data97:
+  nom: "Assurance voyage"
+  description: "Demande de souscription ou d'information sur une couverture d’assurance voyage."
+  domaineId: 26
+
+data98:
+  nom: "Modification d’itinéraire"
+  description: "Demande de changement de dates, trajets ou étapes dans une réservation de voyage."
+  domaineId: 26
+
+data99:
+  nom: "Paiement échelonné"
+  description: "Demande de règlement d’un séjour ou d’un service en plusieurs fois."
+  domaineId: 26
+
+data100:
+  nom: "Réservation d’espace"
+  description: ""
+  domaineId: 27
+
+data101:
+  nom: "Demande de devis événement"
+  description: ""
+  domaineId: 27
+
+data102:
+  nom: "Configuration logistique"
+  description: ""
+  domaineId: 27
+
+data103:
+  nom: "Animation sur-mesure"
+  description: ""
+  domaineId: 27
+
+data104:
+  nom: "Inscription"
+  description: ""
+  domaineId: 28
+
+data105:
+  nom: "Suspension d’abonnement"
+  description: ""
+  domaineId: 28
+
+data106:
+  nom: "Réservation de créneau"
+  description: ""
+  domaineId: 28
+
+data107:
+  nom: "Coaching personnalisé"
+  description: ""
+  domaineId: 28
+
+data108:
+  nom: "Réservation de billets"
+  description: ""
+  domaineId: 29
+
+data110:
+  nom: "Réclamation"
+  description: ""
+  domaineId: 29
+
+data111:
+  nom: "Demande d’information programmation"
+  description: ""
+  domaineId: 29
+
+data112:
+  nom: "Carte de fidélité"
+  description: ""
+  domaineId: 29
+
+data113:
+  nom: "Demande d’ouverture de compte"
+  description: ""
+  domaineId: 30
+
+data114:
+  nom: "Prise de RDV avec un conseiller"
+  description: ""
+  domaineId: 30
+
+data115:
+  nom: "Simulation de prêt"
+  description: ""
+  domaineId: 30
+
+data116:
+  nom: "Blocage carte"
+  description: ""
+  domaineId: 30
+
+data117:
+  nom: "Déclaration de sinistre"
+  description: ""
+  domaineId: 31
+
+data118:
+  nom: "Suivi de remboursement"
+  description: ""
+  domaineId: 31
+
+data119:
+  nom: "Demande de devis"
+  description: ""
+  domaineId: 31
+
+data120:
+  nom: "Modification contrat"
+  description: ""
+  domaineId: 31
+
+data121:
+  nom: "Demande de consultation"
+  description: ""
+  domaineId: 32
+
+data122:
+  nom: "Rédaction d’actes"
+  description: ""
+  domaineId: 32
+
+data123:
+  nom: "Suivi d’un dossier en cours"
+  description: ""
+  domaineId: 32

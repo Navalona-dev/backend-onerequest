@@ -4,23 +4,31 @@ namespace App\Service;
 
 use App\Entity\Privilege;
 use App\Entity\CodeCouleur;
+use App\Entity\TypeDemande;
 use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
 use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\String\u;
 use App\Entity\CategorieDomaineEntreprise;
 use Symfony\Component\Filesystem\Filesystem;
+use App\Repository\DomaineEntrepriseRepository;
 use App\Repository\CategorieDomaineEntrepriseRepository;
 
 class DefaultsLoader
 {
     private $em;
     private $categorieDomaineRepo;
+    private $domaineEntrepriseRepo;
 
-    public function __construct(EntityManagerInterface $em, CategorieDomaineEntrepriseRepository $categorieDomaineRepo)
+    public function __construct(
+        EntityManagerInterface $em, 
+        CategorieDomaineEntrepriseRepository $categorieDomaineRepo,
+        DomaineEntrepriseRepository $domaineEntrepriseRepo
+    )
     {
         $this->em = $em;
         $this->categorieDomaineRepo = $categorieDomaineRepo;
+        $this->domaineEntrepriseRepo = $domaineEntrepriseRepo;
     }
 
     private function maybeCreate($class, $criteria, ?string $repositoryMethodName = 'findOneBy'): array
@@ -39,6 +47,7 @@ class DefaultsLoader
         $this->domaineEntreprise();
         $this->privilege();
         $this->CodeCouleur();
+        $this->typeDemandes();
         $this->copyFiles();
 
     }
@@ -127,6 +136,28 @@ class DefaultsLoader
         }
     }
 
+
+    public function typeDemandes() {
+        $typeDemandes = Yaml::parseFile('defaults/data/type_demande.yaml');
+
+        foreach ($typeDemandes as $label => $content) {
+            list($isNew, $type) = $this->maybeCreate(TypeDemande::class, ['label' => $label]);
+            if($isNew){
+                $domaineId = $content['domaineId'];
+                $domaine = $this->domaineEntrepriseRepo->findOneBy(['id' => (int)$domaineId]);
+
+                $type->setNom($content['nom']);
+                $type->setLabel($label);
+                $type->setDescription($content['description']);
+                $date = new \datetime();
+                $type->setCreatedAt($date);
+                $type->addDomaine($domaine);
+
+                $this->em->persist($type);
+                $this->em->flush();
+            }
+        }
+    }
     
 
     public function copyFiles()

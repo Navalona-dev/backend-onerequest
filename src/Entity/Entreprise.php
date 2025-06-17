@@ -50,12 +50,16 @@ class Entreprise
     #[ORM\OneToMany(targetEntity: Site::class, mappedBy: 'entreprise')]
     private Collection $sites;
 
-    #[ORM\ManyToOne(inversedBy: 'entreprise')]
-    private ?DomaineEntreprise $domaineEntreprise = null;
+    /**
+     * @var Collection<int, DomaineEntreprise>
+     */
+    #[ORM\ManyToMany(targetEntity: DomaineEntreprise::class, mappedBy: 'entreprises')]
+    private Collection $domaineEntreprises;
 
     public function __construct()
     {
         $this->sites = new ArrayCollection();
+        $this->domaineEntreprises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,16 +145,32 @@ class Entreprise
         return $this;
     }
 
-    public function getDomaineEntreprise(): ?DomaineEntreprise
+    /**
+     * @return Collection<int, DomaineEntreprise>
+     */
+    public function getDomaineEntreprises(): Collection
     {
-        return $this->domaineEntreprise;
+        return $this->domaineEntreprises;
     }
 
-    public function setDomaineEntreprise(?DomaineEntreprise $domaineEntreprise): static
+    public function addDomaineEntreprise(DomaineEntreprise $domaineEntreprise): static
     {
-        $this->domaineEntreprise = $domaineEntreprise;
+        if (!$this->domaineEntreprises->contains($domaineEntreprise)) {
+            $this->domaineEntreprises->add($domaineEntreprise);
+            $domaineEntreprise->addEntreprise($this);
+        }
 
         return $this;
     }
+
+    public function removeDomaineEntreprise(DomaineEntreprise $domaineEntreprise): static
+    {
+        if ($this->domaineEntreprises->removeElement($domaineEntreprise)) {
+            $domaineEntreprise->removeEntreprise($this);
+        }
+
+        return $this;
+    }
+
 
 }

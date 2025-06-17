@@ -65,12 +65,6 @@ class DomaineEntreprise
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    /**
-     * @var Collection<int, Entreprise>
-     */
-    #[ORM\OneToMany(targetEntity: Entreprise::class, mappedBy: 'domaineEntreprise')]
-    private Collection $entreprise;
-
     #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
     #[ORM\ManyToOne(inversedBy: 'domaines')]
     private ?CategorieDomaineEntreprise $categorieDomaineEntreprise = null;
@@ -78,9 +72,23 @@ class DomaineEntreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
+    /**
+     * @var Collection<int, TypeDemande>
+     */
+    #[ORM\ManyToMany(targetEntity: TypeDemande::class, mappedBy: 'domaines')]
+    private Collection $typeDemandes;
+
+    /**
+     * @var Collection<int, Entreprise>
+     */
+    #[ORM\ManyToMany(targetEntity: Entreprise::class, inversedBy: 'domaineEntreprises')]
+    private Collection $entreprises;
+
     public function __construct()
     {
         $this->entreprise = new ArrayCollection();
+        $this->typeDemandes = new ArrayCollection();
+        $this->entreprises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,36 +144,6 @@ class DomaineEntreprise
         return $this;
     }
 
-    /**
-     * @return Collection<int, Entreprise>
-     */
-    public function getEntreprise(): Collection
-    {
-        return $this->entreprise;
-    }
-
-    public function addEntreprise(Entreprise $entreprise): static
-    {
-        if (!$this->entreprise->contains($entreprise)) {
-            $this->entreprise->add($entreprise);
-            $entreprise->setDomaineEntreprise($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEntreprise(Entreprise $entreprise): static
-    {
-        if ($this->entreprise->removeElement($entreprise)) {
-            // set the owning side to null (unless already changed)
-            if ($entreprise->getDomaineEntreprise() === $this) {
-                $entreprise->setDomaineEntreprise(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCategorieDomaineEntreprise(): ?CategorieDomaineEntreprise
     {
         return $this->categorieDomaineEntreprise;
@@ -189,4 +167,56 @@ class DomaineEntreprise
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, TypeDemande>
+     */
+    public function getTypeDemandes(): Collection
+    {
+        return $this->typeDemandes;
+    }
+
+    public function addTypeDemande(TypeDemande $typeDemande): static
+    {
+        if (!$this->typeDemandes->contains($typeDemande)) {
+            $this->typeDemandes->add($typeDemande);
+            $typeDemande->addDomaine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeDemande(TypeDemande $typeDemande): static
+    {
+        if ($this->typeDemandes->removeElement($typeDemande)) {
+            $typeDemande->removeDomaine($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Entreprise>
+     */
+    public function getEntreprises(): Collection
+    {
+        return $this->entreprises;
+    }
+
+    public function addEntreprise(Entreprise $entreprise): static
+    {
+        if (!$this->entreprises->contains($entreprise)) {
+            $this->entreprises->add($entreprise);
+        }
+
+        return $this;
+    }
+
+    public function removeEntreprise(Entreprise $entreprise): static
+    {
+        $this->entreprises->removeElement($entreprise);
+
+        return $this;
+    }
+
 }
