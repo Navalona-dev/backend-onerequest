@@ -7,8 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: TypeDemandeRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => 'type_demande:list']), 
+        new Get(normalizationContext: ['groups' => 'type_demande:item']),           
+        new Post(),
+        new Patch(),
+        new Delete(),
+    ]
+)]
 class TypeDemande
 {
     #[ORM\Id]
@@ -17,18 +34,23 @@ class TypeDemande
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
     private ?bool $isActive = null;
 
     #[ORM\Column(length: 255, nullable: true)]
