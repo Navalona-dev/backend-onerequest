@@ -1,0 +1,63 @@
+data1:
+  title: Carte d'identité
+  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+
+data2:
+  title: Justificatif de domicile
+  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+
+data3:
+  title: Photo d'identité
+  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+
+data4:
+  title: Acte de naissance
+  idTypeDemande: []
+
+data5:
+  title: Fiche de renseignement
+  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+
+data6:
+  title: Curriculum Vitae (CV)
+  idTypeDemande: []
+
+data7:
+  title: Lettre de motivation
+  idTypeDemande: []
+
+data8:
+  title: Diplômes ou attestations
+  idTypeDemande: []
+
+data9:
+  title: Relevés de notes
+  idTypeDemande: []
+
+data10:
+  title: RIB (Relevé d’identité bancaire)
+  idTypeDemande: []
+
+data11:
+  title: Certificat médical
+  idTypeDemande: []
+
+data12:
+  title: Casier judiciaire
+  idTypeDemande: []
+
+data13:
+  title: Attestation de situation (CAF, etc.)
+  idTypeDemande: []
+
+data14:
+  title: Autorisation parentale
+  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+
+data15:
+  title: Justificatif de revenu ou salaire
+  idTypeDemande: []
+
+data16:
+  title: Contrat précédent ou preuve d’emploi
+  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]

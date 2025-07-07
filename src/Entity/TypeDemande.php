@@ -2,19 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\TypeDemandeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
+use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Repository\TypeDemandeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\DataPersister\TypeDemandeAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\DataPersister\TypeDemandeUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: TypeDemandeRepository::class)]
 #[ApiResource(
@@ -24,13 +26,22 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Post(),
         new Patch(),
         new Delete(),
-    ]
+
+        new Post( 
+            processor: TypeDemandeAddDataPersister::class,
+        ),
+        new Patch( 
+            processor: TypeDemandeUpdateDataPersister::class,
+        ),
+    ],
+    paginationEnabled: false
 )]
 class TypeDemande
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -56,15 +67,26 @@ class TypeDemande
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
+    #[ORM\ManyToOne(inversedBy: 'typeDemandes')]
+    #[Groups(['type_demande:list', 'type_demande:item'])]
+    private ?DomaineEntreprise $domaine = null;
+
     /**
-     * @var Collection<int, DomaineEntreprise>
+     * @var Collection<int, Demande>
      */
-    #[ORM\ManyToMany(targetEntity: DomaineEntreprise::class, inversedBy: 'typeDemandes')]
-    private Collection $domaines;
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'type')]
+    private Collection $demandes;
+
+    /**
+     * @var Collection<int, DossierAFournir>
+     */
+    #[ORM\ManyToMany(targetEntity: DossierAFournir::class, mappedBy: 'typeDemande')]
+    private Collection $dossierAFournirs;
 
     public function __construct()
     {
-        $this->domaines = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
+        $this->dossierAFournirs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,27 +167,73 @@ class TypeDemande
         return $this;
     }
 
-    /**
-     * @return Collection<int, DomaineEntreprise>
-     */
-    public function getDomaines(): Collection
+    public function getDomaine(): ?DomaineEntreprise
     {
-        return $this->domaines;
+        return $this->domaine;
     }
 
-    public function addDomaine(DomaineEntreprise $domaine): static
+    public function setDomaine(?DomaineEntreprise $domaine): static
     {
-        if (!$this->domaines->contains($domaine)) {
-            $this->domaines->add($domaine);
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): static
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setType($this);
         }
 
         return $this;
     }
 
-    public function removeDomaine(DomaineEntreprise $domaine): static
+    public function removeDemande(Demande $demande): static
     {
-        $this->domaines->removeElement($domaine);
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getType() === $this) {
+                $demande->setType(null);
+            }
+        }
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, DossierAFournir>
+     */
+    public function getDossierAFournirs(): Collection
+    {
+        return $this->dossierAFournirs;
+    }
+
+    public function addDossierAFournir(DossierAFournir $dossierAFournir): static
+    {
+        if (!$this->dossierAFournirs->contains($dossierAFournir)) {
+            $this->dossierAFournirs->add($dossierAFournir);
+            $dossierAFournir->addTypeDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDossierAFournir(DossierAFournir $dossierAFournir): static
+    {
+        if ($this->dossierAFournirs->removeElement($dossierAFournir)) {
+            $dossierAFournir->removeTypeDemande($this);
+        }
+
+        return $this;
+    }
+
 }

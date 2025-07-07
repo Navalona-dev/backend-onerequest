@@ -28,6 +28,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'user:list', 'enable_max_depth' => true]), 
         new Get(normalizationContext: ['groups' => 'user:item']),          
@@ -119,9 +120,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Privilege::class, inversedBy: 'users')]
     private Collection $privileges;
 
+    /**
+     * @var Collection<int, Demande>
+     */
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'demandeur')]
+    private Collection $demandes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresse = null;
+
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
     }
     
 
@@ -290,6 +304,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removePrivilege(Privilege $privilege): static
     {
         $this->privileges->removeElement($privilege);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): static
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setDemandeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): static
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getDemandeur() === $this) {
+                $demande->setDemandeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): static
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

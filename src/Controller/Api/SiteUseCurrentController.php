@@ -25,10 +25,22 @@ class SiteUseCurrentController extends AbstractController
             return new JsonResponse(null, Response::HTTP_NO_CONTENT);
         }
 
+        $region = [
+            'id' => $site->getRegion()->getId(),
+            'nom' => $site->getRegion()->getNom()
+        ];
+
+        $commune = [
+            'id' => $site->getCommune()->getId(),
+            'nom' => $site->getCommune()->getNom(),
+        ];
+
         return new JsonResponse([
             'id' => $site->getId(),
             'nom' => $site->getNom(),
             'isCurrent' => $site->getIsCurrent(),
+            'region' => $region,
+            'commune' => $commune,
             'message' => 'Un site trouvé.',
         ]);
     }

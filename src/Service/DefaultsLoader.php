@@ -5,10 +5,12 @@ namespace App\Service;
 use App\Entity\Privilege;
 use App\Entity\CodeCouleur;
 use App\Entity\TypeDemande;
+use App\Entity\DossierAFournir;
 use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
 use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\String\u;
+use App\Repository\TypeDemandeRepository;
 use App\Entity\CategorieDomaineEntreprise;
 use Symfony\Component\Filesystem\Filesystem;
 use App\Repository\DomaineEntrepriseRepository;
@@ -19,16 +21,19 @@ class DefaultsLoader
     private $em;
     private $categorieDomaineRepo;
     private $domaineEntrepriseRepo;
+    private $typeDemandeRepo;
 
     public function __construct(
         EntityManagerInterface $em, 
         CategorieDomaineEntrepriseRepository $categorieDomaineRepo,
-        DomaineEntrepriseRepository $domaineEntrepriseRepo
+        DomaineEntrepriseRepository $domaineEntrepriseRepo,
+        TypeDemandeRepository $typeDemandeRepo
     )
     {
         $this->em = $em;
         $this->categorieDomaineRepo = $categorieDomaineRepo;
         $this->domaineEntrepriseRepo = $domaineEntrepriseRepo;
+        $this->typeDemandeRepo = $typeDemandeRepo;
     }
 
     private function maybeCreate($class, $criteria, ?string $repositoryMethodName = 'findOneBy'): array
@@ -48,6 +53,7 @@ class DefaultsLoader
         $this->privilege();
         $this->CodeCouleur();
         $this->typeDemandes();
+        $this->dossiers();
         $this->copyFiles();
 
     }
@@ -144,16 +150,45 @@ class DefaultsLoader
             list($isNew, $type) = $this->maybeCreate(TypeDemande::class, ['label' => $label]);
             if($isNew){
                 $domaineId = $content['domaineId'];
-                $domaine = $this->domaineEntrepriseRepo->findOneBy(['id' => (int)$domaineId]);
+                $domaine = $this->domaineEntrepriseRepo->findOneBy(['id' => $domaineId]);
 
                 $type->setNom($content['nom']);
                 $type->setLabel($label);
                 $type->setDescription($content['description']);
                 $date = new \datetime();
                 $type->setCreatedAt($date);
-                $type->addDomaine($domaine);
+                $type->setDomaine($domaine);
 
                 $this->em->persist($type);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function dossiers() {
+        $dossiers = Yaml::parseFile('defaults/data/dossier_a_fournir.yaml');
+
+        foreach ($dossiers as $label => $content) {
+            list($isNew, $dossier) = $this->maybeCreate(DossierAFournir::class, ['label' => $label]);
+            if($isNew){
+                $typeDemandeIds = $content['idTypeDemande'];
+
+                foreach($typeDemandeIds as $typeId) {
+                    $typeDemande = $this->typeDemandeRepo->findOneBy(['id' => $typeId]);
+                    if ($typeDemande) {
+                        $dossier->addTypeDemande($typeDemande);
+                    } else {
+                        // Facultatif : log ou throw si type introuvable
+                        // throw new \Exception("TypeDemande avec ID $typeId introuvable.");
+                    }
+                }
+
+                $dossier->setTitle($content['title']);
+                $dossier->setLabel($label);
+                $date = new \datetime();
+                $dossier->setCreatedAt($date);
+
+                $this->em->persist($dossier);
                 $this->em->flush();
             }
         }

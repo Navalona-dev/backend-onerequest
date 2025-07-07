@@ -22,6 +22,7 @@ use App\DataPersister\CategorieDomaineEntrepriseUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: CategorieDomaineEntrepriseRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'categorie_domaine_entreprise:list']), 
         new Get(normalizationContext: ['groups' => 'categorie_domaine_entreprise:item']), 

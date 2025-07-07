@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: PrivilegeRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'privilege:list']), 
         new Get(normalizationContext: ['groups' => 'privilege:item']),           

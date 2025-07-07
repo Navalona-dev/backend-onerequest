@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: CommuneRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'commune:list']), 
         new Get(normalizationContext: ['groups' => 'commune:item']),            

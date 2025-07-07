@@ -17,6 +17,7 @@ use App\Repository\CategoryOfPermissionRepository;
 
 #[ORM\Entity(repositoryClass: CategoryOfPermissionRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(),  
         new Get(),            

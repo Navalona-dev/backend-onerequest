@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\SiteToggleController;
 use App\Controller\Api\UserBySiteController;
 use App\DataPersister\SiteUpdateDataPersister;
+use App\Controller\Api\DemandeBySiteController;
 use App\Controller\Api\UserConnectedController;
 use App\Controller\Api\SiteSetCurrentController;
 use App\Controller\Api\SiteUseCurrentController;
@@ -28,6 +29,7 @@ use App\Controller\Api\CodeCouleurBySiteController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'site:list']), 
         new Get(
@@ -121,6 +123,24 @@ use App\Controller\Api\CodeCouleurBySiteController;
                 ]
             ]
         ),
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/sites/{id}/demandes',
+            controller: DemandeBySiteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer demande par site',
+                    'description' => 'Cette opération récupère les demandes par site.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        
         new Post(
             uriTemplate: '/sites/{id}/select-region',
             controller: AddRegionBySiteController::class,
@@ -230,10 +250,17 @@ class Site
     #[ORM\ManyToOne(inversedBy: 'sites')]
     private ?Commune $commune = null;
 
+    /**
+     * @var Collection<int, Demande>
+     */
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'site')]
+    private Collection $demandes;
+
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -429,6 +456,36 @@ class Site
     public function setCommune(?Commune $commune): static
     {
         $this->commune = $commune;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): static
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): static
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getSite() === $this) {
+                $demande->setSite(null);
+            }
+        }
 
         return $this;
     }

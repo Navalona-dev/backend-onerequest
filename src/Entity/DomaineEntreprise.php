@@ -21,6 +21,7 @@ use App\DataPersister\DomaineEntrepriseUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: DomaineEntrepriseRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'domaine_entreprise:list']), 
         new Get(normalizationContext: ['groups' => 'domaine_entreprise:item']),            
@@ -43,13 +44,13 @@ use App\DataPersister\DomaineEntrepriseUpdateDataPersister;
 )]
 class DomaineEntreprise
 {
-    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item', 'type_demande:list', 'type_demande:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item', 'type_demande:list', 'type_demande:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $libelle = null;
 
@@ -73,22 +74,22 @@ class DomaineEntreprise
     private ?string $label = null;
 
     /**
-     * @var Collection<int, TypeDemande>
-     */
-    #[ORM\ManyToMany(targetEntity: TypeDemande::class, mappedBy: 'domaines')]
-    private Collection $typeDemandes;
-
-    /**
      * @var Collection<int, Entreprise>
      */
     #[ORM\ManyToMany(targetEntity: Entreprise::class, inversedBy: 'domaineEntreprises')]
     private Collection $entreprises;
 
+    /**
+     * @var Collection<int, TypeDemande>
+     */
+    #[ORM\OneToMany(targetEntity: TypeDemande::class, mappedBy: 'domaine')]
+    private Collection $typeDemandes;
+
     public function __construct()
     {
         $this->entreprise = new ArrayCollection();
-        $this->typeDemandes = new ArrayCollection();
         $this->entreprises = new ArrayCollection();
+        $this->typeDemandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,33 +170,6 @@ class DomaineEntreprise
     }
 
     /**
-     * @return Collection<int, TypeDemande>
-     */
-    public function getTypeDemandes(): Collection
-    {
-        return $this->typeDemandes;
-    }
-
-    public function addTypeDemande(TypeDemande $typeDemande): static
-    {
-        if (!$this->typeDemandes->contains($typeDemande)) {
-            $this->typeDemandes->add($typeDemande);
-            $typeDemande->addDomaine($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTypeDemande(TypeDemande $typeDemande): static
-    {
-        if ($this->typeDemandes->removeElement($typeDemande)) {
-            $typeDemande->removeDomaine($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Entreprise>
      */
     public function getEntreprises(): Collection
@@ -215,6 +189,36 @@ class DomaineEntreprise
     public function removeEntreprise(Entreprise $entreprise): static
     {
         $this->entreprises->removeElement($entreprise);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeDemande>
+     */
+    public function getTypeDemandes(): Collection
+    {
+        return $this->typeDemandes;
+    }
+
+    public function addTypeDemande(TypeDemande $typeDemande): static
+    {
+        if (!$this->typeDemandes->contains($typeDemande)) {
+            $this->typeDemandes->add($typeDemande);
+            $typeDemande->setDomaine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeDemande(TypeDemande $typeDemande): static
+    {
+        if ($this->typeDemandes->removeElement($typeDemande)) {
+            // set the owning side to null (unless already changed)
+            if ($typeDemande->getDomaine() === $this) {
+                $typeDemande->setDomaine(null);
+            }
+        }
 
         return $this;
     }

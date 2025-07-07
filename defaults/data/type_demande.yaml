@@ -500,115 +500,115 @@ data99:
 
 data100:
   nom: "Réservation d’espace"
-  description: ""
+  description: "Demande pour réserver un espace pour un événement ou une activité."
   domaineId: 27
 
 data101:
   nom: "Demande de devis événement"
-  description: ""
+  description: "Demande d’estimation des coûts pour l’organisation d’un événement."
   domaineId: 27
 
 data102:
   nom: "Configuration logistique"
-  description: ""
+  description: "Demande d’installation ou d’aménagement logistique pour un événement."
   domaineId: 27
 
 data103:
   nom: "Animation sur-mesure"
-  description: ""
+  description: "Demande d’animation personnalisée pour un événement ou une activité."
   domaineId: 27
 
 data104:
   nom: "Inscription"
-  description: ""
+  description: "Demande d’inscription à un programme, une activité ou un service."
   domaineId: 28
 
 data105:
   nom: "Suspension d’abonnement"
-  description: ""
+  description: "Demande temporaire d’interruption d’un abonnement en cours."
   domaineId: 28
 
 data106:
   nom: "Réservation de créneau"
-  description: ""
+  description: "Demande de réservation d’un créneau horaire pour une activité."
   domaineId: 28
 
 data107:
   nom: "Coaching personnalisé"
-  description: ""
+  description: "Demande d’accompagnement individuel selon des objectifs définis."
   domaineId: 28
 
 data108:
   nom: "Réservation de billets"
-  description: ""
+  description: "Demande d’achat ou de réservation de billets pour un événement."
   domaineId: 29
 
 data110:
   nom: "Réclamation"
-  description: ""
+  description: "Demande de traitement d’un problème ou d’une insatisfaction."
   domaineId: 29
 
 data111:
   nom: "Demande d’information programmation"
-  description: ""
+  description: "Demande de détails sur les événements ou les programmes à venir."
   domaineId: 29
 
 data112:
   nom: "Carte de fidélité"
-  description: ""
+  description: "Demande d’adhésion ou d’information sur un programme de fidélité."
   domaineId: 29
 
 data113:
   nom: "Demande d’ouverture de compte"
-  description: ""
+  description: "Demande pour créer un nouveau compte client ou bancaire."
   domaineId: 30
 
 data114:
   nom: "Prise de RDV avec un conseiller"
-  description: ""
+  description: "Demande de rendez-vous avec un conseiller pour un accompagnement."
   domaineId: 30
 
 data115:
   nom: "Simulation de prêt"
-  description: ""
+  description: "Demande de calcul estimatif d’un prêt selon des critères définis."
   domaineId: 30
 
 data116:
   nom: "Blocage carte"
-  description: ""
+  description: "Demande de blocage immédiat d’une carte bancaire ou d’accès."
   domaineId: 30
 
 data117:
   nom: "Déclaration de sinistre"
-  description: ""
+  description: "Déclaration d’un incident ou dommage couvert par un contrat."
   domaineId: 31
 
 data118:
   nom: "Suivi de remboursement"
-  description: ""
+  description: "Demande d’information sur l’état d’un remboursement en cours."
   domaineId: 31
 
 data119:
   nom: "Demande de devis"
-  description: ""
+  description: "Demande d’évaluation financière pour une prestation assurantielle."
   domaineId: 31
 
 data120:
   nom: "Modification contrat"
-  description: ""
+  description: "Demande de changement dans un contrat en cours de validité."
   domaineId: 31
 
 data121:
   nom: "Demande de consultation"
-  description: ""
+  description: "Demande de rendez-vous ou d’avis avec un professionnel juridique."
   domaineId: 32
 
 data122:
   nom: "Rédaction d’actes"
-  description: ""
+  description: "Demande de rédaction d’un acte juridique ou administratif."
   domaineId: 32
 
 data123:
   nom: "Suivi d’un dossier en cours"
-  description: ""
+  description: "Demande de mise à jour ou de suivi d’un dossier juridique existant."
   domaineId: 32

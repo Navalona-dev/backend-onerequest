@@ -24,6 +24,7 @@ use App\Controller\Api\CodeCouleurGetGlobalActiveController;
 
 #[ORM\Entity(repositoryClass: CodeCouleurRepository::class)]
 #[ApiResource(
+    paginationEnabled: false,
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => 'code_couleur:list'],
