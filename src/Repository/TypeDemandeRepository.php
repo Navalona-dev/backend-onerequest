@@ -16,28 +16,18 @@ class TypeDemandeRepository extends ServiceEntityRepository
         parent::__construct($registry, TypeDemande::class);
     }
 
-    //    /**
-    //     * @return TypeDemande[] Returns an array of TypeDemande objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+   
+    public function findByDomaine($domaine): array
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.domaine', 'd')
+            ->andWhere('d.id = :val')
+            ->andWhere('t.isActive = :active')
+            ->setParameter('val', $domaine->getId())
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    //    public function findOneBySomeField($value): ?TypeDemande
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

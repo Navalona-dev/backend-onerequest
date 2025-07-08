@@ -33,6 +33,7 @@ security:
         - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api/swagger, roles: PUBLIC_ACCESS }
         - { path: ^/api/code_couleurs/get-global-active, roles: PUBLIC_ACCESS }
+        - { path: ^/api/users/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api$, roles: PUBLIC_ACCESS }       # Autorise juste l'accès à /api
 

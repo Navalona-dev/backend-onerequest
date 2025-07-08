@@ -158,6 +158,7 @@ class DefaultsLoader
                 $date = new \datetime();
                 $type->setCreatedAt($date);
                 $type->setDomaine($domaine);
+                $type->setIsActive(true);
 
                 $this->em->persist($type);
                 $this->em->flush();

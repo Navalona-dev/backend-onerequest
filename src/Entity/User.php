@@ -18,6 +18,7 @@ use App\DataPersister\UserDataPersister;
 use App\DataPersister\AddUserDataPersister;
 use App\DataPersister\UserAddDataPersister;
 use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\UserRegisterController;
 use App\DataPersister\UserUpdateDataPersister;
 use App\Controller\Api\UserConnectedController;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +34,23 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new GetCollection(normalizationContext: ['groups' => 'user:list', 'enable_max_depth' => true]), 
         new Get(normalizationContext: ['groups' => 'user:item']),          
         new Post(),
+        new Post(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/users/register',
+            controller: UserRegisterController::class,
+            read: true, // désactive la lecture automatique d'une entité
+            deserialize: true,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Créer un compte demandeur',
+                    'description' => 'Cette opération crée un compte pour un demandeur.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Patch(),
         new Delete(),
         new Get(

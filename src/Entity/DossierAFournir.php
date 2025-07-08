@@ -2,15 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\DossierAFournirRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: DossierAFournirRepository::class)]
+#[ApiResource(
+    paginationEnabled: false,
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => 'dossier:list']), 
+        new Get(normalizationContext: ['groups' => 'dossier:item']),            
+        new Post(),
+        new Patch(),
+    ]
+)]
 class DossierAFournir
 {
+    #[Groups(['dossier:list', 'dossier:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,12 +39,15 @@ class DossierAFournir
     private Collection $typeDemande;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['dossier:list', 'dossier:item'])]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['dossier:list', 'dossier:item'])]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['dossier:list', 'dossier:item'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]

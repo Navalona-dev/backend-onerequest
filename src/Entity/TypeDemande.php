@@ -17,12 +17,49 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\DataPersister\TypeDemandeAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\DataPersister\TypeDemandeUpdateDataPersister;
+use App\Controller\Api\DossierAFournirByTypeDemandeController;
+use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
 
 #[ORM\Entity(repositoryClass: TypeDemandeRepository::class)]
 #[ApiResource(
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'type_demande:list']), 
-        new Get(normalizationContext: ['groups' => 'type_demande:item']),           
+        new Get(
+            normalizationContext: ['groups' => 'type_demande:list'],
+            uriTemplate: '/type_demandes/liste-by-entreprise',
+            controller: TypeDemandeByDomaineEntrepriseController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'récuperer la liste de type de demande par entreprise',
+                    'description' => 'Cette opération récupère la liste de demande par entreprise.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),  
+        new Get(
+            normalizationContext: ['groups' => 'type_demande:list'],
+            uriTemplate: '/type_demandes/{id}/dossiers-a-fournir',
+            controller: DossierAFournirByTypeDemandeController::class,
+            read: true, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'récuperer la liste de dossier à fournir',
+                    'description' => 'Cette opération récupère la liste de dossier à fournir.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),  
+        new Get(normalizationContext: ['groups' => 'type_demande:item']), 
+                
         new Post(),
         new Patch(),
         new Delete(),
@@ -143,7 +180,7 @@ class TypeDemande
         return $this;
     }
 
-    public function isActive(): ?bool
+    public function getIsActive(): ?bool
     {
         return $this->isActive;
     }

@@ -95,6 +95,9 @@ class Demande
     #[ORM\ManyToOne(inversedBy: 'demandes')]
     private ?Site $site = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $fichier = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -192,6 +195,18 @@ class Demande
     public function setSite(?Site $site): static
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getFichier(): ?string
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(?string $fichier): static
+    {
+        $this->fichier = $fichier;
 
         return $this;
     }
