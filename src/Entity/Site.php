@@ -187,13 +187,13 @@ use App\Controller\Api\CodeCouleurBySiteController;
 )]
 class Site
 {
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
@@ -234,7 +234,7 @@ class Site
     #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     private ?bool $isCurrent = null;
 
-    #[Groups(['site:list', 'site:item', 'region:list', 'region:item'])]
+    #[Groups(['site:list', 'site:item', 'region:list', 'region:item', 'demande:list', 'demande:item'])]
     #[ORM\ManyToOne(inversedBy: 'sites')]
     private ?Region $region = null;
 
@@ -246,7 +246,7 @@ class Site
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
 
-    #[Groups(['site:list', 'site:item', 'region:list', 'region:item'])]
+    #[Groups(['site:list', 'site:item', 'region:list', 'region:item', 'demande:list', 'demande:item'])]
     #[ORM\ManyToOne(inversedBy: 'sites')]
     private ?Commune $commune = null;
 

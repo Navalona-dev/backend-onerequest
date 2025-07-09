@@ -20,6 +20,7 @@ use App\DataPersister\UserAddDataPersister;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\UserRegisterController;
 use App\DataPersister\UserUpdateDataPersister;
+use App\Controller\Api\DemandeByUserController;
 use App\Controller\Api\UserConnectedController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -63,6 +64,24 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
                 'openapi_context' => [
                     'summary' => 'Récupérer un utilisateur connecté',
                     'description' => 'Cette opération récupère un utilisateur connecté.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/users/{id}/demandes',
+            controller: DemandeByUserController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de demandes par utilisateur',
+                    'description' => 'Cette opération récupère une liste de demande par utilisateur.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']

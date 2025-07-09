@@ -78,34 +78,34 @@ class TypeDemande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?bool $isActive = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'typeDemandes')]
-    #[Groups(['type_demande:list', 'type_demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?DomaineEntreprise $domaine = null;
 
     /**

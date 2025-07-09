@@ -48,7 +48,7 @@ class AddDefaultSiteCommand extends Command
         $entreprise = $this->em->getRepository(Entreprise::class)->find(1);
     
         if (!$entreprise) {
-            $output->writeln("<error>❌ DomaineEntreprise avec l'ID '$entrepriseId' introuvable.</error>");
+            $output->writeln("<error>❌ Entreprise avec l'ID '$entreprise->getId()' introuvable.</error>");
             return Command::FAILURE;
         }
 

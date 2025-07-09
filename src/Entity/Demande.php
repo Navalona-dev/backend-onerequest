@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DemandeRepository;
 use ApiPlatform\Metadata\GetCollection;
+use App\DataPersister\DemandeAddDataPersister;
+use App\DataPersister\DemandeUpdateDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\ListeStatutDemandeController;
 
@@ -41,6 +43,14 @@ use App\Controller\Api\ListeStatutDemandeController;
         new Get(normalizationContext: ['groups' => 'demande:item']),            
         new Post(),
         new Patch(),
+        new Post( 
+            deserialize: false,
+            processor: DemandeAddDataPersister::class,
+        ),
+        new Patch( 
+            deserialize: false,
+            processor: DemandeUpdateDataPersister::class,
+        ),
     ]
 )]
 class Demande
@@ -93,9 +103,11 @@ class Demande
     private ?\DateTime $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
+    #[Groups(['demande:list', 'demande:item'])]
     private ?Site $site = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['demande:list', 'demande:item'])]
     private ?string $fichier = null;
 
     public function getId(): ?int
