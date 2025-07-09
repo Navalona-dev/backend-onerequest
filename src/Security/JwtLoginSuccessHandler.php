@@ -30,7 +30,10 @@ class JwtLoginSuccessHandler
             'roles' => $user->getRoles(),
             'nom' => $user->getNom(),
             'prenom' => $user->getPrenom(),
-            'privileges' => $dataPrivileges
+            'isSuperAdmin' => $user->getIsSuperAdmin(),
+            'phone' => $user->getPhone(),
+            'adresse' => $user->getAdresse(),
+            'privileges' => $dataPrivileges,
         ];
 
         $event->setData($data);
