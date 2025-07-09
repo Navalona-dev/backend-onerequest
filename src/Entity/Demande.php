@@ -13,9 +13,9 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DemandeRepository;
 use ApiPlatform\Metadata\GetCollection;
 use App\DataPersister\DemandeAddDataPersister;
-use App\DataPersister\DemandeUpdateDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\ListeStatutDemandeController;
+use App\DataPersister\DemandeUpdateDataPersister;
 
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
@@ -43,12 +43,12 @@ use App\Controller\Api\ListeStatutDemandeController;
         new Get(normalizationContext: ['groups' => 'demande:item']),            
         new Post(),
         new Patch(),
+        new Delete(),
         new Post( 
             deserialize: false,
             processor: DemandeAddDataPersister::class,
         ),
         new Patch( 
-            deserialize: false,
             processor: DemandeUpdateDataPersister::class,
         ),
     ]
