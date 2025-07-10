@@ -3,10 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Langue;
+use App\Entity\Service;
 use App\Entity\Privilege;
 use App\Entity\CodeCouleur;
 use App\Entity\HeroSection;
 use App\Entity\TypeDemande;
+use App\Entity\AboutSection;
 use App\Entity\DossierAFournir;
 use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
@@ -58,6 +60,8 @@ class DefaultsLoader
         $this->dossiers();
         $this->heroSections();
         $this->langues();
+        $this->aboutSections();
+        $this->services();
         $this->copyFiles();
 
     }
@@ -236,7 +240,44 @@ class DefaultsLoader
             }
         }
     }
+
+    public function aboutSections() {
+        $aboutSections = Yaml::parseFile('defaults/data/about_section.yaml');
+
+        foreach ($aboutSections as $label => $content) {
+            list($isNew, $about) = $this->maybeCreate(AboutSection::class, ['label' => $label]);
+            if($isNew){
+                $about->setTitleFr($content['titleFr']);
+                $about->setTitleEn($content['titleEn']);
+                $about->setLabel($label);
+                $about->setDescriptionFr($content['descriptionFr']);
+                $about->setDescriptionEn($content['descriptionEn']);
+
+                $this->em->persist($about);
+                $this->em->flush();
+            }
+        }
+    }
     
+    public function services() {
+        $services = Yaml::parseFile('defaults/data/service.yaml');
+
+        foreach ($services as $label => $content) {
+            list($isNew, $service) = $this->maybeCreate(Service::class, ['label' => $label]);
+            if($isNew){
+                $service->setTitleFr($content['titleFr']);
+                $service->setTitleEn($content['titleEn']);
+                $service->setLabel($label);
+                $service->setIcon($content['icon']);
+                $service->setNumber($content['number']);
+                $service->setIsActive(true);
+                $service->setCreatedAt(new \DateTime());
+
+                $this->em->persist($service);
+                $this->em->flush();
+            }
+        }
+    }
 
     public function copyFiles()
     {

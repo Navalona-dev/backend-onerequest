@@ -1,0 +1,23 @@
+data1:
+  titleFr: "Demandes traitées par jour"
+  titleEn: "Requests handled per day"
+  icon: "bi bi-lightning-charge-fill"
+  number: "25"
+
+data2:
+  titleFr: "Temps moyen de réponse"
+  titleEn: "Average response time"
+  icon: "bi bi-clock-history"
+  number: "1h"
+
+data3:
+  titleFr: "Clients satisfaits"
+  titleEn: "Satisfied clients"
+  icon: "bi bi-emoji-smile-fill"
+  number: "98%"
+
+data4:
+  titleFr: "Support disponible"
+  titleEn: "Support available"
+  icon: "bi bi-headset"
+  number: "24/7"
