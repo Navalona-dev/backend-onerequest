@@ -256,11 +256,18 @@ class Site
     #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'site')]
     private Collection $demandes;
 
+    /**
+     * @var Collection<int, Departement>
+     */
+    #[ORM\ManyToMany(targetEntity: Departement::class, mappedBy: 'sites')]
+    private Collection $departements;
+
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->departements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -485,6 +492,33 @@ class Site
             if ($demande->getSite() === $this) {
                 $demande->setSite(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Departement>
+     */
+    public function getDepartements(): Collection
+    {
+        return $this->departements;
+    }
+
+    public function addDepartement(Departement $departement): static
+    {
+        if (!$this->departements->contains($departement)) {
+            $this->departements->add($departement);
+            $departement->addSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartement(Departement $departement): static
+    {
+        if ($this->departements->removeElement($departement)) {
+            $departement->removeSite($this);
         }
 
         return $this;

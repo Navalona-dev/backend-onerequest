@@ -3,14 +3,22 @@
 namespace App\Controller\Api;
 
 use App\Entity\Site;
+use App\Entity\Demande;
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DemandeBySiteController extends AbstractController
 {
+    public function __construct(
+        private SluggerInterface $slugger,
+        private RequestStack $requestStack
+    ) {}
+    
     public function __invoke(Site $data, DemandeRepository $demandeRepo, EntityManagerInterface $em): JsonResponse
     {
         if (!$data) {
@@ -19,9 +27,16 @@ class DemandeBySiteController extends AbstractController
 
         $demandes = $demandeRepo->findBy(['site' => $data]);
 
+
         $demandeTab = [];
 
         foreach ($demandes as $demande) {
+            $nomFichier = $demande->getFichier();
+
+            $request = $this->requestStack->getCurrentRequest();
+            $baseUrl = $request->getSchemeAndHttpHost(); 
+            $relativePath = "/uploads/demande_site_" . $demande->getSite()->getId() . "/" . $nomFichier;
+
             // Protection si l'utilisateur n'a pas de site
             $siteData = null;
             if ($demande->getSite()) {
@@ -50,6 +65,8 @@ class DemandeBySiteController extends AbstractController
                 'type' => $type,
                 'demandeur' => $demandeur,
                 'statut' => Demande::STATUT[$demande->getStatut()],
+                'fichier' => $baseUrl . $relativePath,
+                
             ];
         }
 

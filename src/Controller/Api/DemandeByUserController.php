@@ -74,8 +74,7 @@ class DemandeByUserController extends AbstractController
             $nomFichier = $demande->getFichier();
 
             $request = $this->requestStack->getCurrentRequest();
-            $baseUrl = $request->getSchemeAndHttpHost(); // ex : http://localhost:8000 ou https://monsite.com
-
+            $baseUrl = $request->getSchemeAndHttpHost(); 
             $relativePath = "/uploads/demande_site_" . $siteId . "/" . $nomFichier;
 
             $demandeTab[] = [
