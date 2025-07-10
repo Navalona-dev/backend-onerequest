@@ -1,0 +1,13 @@
+data1:
+  titleFr: "Français"
+  titleEn: "French"
+  icon: 🇫🇷
+  active: true
+  indice: "fr"
+
+data2:
+  titleFr: "Anglais"
+  titleEn: "English"
+  icon: 🇬🇧
+  active: false
+  indice: "en"

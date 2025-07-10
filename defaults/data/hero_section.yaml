@@ -1,0 +1,20 @@
+data1:
+  titleFr: "Soumettez votre demande facilement"
+  titleEn: "Easily Submit Your Request"
+  descriptionFr: "Connectez-vous et remplissez rapidement un formulaire simple pour lancer votre demande en quelques clics."
+  descriptionEn: "Log in and quickly complete a simple form to submit your request in just a few clicks."
+  bgImage: "hero-bg-5.png"
+
+data2:
+  titleFr: "Suivi et traitement efficace"
+  titleEn: "Efficient Tracking and Processing"
+  descriptionFr: "Votre demande est prise en charge et traitée avec rigueur grâce à notre système automatisé, pour un suivi clair et transparent."
+  descriptionEn: "Your request is carefully handled and processed through our automated system, ensuring clear and transparent tracking."
+  bgImage: "hero-bg-7.png"
+
+data3:
+  titleFr: "Validation et confirmation rapide"
+  titleEn: "Fast Validation and Confirmation"
+  descriptionFr: "Recevez la validation de votre demande avec une confirmation claire, directement dans votre espace personnel ou par e-mail."
+  descriptionEn: "Receive prompt validation of your request with a clear confirmation, directly in your personal space or via email."
+  bgImage: "hero-bg-8.png"

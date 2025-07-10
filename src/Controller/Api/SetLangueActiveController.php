@@ -4,8 +4,10 @@ namespace App\Controller\Api;
 
 use App\Entity\Site;
 use App\Entity\User;
+use App\Entity\Langue;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
+use App\Repository\LangueRepository;
 use App\Controller\Api\UserController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,32 +18,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class SiteSetCurrentController extends AbstractController
+class SetLangueActiveController extends AbstractController
 {
-    public function __invoke(Site $data, SiteRepository $siteRepo, EntityManagerInterface $em): JsonResponse
+    public function __invoke(Langue $data, LangueRepository $langueRepo, EntityManagerInterface $em): JsonResponse
     {
-        $sites = $siteRepo->getAll();
-        if(count($sites) > 0) {
-            foreach($sites as $site) {
-                $site->setIsCurrent(false);
-                $em->persist($site);
+        $langues = $langueRepo->findAll();
+        if(count($langues) > 0) {
+            foreach($langues as $langue) {
+                $langue->setIsActive(false);
+                $em->persist($langue);
             }
         }
 
         if (!$data) {
-            throw new NotFoundHttpException('Site non trouvé.');
+            throw new NotFoundHttpException('Langue non trouvé.');
         }
 
-        $data->setIsCurrent(true);
+        $data->setIsActive(true);
         
         $em->persist($data);
         $em->flush();
 
         return new JsonResponse([
             'id' => $data->getId(),
-            'nom' => $data->getNom(),
-            'isCurrent' => $data->getIsCurrent(),
-            'message' => 'Site selectionné avec succès.',
+            'titleFr' => $data->getTitleFr(),
+            'titleEn' => $data->getTitleEn(),
+            'isActive' => $data->getIsActive(),
+            'icon' => $data->getIcon(),
+            'message' => 'Langue selectionné avec succès.',
         ]);
     }
 }

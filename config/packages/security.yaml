@@ -34,6 +34,10 @@ security:
         - { path: ^/api/swagger, roles: PUBLIC_ACCESS }
         - { path: ^/api/code_couleurs/get-global-active, roles: PUBLIC_ACCESS }
         - { path: ^/api/users/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/hero_sections/liste, roles: PUBLIC_ACCESS }
+        - { path: ^/api/langues/public, roles: PUBLIC_ACCESS }
+        - { path: ^/api/langues/get-is-active, roles: PUBLIC_ACCESS }
+        - { path: ^/api/langues/\d+/set-active, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api$, roles: PUBLIC_ACCESS }       # Autorise juste l'accès à /api
 

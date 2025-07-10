@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Langue;
 use App\Entity\Privilege;
 use App\Entity\CodeCouleur;
+use App\Entity\HeroSection;
 use App\Entity\TypeDemande;
 use App\Entity\DossierAFournir;
 use Symfony\Component\Yaml\Yaml;
@@ -54,6 +56,8 @@ class DefaultsLoader
         $this->CodeCouleur();
         $this->typeDemandes();
         $this->dossiers();
+        $this->heroSections();
+        $this->langues();
         $this->copyFiles();
 
     }
@@ -190,6 +194,44 @@ class DefaultsLoader
                 $dossier->setCreatedAt($date);
 
                 $this->em->persist($dossier);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function heroSections() {
+        $heroSections = Yaml::parseFile('defaults/data/hero_section.yaml');
+
+        foreach ($heroSections as $label => $content) {
+            list($isNew, $hero) = $this->maybeCreate(HeroSection::class, ['label' => $label]);
+            if($isNew){
+                $hero->setTitleFr($content['titleFr']);
+                $hero->setTitleEn($content['titleEn']);
+                $hero->setLabel($label);
+                $hero->setDescriptionFr($content['descriptionFr']);
+                $hero->setDescriptionEn($content['descriptionEn']);
+                $hero->setBgImage($content['bgImage']);
+
+                $this->em->persist($hero);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function langues() {
+        $langues = Yaml::parseFile('defaults/data/langue.yaml');
+
+        foreach ($langues as $label => $content) {
+            list($isNew, $langue) = $this->maybeCreate(Langue::class, ['label' => $label]);
+            if($isNew){
+                $langue->setTitleFr($content['titleFr']);
+                $langue->setTitleEn($content['titleEn']);
+                $langue->setLabel($label);
+                $langue->setIcon($content['icon']);
+                $langue->setIsActive($content['active']);
+                $langue->setIndice($content['indice']);
+
+                $this->em->persist($langue);
                 $this->em->flush();
             }
         }
