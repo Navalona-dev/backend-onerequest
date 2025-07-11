@@ -23,6 +23,8 @@ use App\DataPersister\UserUpdateDataPersister;
 use App\Controller\Api\DemandeByUserController;
 use App\Controller\Api\UserConnectedController;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\Api\GetLangueByUserController;
+use App\Controller\Api\SetLangueByUserController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -74,6 +76,24 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
         new Get(
             normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/users/{email}/get-langue',
+            controller: GetLangueByUserController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer une langue par utilisateur ',
+                    'description' => 'Cette opération récupère une langue par utilisateur .',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
             uriTemplate: '/users/{id}/demandes',
             controller: DemandeByUserController::class,
             read: false, // désactive la lecture automatique d'une entité
@@ -89,7 +109,25 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
                 ]
             ]
         ),
-       
+
+        new Patch(
+            uriTemplate: '/users/{id}/set-langue',
+            controller: SetLangueByUserController::class,
+            read: false,
+            deserialize: false,
+            denormalizationContext: ['groups' => ['user:update']],
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Ajouter langue à un utilisateur',
+                    'description' => 'Cette opération ajout une langue à un utilisateur.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
         new Post( 
             processor: UserAddDataPersister::class,
         ),
@@ -168,6 +206,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
+
+    #[Groups(['user:list', 'user:item', 'langue:list', 'langue:item'])]
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Langue $langue = null;
 
     public function __construct()
     {
@@ -395,6 +437,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdresse(?string $adresse): static
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getLangue(): ?Langue
+    {
+        return $this->langue;
+    }
+
+    public function setLangue(?Langue $langue): static
+    {
+        $this->langue = $langue;
 
         return $this;
     }

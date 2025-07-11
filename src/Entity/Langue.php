@@ -6,13 +6,14 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LangueRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Controller\Api\GetLangueActiveController;
 use App\Controller\Api\GetLanguePublicController;
-use App\Controller\Api\SetLangueActiveController;
 
 #[ORM\Entity(repositoryClass: LangueRepository::class)]
 #[ApiResource(
@@ -57,23 +58,6 @@ use App\Controller\Api\SetLangueActiveController;
         
         new Post(),
         new Patch(),
-        new Patch(
-            uriTemplate: '/langues/{id}/set-active',
-            controller: SetLangueActiveController::class,
-            read: false,
-            deserialize: false,
-            denormalizationContext: ['groups' => ['langue:update']],
-            extraProperties: [
-                'openapi_context' => [
-                    'summary' => 'Rendre une langue activée',
-                    'description' => 'Cette opération rend une langue activée.',
-                    'responses' => [
-                        '200' => ['description' => 'Succès'],
-                        '404' => ['description' => 'Non trouvé']
-                    ]
-                ]
-            ]
-        ),
         new Delete(),
 
         
@@ -110,6 +94,17 @@ class Langue
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['langue:list', 'langue:item'])]
     private ?string $indice = null;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'langue')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -184,6 +179,36 @@ class Langue
     public function setIndice(?string $indice): static
     {
         $this->indice = $indice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setLangue($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getLangue() === $this) {
+                $user->setLangue(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,26 @@
+data1:
+  titleFr: "Créer un compte et se connecter"
+  titleEn: "Create an Account and Sign In"
+  descriptionFr: "Découvrez comment créer un compte et accéder à votre tableau de bord utilisateur en quelques secondes."
+  descriptionEn: "Learn how to create an account and access your user dashboard in just a few seconds."
+  icon: "bi bi-person-plus"
+  video:
+  fichier:
+
+data2:
+  titleFr: "Soumettre une demande"
+  titleEn: "Submit a Request"
+  descriptionFr: "Apprenez à remplir le formulaire de demande, ajouter les détails nécessaires et l’envoyer rapidement à l’équipe concernée."
+  descriptionEn: "Learn how to complete the request form, add the necessary details, and quickly send it to the appropriate team."
+  icon: "bi bi-ui-checks"
+  video:
+  fichier:
+
+data3:
+  titleFr: "Suivre ma demande"
+  titleEn: "Track My Request"
+  descriptionFr: "Découvrez comment consulter l’état de votre demande, voir les mises à jour et recevoir des notifications en temps réel."
+  descriptionEn: "Find out how to check the status of your request, view updates, and receive real-time notifications."
+  icon: "bi bi-clipboard-data"
+  video:
+  fichier:

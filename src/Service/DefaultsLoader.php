@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Langue;
 use App\Entity\Service;
+use App\Entity\Tutoriel;
 use App\Entity\Privilege;
 use App\Entity\CodeCouleur;
 use App\Entity\HeroSection;
@@ -62,6 +63,7 @@ class DefaultsLoader
         $this->langues();
         $this->aboutSections();
         $this->services();
+        $this->tutoriels();
         $this->copyFiles();
 
     }
@@ -274,6 +276,29 @@ class DefaultsLoader
                 $service->setCreatedAt(new \DateTime());
 
                 $this->em->persist($service);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function tutoriels() {
+        $tutoriels = Yaml::parseFile('defaults/data/tutoriel.yaml');
+
+        foreach ($tutoriels as $label => $content) {
+            list($isNew, $tutorien) = $this->maybeCreate(Tutoriel::class, ['label' => $label]);
+            if($isNew){
+                $tutorien->setTitleFr($content['titleFr']);
+                $tutorien->setTitleEn($content['titleEn']);
+                $tutorien->setDescriptionFr($content['descriptionFr']);
+                $tutorien->setDescriptionEn($content['descriptionEn']);
+                $tutorien->setLabel($label);
+                $tutorien->setIcon($content['icon']);
+                $content['video'] ? $tutorien->setVideo($content['video']) : null;
+                $content['fichier'] ? $tutorien->setFichier($content['fichier']) : null;
+                $tutorien->setIsActive(true);
+                $tutorien->setCreatedAt(new \DateTime());
+
+                $this->em->persist($tutorien);
                 $this->em->flush();
             }
         }

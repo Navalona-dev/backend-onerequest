@@ -18,33 +18,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class SetLangueActiveController extends AbstractController
+class GetLangueByUserController extends AbstractController
 {
-    public function __invoke(Langue $data, LangueRepository $langueRepo, EntityManagerInterface $em): JsonResponse
+    public function __invoke(User $data, LangueRepository $langueRepo, EntityManagerInterface $em): JsonResponse
     {
-        $langues = $langueRepo->findAll();
-        if(count($langues) > 0) {
-            foreach($langues as $langue) {
-                $langue->setIsActive(false);
-                $em->persist($langue);
-            }
-        }
 
         if (!$data) {
-            throw new NotFoundHttpException('Langue non trouvé.');
+            throw new NotFoundHttpException('Utilisateur non trouvé.');
         }
 
-        $data->setIsActive(true);
-        
-        $em->persist($data);
-        $em->flush();
+        $langue = $data->getLangue();
 
         return new JsonResponse([
-            'id' => $data->getId(),
-            'titleFr' => $data->getTitleFr(),
-            'titleEn' => $data->getTitleEn(),
-            'isActive' => $data->getIsActive(),
-            'icon' => $data->getIcon(),
+            'id' => $langue->getId(),
+            'titleFr' => $langue->getTitleFr(),
+            'titleEn' => $langue->getTitleEn(),
+            'isActive' => $langue->getIsActive(),
+            'icon' => $langue->getIcon(),
             'message' => 'Langue selectionné avec succès.',
         ]);
     }
