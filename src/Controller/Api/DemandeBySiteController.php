@@ -65,6 +65,7 @@ class DemandeBySiteController extends AbstractController
                 'type' => $type,
                 'demandeur' => $demandeur,
                 'statut' => Demande::STATUT[$demande->getStatut()],
+                'statutEn' => Demande::STATUT_EN[$demande->getStatut()],
                 'fichier' => $baseUrl . $relativePath,
                 
             ];

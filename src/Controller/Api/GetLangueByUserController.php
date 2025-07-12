@@ -35,6 +35,7 @@ class GetLangueByUserController extends AbstractController
             'titleEn' => $langue->getTitleEn(),
             'isActive' => $langue->getIsActive(),
             'icon' => $langue->getIcon(),
+            'indice' => $langue->getIndice(),
             'message' => 'Langue selectionné avec succès.',
         ]);
     }

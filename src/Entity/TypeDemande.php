@@ -120,6 +120,14 @@ class TypeDemande
     #[ORM\ManyToMany(targetEntity: DossierAFournir::class, mappedBy: 'typeDemande')]
     private Collection $dossierAFournirs;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
+    private ?string $nomEn = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
+    private ?string $descriptionEn = null;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
@@ -269,6 +277,30 @@ class TypeDemande
         if ($this->dossierAFournirs->removeElement($dossierAFournir)) {
             $dossierAFournir->removeTypeDemande($this);
         }
+
+        return $this;
+    }
+
+    public function getNomEn(): ?string
+    {
+        return $this->nomEn;
+    }
+
+    public function setNomEn(?string $nomEn): static
+    {
+        $this->nomEn = $nomEn;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(?string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
 
         return $this;
     }

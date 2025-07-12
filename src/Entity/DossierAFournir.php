@@ -53,6 +53,10 @@ class DossierAFournir
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['dossier:list', 'dossier:item'])]
+    private ?string $titleEn = null;
+
     public function __construct()
     {
         $this->typeDemande = new ArrayCollection();
@@ -131,6 +135,18 @@ class DossierAFournir
     public function setLabel(?string $label): static
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getTitleEn(): ?string
+    {
+        return $this->titleEn;
+    }
+
+    public function setTitleEn(?string $titleEn): static
+    {
+        $this->titleEn = $titleEn;
 
         return $this;
     }

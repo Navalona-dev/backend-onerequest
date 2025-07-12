@@ -2,168 +2,232 @@
 data1:
   nom: "Mairie / Collectivités"
   description: "Gestion d’actes d’état civil, demandes citoyennes."
+  nomEn: "Town Hall / Local Authorities"
+  descriptionEn: "Management of civil status records, citizen requests."
   categoryId: 1
 
 data2:
   nom: "Ministères / Services publics"
   description: "Traitement administratif, subventions."
+  nomEn: "Ministries / Public Services"
+  descriptionEn: "Administrative processing, grants."
   categoryId: 1
 
 data3:
   nom: "Organismes sociaux"
   description: "Aides, allocations, démarches sociales."
+  nomEn: "Social Organizations"
+  descriptionEn: "Aid, allowances, social procedures."
   categoryId: 1
 
 # Éducation & Formation (categoryId: 2)
 data4:
   nom: "Écoles / Universités"
   description: "Inscriptions, relevés de notes, certificats."
+  nomEn: "Schools / Universities"
+  descriptionEn: "Registrations, transcripts, certificates."
   categoryId: 2
 
 data5:
   nom: "Centres de formation"
   description: "Programmes, demandes de sessions."
+  nomEn: "Training Centers"
+  descriptionEn: "Programs, session requests."
   categoryId: 2
 
 data6:
   nom: "Instituts de recherche"
   description: "Accès à des projets ou programmes scientifiques."
+  nomEn: "Research Institutes"
+  descriptionEn: "Access to scientific projects or programs."
   categoryId: 2
 
 # Santé & Services Médicaux (categoryId: 3)
 data7:
   nom: "Hôpitaux / Cliniques"
   description: "Rendez-vous, dossiers médicaux."
+  nomEn: "Hospitals / Clinics"
+  descriptionEn: "Appointments, medical records."
   categoryId: 3
 
 data8:
   nom: "Laboratoires d’analyse"
   description: "Résultats d’examens, dépistages."
+  nomEn: "Analysis Laboratories"
+  descriptionEn: "Test results, screenings."
   categoryId: 3
 
 data9:
   nom: "Pharmacies / Mutuelles"
   description: "Demandes de remboursement, ordonnances."
+  nomEn: "Pharmacies / Mutuals"
+  descriptionEn: "Reimbursement requests, prescriptions."
   categoryId: 3
 
 # Entreprises & Services Professionnels (categoryId: 4)
 data10:
   nom: "Agences de communication"
   description: "Briefs, devis, collaboration."
+  nomEn: "Communication Agencies"
+  descriptionEn: "Briefs, quotes, collaboration."
   categoryId: 4
 
 data11:
   nom: "Sociétés de prestation"
   description: "Demande de service, maintenance."
+  nomEn: "Service Companies"
+  descriptionEn: "Service request, maintenance."
   categoryId: 4
 
 data12:
   nom: "Cabinets de conseil"
   description: "Analyse, accompagnement, audits."
+  nomEn: "Consulting Firms"
+  descriptionEn: "Analysis, support, audits."
   categoryId: 4
 
 # Logement & Immobilier (categoryId: 5)
 data13:
   nom: "Agences immobilières"
   description: "Visites, locations, ventes."
+  nomEn: "Real Estate Agencies"
+  descriptionEn: "Visits, rentals, sales."
   categoryId: 5
 
 data14:
   nom: "Bailleurs sociaux"
   description: "Demande de logement, renouvellement."
+  nomEn: "Social Landlords"
+  descriptionEn: "Housing requests, renewals."
   categoryId: 5
 
 data15:
   nom: "Promoteurs immobiliers"
   description: "Accès à des programmes neufs."
+  nomEn: "Real Estate Developers"
+  descriptionEn: "Access to new programs."
   categoryId: 5
 
 # Transport & Mobilité (categoryId: 6)
 data16:
   nom: "Compagnies de transport"
   description: "Réservations, assistance."
+  nomEn: "Transport Companies"
+  descriptionEn: "Bookings, assistance."
   categoryId: 6
 
 data17:
   nom: "Sociétés de livraison"
   description: "Suivi de colis, réclamations."
+  nomEn: "Delivery Companies"
+  descriptionEn: "Parcel tracking, complaints."
   categoryId: 6
 
 data18:
   nom: "Transports publics"
   description: "Cartes, horaires, signalement."
+  nomEn: "Public Transport"
+  descriptionEn: "Cards, schedules, reporting."
   categoryId: 6
 
 # Associatif & Humanitaire (categoryId: 7)
 data19:
   nom: "ONG / Associations"
   description: "Aide sociale, dons, missions."
+  nomEn: "NGOs / Associations"
+  descriptionEn: "Social aid, donations, missions."
   categoryId: 7
 
 data20:
   nom: "Fondations"
   description: "Soutien aux projets, mécénat."
+  nomEn: "Foundations"
+  descriptionEn: "Project support, sponsorship."
   categoryId: 7
 
 data21:
   nom: "Groupes communautaires"
   description: "Participation, adhésion."
+  nomEn: "Community Groups"
+  descriptionEn: "Participation, membership."
   categoryId: 7
 
 # Numérique & Technologie (categoryId: 8)
 data22:
   nom: "Développeurs / Freelances IT"
   description: "Projets, prestations techniques."
+  nomEn: "Developers / IT Freelancers"
+  descriptionEn: "Projects, technical services."
   categoryId: 8
 
 data23:
   nom: "Sociétés de logiciels"
   description: "Support technique, licences."
+  nomEn: "Software Companies"
+  descriptionEn: "Technical support, licenses."
   categoryId: 8
 
 data24:
   nom: "Hébergeurs web"
   description: "Services d’hébergement, sécurité."
+  nomEn: "Web Hosts"
+  descriptionEn: "Hosting services, security."
   categoryId: 8
 
 # Loisirs & Divertissement (categoryId: 9)
 data25:
   nom: "Tourisme"
   description: "Activités de voyage, hébergement, excursions."
+  nomEn: "Tourism"
+  descriptionEn: "Travel activities, lodging, excursions."
   categoryId: 9
 
 data26:
   nom: "Agence de voyage"
   description: "Organisation de séjours, réservations, forfaits touristiques."
+  nomEn: "Travel Agency"
+  descriptionEn: "Trip planning, bookings, tour packages."
   categoryId: 9
 
 data27:
   nom: "Événementiel"
   description: "Organisation d’événements (mariages, séminaires, concerts…)."
+  nomEn: "Event Planning"
+  descriptionEn: "Event organization (weddings, seminars, concerts…)."
   categoryId: 9
 
 data28:
   nom: "Salle de sport"
   description: "Espace de remise en forme."
+  nomEn: "Gym"
+  descriptionEn: "Fitness space."
   categoryId: 9
 
 data29:
   nom: "Cinéma / Théâtre"
   description: "Diffusion ou représentation d’œuvres culturelles."
+  nomEn: "Cinema / Theater"
+  descriptionEn: "Screening or performance of cultural works."
   categoryId: 9
 
 # Juridique & Financier (categoryId: 10)
 data30:
   nom: "Banques"
   description: "Demandes de crédit, ouverture de compte."
+  nomEn: "Banks"
+  descriptionEn: "Loan applications, account opening."
   categoryId: 10
 
 data31:
   nom: "Assurances"
   description: "Souscription, sinistres, remboursements."
+  nomEn: "Insurance Companies"
+  descriptionEn: "Subscription, claims, reimbursements."
   categoryId: 10
 
 data32:
   nom: "Cabinets juridiques"
   description: "Assistance, rédaction d’actes, conseils."
+  nomEn: "Law Firms"
+  descriptionEn: "Assistance, drafting of documents, legal advice."
   categoryId: 10

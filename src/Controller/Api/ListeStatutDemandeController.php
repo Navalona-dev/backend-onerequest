@@ -14,7 +14,10 @@ class ListeStatutDemandeController extends AbstractController
 {
     public function __invoke(): JsonResponse
     {
-        $statutTab = Demande::STATUT;
+        $statutTab = [
+            'statut' => Demande::STATUT,
+            'statutEn' => Demande::STATUT_EN
+        ];
 
         return new JsonResponse($statutTab);
     }

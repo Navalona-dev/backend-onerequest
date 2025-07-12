@@ -1,39 +1,59 @@
 data1:
   nom: "Secteur Public & Institutions"
+  nomEn: "Public Sector & Institutions"
   description: "Comprend les administrations publiques, collectivités locales et services étatiques qui traitent les demandes citoyennes, délivrent des documents officiels ou gèrent les politiques publiques."
+  descriptionEn: "Includes public administrations, local authorities, and state services that handle citizen requests, issue official documents, or manage public policies."
 
 data2:
   nom: "Éducation & Formation"
+  nomEn: "Education & Training"
   description: "Couvre les établissements d’enseignement et organismes de formation qui facilitent l’apprentissage, l’acquisition de compétences et la recherche académique."
+  descriptionEn: "Covers educational institutions and training organizations that facilitate learning, skill development, and academic research."
 
 data3:
   nom: "Santé & Services Médicaux"
+  nomEn: "Health & Medical Services"
   description: "Inclut les structures de soins, les laboratoires et les professionnels de santé chargés du bien-être, du diagnostic, du traitement et du suivi des patients."
+  descriptionEn: "Includes healthcare facilities, laboratories, and medical professionals responsible for patient well-being, diagnosis, treatment, and follow-up."
 
 data4:
   nom: "Entreprises & Services Professionnels"
+  nomEn: "Businesses & Professional Services"
   description: "Regroupe les sociétés offrant des prestations aux particuliers ou aux entreprises : consulting, maintenance, prestations intellectuelles, etc."
+  descriptionEn: "Includes companies offering services to individuals or businesses: consulting, maintenance, intellectual services, etc."
 
 data5:
   nom: "Logement & Immobilier"
+  nomEn: "Housing & Real Estate"
   description: "Couvre les acteurs de la vente, location, gestion ou construction de biens immobiliers, incluant agences, promoteurs, bailleurs sociaux, etc."
+  descriptionEn: "Covers stakeholders in the sale, rental, management, or construction of real estate, including agencies, developers, and social landlords."
 
 data6:
   nom: "Transport & Mobilité"
+  nomEn: "Transport & Mobility"
   description: "Rassemble les entreprises qui assurent le déplacement de personnes ou de marchandises, la logistique urbaine ou interrégionale."
+  descriptionEn: "Includes companies responsible for transporting people or goods, urban logistics, or interregional mobility."
 
 data7:
   nom: "Associatif & Humanitaire"
+  nomEn: "Non-Profit & Humanitarian"
   description: "Comprend les organisations à but non lucratif engagées dans l’aide sociale, le bénévolat, la solidarité, ou la défense de causes humanitaires ou environnementales."
+  descriptionEn: "Includes non-profit organizations involved in social assistance, volunteering, solidarity, or advocacy for humanitarian or environmental causes."
 
 data8:
   nom: "Numérique & Technologie"
+  nomEn: "Digital & Technology"
   description: "Couvre les entreprises technologiques et informatiques qui développent des logiciels, plateformes numériques, hébergements ou services IT."
+  descriptionEn: "Covers tech and IT companies that develop software, digital platforms, hosting services, or IT solutions."
 
 data9:
   nom: "Loisirs & Divertissement"
+  nomEn: "Leisure & Entertainment"
   description: "Rassemble les activités culturelles, touristiques, sportives ou événementielles visant à divertir ou enrichir l’expérience personnelle."
+  descriptionEn: "Includes cultural, tourism, sports, or event activities aimed at entertaining or enriching personal experiences."
 
 data10:
   nom: "Juridique & Financier"
+  nomEn: "Legal & Financial"
   description: "Inclut les professions réglementées comme les avocats, notaires, cabinets de conseil, ainsi que les banques, assurances et organismes financiers."
+  descriptionEn: "Includes regulated professions such as lawyers, notaries, consulting firms, as well as banks, insurance companies, and financial institutions."

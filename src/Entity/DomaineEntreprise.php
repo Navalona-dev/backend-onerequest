@@ -85,6 +85,14 @@ class DomaineEntreprise
     #[ORM\OneToMany(targetEntity: TypeDemande::class, mappedBy: 'domaine')]
     private Collection $typeDemandes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item', 'type_demande:list', 'type_demande:item'])]
+    private ?string $libelleEn = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['domaine_entreprise:list', 'domaine_entreprise:item'])]
+    private ?string $descriptionEn = null;
+
     public function __construct()
     {
         $this->entreprise = new ArrayCollection();
@@ -219,6 +227,30 @@ class DomaineEntreprise
                 $typeDemande->setDomaine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLibelleEn(): ?string
+    {
+        return $this->libelleEn;
+    }
+
+    public function setLibelleEn(?string $libelleEn): static
+    {
+        $this->libelleEn = $libelleEn;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(?string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
 
         return $this;
     }

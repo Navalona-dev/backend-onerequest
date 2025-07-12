@@ -27,6 +27,7 @@ class DomaineEntrepriseByCategorieController extends AbstractController
             $domaineTab[] = [
                 'id' => $domaine->getId(),
                 'libelle' => $domaine->getLibelle(),
+                'libelleEn' => $domaine->getLibelleEn(),
                 'description' => $domaine->getDescription(),
                 'categorie' => [
                     'id' => $domaine->getCategorieDomaineEntreprise()->getId(),

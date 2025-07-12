@@ -66,6 +66,7 @@ class DemandeByUserController extends AbstractController
                 $typeData = [
                     'id' => $demande->getType()->getId(),
                     'nom' => $demande->getType()->getNom(),
+                    'nomEn' => $demande->getType()->getNomEn()
                 ];
             }
 
@@ -85,7 +86,8 @@ class DemandeByUserController extends AbstractController
                 'objet' => $demande->getObjet(),
                 'contenu' => $demande->getContenu(),
                 'fichier' => $baseUrl . $relativePath,
-                'statut' => Demande::STATUT[$demande->getStatut()]
+                'statut' => Demande::STATUT[$demande->getStatut()],
+                'statutEn' => Demande::STATUT_EN[$demande->getStatut()],
             ];
         }
 

@@ -70,6 +70,22 @@ class Demande
         12 => "Clôturée",
     ];
 
+    const STATUT_EN = [
+        1 => "Pending",
+        2 => "In progress",
+        3 => "Cancelled",
+        4 => "Rejected",
+        5 => "Validated",
+        6 => "Accepted",
+        7 => "Draft",
+        8 => "Submitted",
+        9 => "Completed",
+        10 => "On hold",
+        11 => "Error",
+        12 => "Closed",
+    ];
+    
+
     #[Groups(['demande:list', 'demande:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -29,7 +29,6 @@ class GetLangueActiveController extends AbstractController
             'titleEn' => $langue->getTitleEn(),
             'icon' => $langue->getIcon(),
             'indice' => $langue->getIndice(),
-            
         ];
 
         return new JsonResponse($langueTab);

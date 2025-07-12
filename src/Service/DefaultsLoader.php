@@ -75,8 +75,10 @@ class DefaultsLoader
             list($isNew, $category) = $this->maybeCreate(CategorieDomaineEntreprise::class, ['label' => $label]);
             if($isNew){
                 $category->setNom($content['nom']);
+                $category->setNomEn($content['nomEn']);
                 $category->setLabel($label);
                 $category->setDescription($content['description']);
+                $category->setDescriptionEn($content['descriptionEn']);
                 $date = new \datetime();
                 $category->setCreatedAt($date);
 
@@ -93,8 +95,10 @@ class DefaultsLoader
             list($isNew, $domaine) = $this->maybeCreate(DomaineEntreprise::class, ['label' => $label]);
             if($isNew){
                 $domaine->setLibelle($content['nom']);
+                $domaine->setLibelleEn($content['nomEn']);
                 $domaine->setLabel($label);
                 $domaine->setDescription($content['description']);
+                $domaine->setDescriptionEn($content['descriptionEn']);
                 $categoryId = $content['categoryId'];
                 $category = $this->categorieDomaineRepo->findOneBy(['id' => $categoryId]);
                 $domaine->setCategorieDomaineEntreprise($category);
@@ -163,8 +167,10 @@ class DefaultsLoader
                 $domaine = $this->domaineEntrepriseRepo->findOneBy(['id' => $domaineId]);
 
                 $type->setNom($content['nom']);
+                $type->setNomEn($content['nomEn']);
                 $type->setLabel($label);
                 $type->setDescription($content['description']);
+                $type->setDescriptionEn($content['descriptionEn']);
                 $date = new \datetime();
                 $type->setCreatedAt($date);
                 $type->setDomaine($domaine);
@@ -195,6 +201,7 @@ class DefaultsLoader
                 }
 
                 $dossier->setTitle($content['title']);
+                $dossier->setTitleEn($content['titleEn']);
                 $dossier->setLabel($label);
                 $date = new \datetime();
                 $dossier->setCreatedAt($date);

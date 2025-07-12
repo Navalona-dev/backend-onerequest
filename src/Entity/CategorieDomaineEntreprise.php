@@ -95,6 +95,14 @@ class CategorieDomaineEntreprise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
+    private ?string $nomEn = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
+    private ?string $descriptionEn = null;
+
     public function __construct()
     {
         $this->domaines = new ArrayCollection();
@@ -191,6 +199,30 @@ class CategorieDomaineEntreprise
     public function setLabel(?string $label): static
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getNomEn(): ?string
+    {
+        return $this->nomEn;
+    }
+
+    public function setNomEn(?string $nomEn): static
+    {
+        $this->nomEn = $nomEn;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(?string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
 
         return $this;
     }

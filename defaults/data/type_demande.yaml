@@ -1,614 +1,861 @@
 data1:
   nom: "Demande d’acte de naissance/mariage"
+  nomEn: "Request for birth/marriage certificate"
   description: "Demande officielle d’un document d’état civil."
+  descriptionEn: "Official request for a civil status document."
   domaineId: 1
 
 data2:
   nom: "Demande de certificat de résidence"
+  nomEn: "Request for certificate of residence"
   description: "Justificatif de domicile auprès de la collectivité."
+  descriptionEn: "Proof of residence submitted to the local authority."
   domaineId: 1
-  
+
 data3:
   nom: "Déclaration de travaux"
+  nomEn: "Work declaration"
   description: "Demande de permission de construire ou rénover."
+  descriptionEn: "Request for permission to build or renovate."
   domaineId: 1
-  
+
 data4:
   nom: "Demande de subvention"
+  nomEn: "Grant application"
   description: "Aide financière pour un projet ou une structure."
+  descriptionEn: "Financial support request for a project or organization."
   domaineId: 2
-  
+
 data5:
   nom: "Dépôt de dossier administratif"
+  nomEn: "Submission of administrative file"
   description: "Transmission de documents pour étude ou validation."
+  descriptionEn: "Submission of documents for review or approval."
   domaineId: 2
-  
+
 data6:
   nom: "Requête d’information publique"
+  nomEn: "Request for public information"
   description: "Demande d’accès à des informations détenues par une administration ou une institution publique."
+  descriptionEn: "Request for access to information held by a public administration or institution."
   domaineId: 2
 
 data7:
   nom: "Suivi de dossier citoyen"
+  nomEn: "Citizen file tracking"
   description: "Consultation de l’état d’avancement d’un dossier soumis auprès d’un service public."
+  descriptionEn: "Check the progress of a file submitted to a public service."
   domaineId: 2
 
 data8:
   nom: "Demande d’aide sociale"
+  nomEn: "Social assistance request"
   description: "Soumission d’une demande pour bénéficier d’un soutien financier, matériel ou moral."
+  descriptionEn: "Submit a request to receive financial, material, or moral support."
   domaineId: 3
 
 data9:
   nom: "Dépôt de dossier de retraite"
+  nomEn: "Pension application submission"
   description: "Transmission des pièces nécessaires pour initier ou mettre à jour un dossier de retraite."
+  descriptionEn: "Submission of required documents to start or update a retirement file."
   domaineId: 3
 
 data10:
   nom: "Renouvellement de droits"
+  nomEn: "Renewal of rights"
   description: "Demande de prolongation ou de réactivation de droits sociaux ou médicaux."
+  descriptionEn: "Request to extend or reactivate social or medical rights."
   domaineId: 3
 
 data11:
   nom: "Demande d’inscription"
+  nomEn: "Enrollment request"
   description: "Inscription à une formation, un établissement ou un programme académique."
+  descriptionEn: "Enrollment in a training program, institution, or academic program."
   domaineId: 4
 
 data12:
   nom: "Relevé de notes"
+  nomEn: "Transcript"
   description: "Obtention ou consultation des résultats académiques d’un élève ou étudiant."
+  descriptionEn: "Access or request for academic results of a student."
   domaineId: 4
 
 data13:
   nom: "Demande de certificat de scolarité"
+  nomEn: "School attendance certificate request"
   description: "Obtention d’un document attestant la fréquentation d’un établissement scolaire."
+  descriptionEn: "Request for a document confirming school attendance."
   domaineId: 4
 
 data14:
   nom: "Candidature à un programme"
+  nomEn: "Application to a program"
   description: "Soumission d’un dossier de candidature pour intégrer un cursus ou une session de formation."
+  descriptionEn: "Submission of an application file to join a course or training session."
   domaineId: 4
 
 data15:
   nom: "Demande de diplôme"
+  nomEn: "Diploma request"
   description: "Obtention du document officiel attestant la réussite à un cycle de formation."
+  descriptionEn: "Request for the official document certifying the successful completion of a training program."
   domaineId: 4
-  
+
 data16:
   nom: "Demande de session de formation"
+  nomEn: "Training session request"
   description: "Demande pour assister à une session ou un module de formation programmé."
+  descriptionEn: "Request to attend a scheduled training session or module."
   domaineId: 5
 
 data17:
   nom: "Demande de devis de formation"
+  nomEn: "Training quote request"
   description: "Demande d’évaluation financière pour une formation spécifique."
+  descriptionEn: "Request for a cost estimate for a specific training program."
   domaineId: 5
 
 data18:
   nom: "Validation des acquis"
+  nomEn: "Recognition of prior learning"
   description: "Procédure visant à faire reconnaître officiellement des compétences acquises par l’expérience."
+  descriptionEn: "Procedure to officially recognize skills acquired through experience."
   domaineId: 5
 
 data18b:
   nom: "Inscription à un atelier"
+  nomEn: "Workshop registration"
   description: "Participation à une session pratique ou thématique organisée dans le cadre d’une formation ou d’un événement."
+  descriptionEn: "Participation in a hands-on or thematic session held during a training or event."
   domaineId: 5
 
 data19:
   nom: "Accès à une publication"
+  nomEn: "Access to a publication"
   description: "Demande d’obtention ou de consultation d’un article scientifique ou d’un rapport de recherche."
+  descriptionEn: "Request to obtain or consult a scientific article or research report."
   domaineId: 6
 
 data20:
   nom: "Demande de participation à un projet"
+  nomEn: "Project participation request"
   description: "Candidature ou demande d’intégration à un projet de recherche ou d’innovation."
+  descriptionEn: "Application or request to join a research or innovation project."
   domaineId: 6
 
 data21:
   nom: "Soumission de candidature de recherche"
+  nomEn: "Research proposal submission"
   description: "Proposition formelle d’un sujet de recherche ou d’un projet scientifique à valider par une institution."
+  descriptionEn: "Formal submission of a research topic or scientific project for institutional approval."
   domaineId: 6
 
 data22:
   nom: "Collaboration scientifique"
+  nomEn: "Scientific collaboration"
   description: "Proposition de partenariat pour mener des recherches conjointes ou échanger des expertises scientifiques."
+  descriptionEn: "Proposal for partnership to conduct joint research or share scientific expertise."
   domaineId: 6
 
 data23:
   nom: "Accès au dossier médical"
+  nomEn: "Access to medical records"
   description: "Demande de consultation ou de téléchargement des informations médicales personnelles."
+  descriptionEn: "Request to view or download personal medical information."
   domaineId: 7
 
 data24:
   nom: "Demande de bulletin d’hospitalisation"
+  nomEn: "Hospitalization report request"
   description: "Obtention d’un justificatif d’hospitalisation pour usage administratif ou personnel."
+  descriptionEn: "Request for a hospitalization certificate for administrative or personal use."
   domaineId: 7
 
 data25:
   nom: "Téléconsultation"
+  nomEn: "Teleconsultation"
   description: "Prise de rendez-vous ou réalisation d’une consultation médicale à distance via des outils numériques."
+  descriptionEn: "Scheduling or conducting a remote medical consultation using digital tools."
   domaineId: 7
 
 data26:
   nom: "Demande de résultats d’analyse"
+  nomEn: "Test results request"
   description: "Accès ou retrait des résultats d’un examen médical ou biologique."
+  descriptionEn: "Access or retrieval of medical or biological test results."
   domaineId: 8
 
 data27:
   nom: "Suivi de test PCR / sanguin"
+  nomEn: "PCR / blood test tracking"
   description: "Consultation de l’état ou du résultat d’un test PCR ou d’une analyse sanguine."
+  descriptionEn: "Check the status or result of a PCR or blood test."
   domaineId: 8
 
 data28:
   nom: "Réclamation sur un résultat"
+  nomEn: "Result dispute"
   description: "Signalement d’une erreur ou demande de vérification d’un résultat d’analyse."
+  descriptionEn: "Report of an error or request to verify a test result."
   domaineId: 8
 
 data29:
   nom: "Demande de remboursement"
+  nomEn: "Reimbursement request"
   description: "Soumission d’une demande de remboursement pour des frais médicaux ou pharmaceutiques."
+  descriptionEn: "Submission of a reimbursement request for medical or pharmaceutical expenses."
   domaineId: 9
 
 data30:
   nom: "Vérification de couverture santé"
+  nomEn: "Health coverage verification"
   description: "Vérification des garanties et services pris en charge par la mutuelle ou l’assurance santé."
+  descriptionEn: "Verification of the services and guarantees covered by health insurance or a mutual fund."
   domaineId: 9
 
 data31:
   nom: "Téléchargement d’ordonnance"
+  nomEn: "Prescription download"
   description: "Accès ou génération d’une ordonnance médicale sous format numérique."
+  descriptionEn: "Access or generate a medical prescription in digital format."
   domaineId: 9
 
 data32:
   nom: "Demande de devis"
+  nomEn: "Quotation request"
   description: "Obtention d’un chiffrage estimatif pour un service ou une prestation."
+  descriptionEn: "Request for a cost estimate for a service or performance."
   domaineId: 10
 
 data33:
   nom: "Proposition de projet"
+  nomEn: "Project proposal"
   description: "Présentation d’un projet ou d’une idée dans le cadre d’une collaboration ou d’une mission."
+  descriptionEn: "Presentation of a project or idea as part of a collaboration or assignment."
   domaineId: 10
 
 data34:
   nom: "Brief de campagne"
+  nomEn: "Campaign brief"
   description: "Soumission d’un cahier des charges ou d’une orientation stratégique pour une campagne de communication."
+  descriptionEn: "Submission of a specification or strategic guideline for a communication campaign."
   domaineId: 10
 
 data35:
   nom: "Révision de maquette"
+  nomEn: "Mock-up revision"
   description: "Demande de modification ou validation d’un prototype visuel ou d’un support de communication."
+  descriptionEn: "Request to modify or validate a visual prototype or communication medium."
   domaineId: 10
 
 data36:
   nom: "Demande d’intervention"
+  nomEn: "Intervention request"
   description: "Demande de déplacement d’un technicien ou d’un professionnel pour une prestation technique."
+  descriptionEn: "Request for a technician or professional to intervene for a technical service."
   domaineId: 11
 
 data37:
   nom: "Demande de support"
+  nomEn: "Support request"
   description: "Assistance technique ou fonctionnelle concernant un service ou un produit."
+  descriptionEn: "Technical or functional support regarding a service or product."
   domaineId: 11
 
 data38:
   nom: "Demande de maintenance"
+  nomEn: "Maintenance request"
   description: "Entretien préventif ou curatif d’un équipement, matériel ou infrastructure."
+  descriptionEn: "Preventive or corrective maintenance of equipment, materials, or infrastructure."
   domaineId: 11
 
 data39:
   nom: "Suivi de ticket"
+  nomEn: "Ticket tracking"
   description: "Consultation de l’état d’avancement d’une demande ou incident technique signalé."
+  descriptionEn: "Check the progress status of a request or reported technical issue."
   domaineId: 11
 
 data40:
   nom: "Demande de diagnostic"
+  nomEn: "Diagnostic request"
   description: "Analyse préalable d’une situation ou d’un besoin pour évaluer les axes d’amélioration."
+  descriptionEn: "Preliminary analysis of a situation or need to assess areas for improvement."
   domaineId: 12
 
 data41:
   nom: "Audit organisationnel"
+  nomEn: "Organizational audit"
   description: "Évaluation des processus internes d’une organisation afin d’optimiser son fonctionnement."
+  descriptionEn: "Assessment of an organization's internal processes to optimize its operations."
   domaineId: 12
 
 data42:
   nom: "Proposition d'accompagnement"
+  nomEn: "Support proposal"
   description: "Soumission d’un plan de suivi ou d’un soutien personnalisé pour un projet ou une organisation."
+  descriptionEn: "Submission of a follow-up plan or personalized support for a project or organization."
   domaineId: 12
 
 data43:
   nom: "Simulation de coûts"
+  nomEn: "Cost simulation"
   description: "Évaluation estimative des coûts liés à un service ou une prestation."
+  descriptionEn: "Estimated cost evaluation for a service or offering."
   domaineId: 12
 
 data44:
   nom: "Demande de visite"
+  nomEn: "Visit request"
   description: "Planification d’une visite d’un bien immobilier pour location ou achat."
+  descriptionEn: "Scheduling a visit to a property for rental or purchase."
   domaineId: 13
 
 data45:
   nom: "Dépôt de dossier locatif"
+  nomEn: "Rental application submission"
   description: "Transmission des documents requis pour postuler à la location d’un logement."
+  descriptionEn: "Submission of required documents to apply for housing rental."
   domaineId: 13
 
 data46:
   nom: "Estimation d’un bien"
+  nomEn: "Property valuation"
   description: "Demande d’évaluation de la valeur d’un bien immobilier."
+  descriptionEn: "Request for an estimate of a property's value."
   domaineId: 13
 
 data47:
   nom: "Consultation d’annonce"
+  nomEn: "Listing consultation"
   description: "Accès aux annonces de biens disponibles à la vente ou à la location."
+  descriptionEn: "Access to listings of properties available for sale or rent."
   domaineId: 13
 
 data48:
   nom: "Demande de logement social"
+  nomEn: "Social housing application"
   description: "Soumission d’une demande pour bénéficier d’un logement à loyer modéré."
+  descriptionEn: "Application for access to subsidized housing."
   domaineId: 14
 
 data49:
   nom: "Suivi de dossier locatif"
+  nomEn: "Rental application tracking"
   description: "Consultation de l’état d’avancement d’un dossier de demande de logement."
+  descriptionEn: "Check the progress of a housing application file."
   domaineId: 14
 
 data50:
   nom: "Réclamation technique"
+  nomEn: "Technical complaint"
   description: "Signalement d’un problème technique ou besoin d’intervention dans un logement."
+  descriptionEn: "Report of a technical issue or request for maintenance in a housing unit."
   domaineId: 14
 
 data51:
   nom: "Renouvellement de bail"
+  nomEn: "Lease renewal"
   description: "Demande de prolongation ou renouvellement du contrat de location."
+  descriptionEn: "Request to extend or renew a rental agreement."
   domaineId: 14
 
 data52:
   nom: "Demande d’information programme neuf"
+  nomEn: "New development inquiry"
   description: "Obtention de détails sur un projet immobilier en cours de commercialisation."
+  descriptionEn: "Request for details about a real estate project currently being marketed."
   domaineId: 15
 
 data53:
   nom: "Visite virtuelle"
+  nomEn: "Virtual tour"
   description: "Accès à une présentation interactive d’un bien immobilier à distance."
+  descriptionEn: "Access to an interactive remote presentation of a property."
   domaineId: 15
 
 data54:
   nom: "Réservation d’un bien"
+  nomEn: "Property reservation"
   description: "Blocage d’un lot ou d’un logement dans un programme immobilier en vue d’un achat."
+  descriptionEn: "Reserving a unit or property in a real estate development for purchase."
   domaineId: 15
 
 data55:
   nom: "Simulation de financement"
+  nomEn: "Financing simulation"
   description: "Estimation des mensualités ou capacités d’emprunt pour un projet immobilier."
+  descriptionEn: "Estimate of monthly payments or borrowing capacity for a real estate project."
   domaineId: 15
 
 data56:
   nom: "Réservation de billet"
+  nomEn: "Ticket reservation"
   description: "Achat ou réservation préalable d’un billet de transport (bus, avion, train, etc.)."
+  descriptionEn: "Purchase or prior reservation of a transportation ticket (bus, plane, train, etc.)."
   domaineId: 16
 
 data57:
   nom: "Réclamation sur un trajet"
+  nomEn: "Trip complaint"
   description: "Signalement d’un problème ou d’un désagrément rencontré lors d’un trajet."
+  descriptionEn: "Report of a problem or inconvenience encountered during a trip."
   domaineId: 16
 
 data58:
   nom: "Demande d’assistance"
+  nomEn: "Request for assistance"
   description: "Demande d’aide ou d’intervention lors d’un incident en déplacement."
+  descriptionEn: "Request for help or intervention during a travel-related incident."
   domaineId: 16
 
 data59:
   nom: "Suivi d’itinéraire"
+  nomEn: "Route tracking"
   description: "Consultation en temps réel ou planifiée d’un trajet ou d’un transport."
+  descriptionEn: "Real-time or scheduled consultation of a route or transport itinerary."
   domaineId: 16
 
 data60:
   nom: "Suivi de colis"
+  nomEn: "Parcel tracking"
   description: "Consultation de la position ou du statut d’un colis en cours de livraison."
+  descriptionEn: "Tracking the location or status of a package in transit."
   domaineId: 17
 
 data61:
   nom: "Déclaration de perte"
+  nomEn: "Loss declaration"
   description: "Notification officielle d’un colis ou d’un objet perdu durant l’acheminement."
+  descriptionEn: "Official notification of a lost package or item during transit."
   domaineId: 17
 
 data62:
   nom: "Demande de réexpédition"
+  nomEn: "Reshipment request"
   description: "Instruction pour envoyer à nouveau un colis ou courrier non livré."
+  descriptionEn: "Instruction to resend an undelivered package or mail."
   domaineId: 17
 
 data63:
   nom: "Réclamation qualité"
+  nomEn: "Quality complaint"
   description: "Signalement concernant la mauvaise qualité du service ou de la livraison."
+  descriptionEn: "Report regarding poor quality of service or delivery."
   domaineId: 17
 
 data64:
   nom: "Demande de carte d’abonnement"
+  nomEn: "Subscription card request"
   description: "Souscription ou renouvellement d’une carte pour accéder à des services de transport récurrents."
+  descriptionEn: "Subscription or renewal of a card to access recurring transport services."
   domaineId: 18
 
 data65:
   nom: "Signalement de problème"
+  nomEn: "Problem report"
   description: "Transmission d’un incident technique ou logistique rencontré lors de l’utilisation des transports."
+  descriptionEn: "Reporting a technical or logistical issue encountered during transport usage."
   domaineId: 18
 
 data66:
   nom: "Consultation des horaires"
+  nomEn: "Schedule consultation"
   description: "Recherche d’horaires ou de fréquences des lignes de transport public."
+  descriptionEn: "Search for public transport line schedules or frequencies."
   domaineId: 18
 
 data67:
   nom: "Perte d’objet"
+  nomEn: "Lost item"
   description: "Déclaration d’un objet personnel égaré à bord d’un moyen de transport."
+  descriptionEn: "Declaration of a personal item lost on board a means of transport."
   domaineId: 18
 
 data68:
   nom: "Demande d’adhésion"
+  nomEn: "Membership application"
   description: "Soumission d’une demande pour rejoindre une association ou organisation à but non lucratif."
+  descriptionEn: "Submission of an application to join a non-profit association or organization."
   domaineId: 19
 
 data69:
   nom: "Proposition de bénévolat"
+  nomEn: "Volunteer offer"
   description: "Offre de participation à des actions ou événements en tant que bénévole."
+  descriptionEn: "Offer to participate in activities or events as a volunteer."
   domaineId: 19
 
 data70:
   nom: "Don en ligne"
+  nomEn: "Online donation"
   description: "Contribution financière effectuée via une plateforme sécurisée au profit d'une cause."
+  descriptionEn: "Financial contribution made via a secure platform for a cause."
   domaineId: 19
 
 data71:
   nom: "Demande d'information"
+  nomEn: "Information request"
   description: "Demande de précisions ou de documentation sur les actions ou projets associatifs."
+  descriptionEn: "Request for details or documentation about associative actions or projects."
   domaineId: 19
 
 data72:
   nom: "Demande de mécénat"
+  nomEn: "Sponsorship request"
   description: "Sollicitation de soutien financier ou matériel auprès d’une fondation ou entreprise mécène."
+  descriptionEn: "Request for financial or material support from a foundation or sponsoring company."
   domaineId: 20
 
 data73:
   nom: "Proposition de projet soutenu"
+  nomEn: "Supported project proposal"
   description: "Soumission d’un projet en vue d’un accompagnement ou financement par une fondation."
+  descriptionEn: "Submission of a project seeking support or funding from a foundation."
   domaineId: 20
 
 data74:
   nom: "Candidature à un appel à projets"
+  nomEn: "Call for projects application"
   description: "Participation à un appel à projets lancé par une fondation ou organisme."
+  descriptionEn: "Participation in a call for projects launched by a foundation or organization."
   domaineId: 20
 
 data75:
   nom: "Rapport d’utilisation de fonds"
+  nomEn: "Funds usage report"
   description: "Présentation détaillée de l’utilisation des subventions ou fonds reçus."
+  descriptionEn: "Detailed presentation of the use of grants or funds received."
   domaineId: 20
 
 data76:
   nom: "Adhésion à un groupe local"
+  nomEn: "Local group membership"
   description: "Demande pour rejoindre un collectif ou communauté active dans une zone géographique."
+  descriptionEn: "Request to join a collective or active community in a geographical area."
   domaineId: 21
 
 data77:
   nom: "Proposition d’événement"
+  nomEn: "Event proposal"
   description: "Soumission d’une idée ou d’un plan pour organiser un événement communautaire."
+  descriptionEn: "Submission of an idea or plan to organize a community event."
   domaineId: 21
 
 data78:
   nom: "Signalement d’un problème local"
+  nomEn: "Local issue report"
   description: "Déclaration d’une situation à résoudre dans un quartier ou une collectivité."
+  descriptionEn: "Report of a situation to be resolved in a neighborhood or community."
   domaineId: 21
 
 data79:
   nom: "Consultation citoyenne"
+  nomEn: "Citizen consultation"
   description: "Participation ou demande de participation à une initiative de concertation publique."
+  descriptionEn: "Participation or request to participate in a public consultation initiative."
   domaineId: 21
 
 data80:
   nom: "Proposition de mission"
+  nomEn: "Mission proposal"
   description: "Soumission d’un projet ou mission à réaliser dans le cadre d’un service informatique."
+  descriptionEn: "Submission of a project or mission to be carried out within an IT service."
   domaineId: 22
 
 data81:
   nom: "Demande de devis"
+  nomEn: "Quotation request"
   description: "Demande de tarification estimative pour une prestation technique ou de développement."
+  descriptionEn: "Request for an estimated cost for a technical or development service."
   domaineId: 22
 
 data82:
   nom: "Suivi de projet"
+  nomEn: "Project tracking"
   description: "Consultation de l’avancement et des étapes réalisées dans un projet IT."
+  descriptionEn: "Monitoring of progress and completed milestones in an IT project."
   domaineId: 22
 
 data83:
   nom: "Maintenance technique"
+  nomEn: "Technical maintenance"
   description: "Demande d’intervention pour corriger ou optimiser une solution logicielle ou système."
+  descriptionEn: "Request for intervention to fix or optimize a software or system solution."
   domaineId: 22
 
 data84:
   nom: "Demande de support technique"
+  nomEn: "Technical support request"
   description: "Assistance demandée en cas de dysfonctionnement ou de besoin d’aide technique."
+  descriptionEn: "Requested assistance in case of malfunction or technical help."
   domaineId: 23
 
 data85:
   nom: "Activation de licence"
+  nomEn: "License activation"
   description: "Procédure pour activer un produit logiciel via une clé de licence fournie."
+  descriptionEn: "Procedure to activate a software product using a provided license key."
   domaineId: 23
 
 data86:
   nom: "Suivi de bug"
+  nomEn: "Bug tracking"
   description: "Consultation de l’état d’un signalement d’anomalie dans un logiciel."
+  descriptionEn: "Monitoring the status of a reported software bug."
   domaineId: 23
 
 data87:
   nom: "Upgrade de version"
+  nomEn: "Version upgrade"
   description: "Mise à jour vers une version plus récente d’un logiciel ou produit numérique."
+  descriptionEn: "Update to a newer version of a software or digital product."
   domaineId: 23
 
 data88:
   nom: "Création de compte d’hébergement"
+  nomEn: "Hosting account creation"
   description: "Demande d'ouverture d’un compte pour héberger un site ou une application en ligne."
+  descriptionEn: "Request to open an account to host a website or online application."
   domaineId: 24
 
 data89:
   nom: "Support DNS / SSL"
+  nomEn: "DNS / SSL support"
   description: "Assistance concernant la configuration DNS ou l’installation de certificats SSL."
+  descriptionEn: "Assistance with DNS setup or SSL certificate installation."
   domaineId: 24
 
 data90:
   nom: "Restauration de données"
+  nomEn: "Data recovery"
   description: "Demande de récupération de fichiers ou de bases de données à partir d’une sauvegarde."
+  descriptionEn: "Request for the recovery of files or databases from a backup."
   domaineId: 24
 
 data91:
   nom: "Résiliation de service"
+  nomEn: "Service termination"
   description: "Demande d’arrêt ou d’annulation d’un service d’hébergement ou de domaine."
+  descriptionEn: "Request to stop or cancel a hosting or domain service."
   domaineId: 24
 
 data92:
   nom: "Demande de brochure"
+  nomEn: "Brochure request"
   description: "Demande d’envoi ou de téléchargement de documentation touristique ou commerciale."
+  descriptionEn: "Request to receive or download tourism or commercial documentation."
   domaineId: 25
 
 data93:
   nom: "Réservation d’excursion"
+  nomEn: "Excursion booking"
   description: "Demande de réservation pour une activité touristique ou un circuit guidé."
+  descriptionEn: "Request to book a tourist activity or guided tour."
   domaineId: 25
 
 data94:
   nom: "Renseignement sur circuits"
+  nomEn: "Tour information request"
   description: "Demande d’information sur les itinéraires, horaires et programmes touristiques."
+  descriptionEn: "Request for information on itineraries, schedules, and tour programs."
   domaineId: 25
 
 data95:
   nom: "Guide touristique"
+  nomEn: "Tour guide request"
   description: "Demande de mise à disposition ou de contact avec un guide pour une visite."
+  descriptionEn: "Request for the availability or contact of a guide for a visit."
   domaineId: 25
 
 data96:
   nom: "Réservation de séjour"
+  nomEn: "Stay booking"
   description: "Demande de réservation d’un hébergement ou d’un pack vacances."
+  descriptionEn: "Request for booking accommodation or a vacation package."
   domaineId: 26
 
 data97:
   nom: "Assurance voyage"
+  nomEn: "Travel insurance"
   description: "Demande de souscription ou d'information sur une couverture d’assurance voyage."
+  descriptionEn: "Request to subscribe to or inquire about travel insurance coverage."
   domaineId: 26
 
 data98:
   nom: "Modification d’itinéraire"
+  nomEn: "Itinerary modification"
   description: "Demande de changement de dates, trajets ou étapes dans une réservation de voyage."
+  descriptionEn: "Request to change dates, routes, or stops in a travel booking."
   domaineId: 26
 
 data99:
   nom: "Paiement échelonné"
+  nomEn: "Installment payment"
   description: "Demande de règlement d’un séjour ou d’un service en plusieurs fois."
+  descriptionEn: "Request to pay for a stay or service in multiple installments."
   domaineId: 26
 
 data100:
   nom: "Réservation d’espace"
+  nomEn: "Space reservation"
   description: "Demande pour réserver un espace pour un événement ou une activité."
+  descriptionEn: "Request to reserve a space for an event or activity."
   domaineId: 27
 
 data101:
   nom: "Demande de devis événement"
+  nomEn: "Event quote request"
   description: "Demande d’estimation des coûts pour l’organisation d’un événement."
+  descriptionEn: "Request for a cost estimate for organizing an event."
   domaineId: 27
 
 data102:
   nom: "Configuration logistique"
+  nomEn: "Logistics setup"
   description: "Demande d’installation ou d’aménagement logistique pour un événement."
+  descriptionEn: "Request for setup or logistical arrangement for an event."
   domaineId: 27
 
 data103:
   nom: "Animation sur-mesure"
+  nomEn: "Customized entertainment"
   description: "Demande d’animation personnalisée pour un événement ou une activité."
+  descriptionEn: "Request for personalized entertainment for an event or activity."
   domaineId: 27
 
 data104:
   nom: "Inscription"
+  nomEn: "Registration"
   description: "Demande d’inscription à un programme, une activité ou un service."
+  descriptionEn: "Request for registration to a program, activity, or service."
   domaineId: 28
 
 data105:
   nom: "Suspension d’abonnement"
+  nomEn: "Subscription suspension"
   description: "Demande temporaire d’interruption d’un abonnement en cours."
+  descriptionEn: "Temporary request to suspend an active subscription."
   domaineId: 28
 
 data106:
   nom: "Réservation de créneau"
+  nomEn: "Timeslot booking"
   description: "Demande de réservation d’un créneau horaire pour une activité."
+  descriptionEn: "Request to book a timeslot for an activity."
   domaineId: 28
 
 data107:
   nom: "Coaching personnalisé"
+  nomEn: "Personalized coaching"
   description: "Demande d’accompagnement individuel selon des objectifs définis."
+  descriptionEn: "Request for individual coaching based on defined goals."
   domaineId: 28
 
 data108:
   nom: "Réservation de billets"
+  nomEn: "Ticket reservation"
   description: "Demande d’achat ou de réservation de billets pour un événement."
+  descriptionEn: "Request to purchase or reserve tickets for an event."
   domaineId: 29
 
 data110:
   nom: "Réclamation"
+  nomEn: "Complaint"
   description: "Demande de traitement d’un problème ou d’une insatisfaction."
+  descriptionEn: "Request for resolution of an issue or dissatisfaction."
   domaineId: 29
 
 data111:
   nom: "Demande d’information programmation"
+  nomEn: "Program information request"
   description: "Demande de détails sur les événements ou les programmes à venir."
+  descriptionEn: "Request for details about upcoming events or scheduled programs."
   domaineId: 29
 
 data112:
   nom: "Carte de fidélité"
+  nomEn: "Loyalty card"
   description: "Demande d’adhésion ou d’information sur un programme de fidélité."
+  descriptionEn: "Request to join or obtain information about a loyalty program."
   domaineId: 29
 
 data113:
   nom: "Demande d’ouverture de compte"
+  nomEn: "Account opening request"
   description: "Demande pour créer un nouveau compte client ou bancaire."
+  descriptionEn: "Request to open a new customer or bank account."
   domaineId: 30
 
 data114:
   nom: "Prise de RDV avec un conseiller"
+  nomEn: "Appointment with an advisor"
   description: "Demande de rendez-vous avec un conseiller pour un accompagnement."
+  descriptionEn: "Request for an appointment with an advisor for personalized support."
   domaineId: 30
 
 data115:
   nom: "Simulation de prêt"
+  nomEn: "Loan simulation"
   description: "Demande de calcul estimatif d’un prêt selon des critères définis."
+  descriptionEn: "Request for an estimated loan calculation based on specific criteria."
   domaineId: 30
 
 data116:
   nom: "Blocage carte"
+  nomEn: "Card blocking"
   description: "Demande de blocage immédiat d’une carte bancaire ou d’accès."
+  descriptionEn: "Request to immediately block a bank or access card."
   domaineId: 30
 
 data117:
   nom: "Déclaration de sinistre"
+  nomEn: "Claim declaration"
   description: "Déclaration d’un incident ou dommage couvert par un contrat."
+  descriptionEn: "Declaration of an incident or damage covered by a contract."
   domaineId: 31
 
 data118:
   nom: "Suivi de remboursement"
+  nomEn: "Reimbursement tracking"
   description: "Demande d’information sur l’état d’un remboursement en cours."
+  descriptionEn: "Request for information on the status of an ongoing reimbursement."
   domaineId: 31
 
 data119:
   nom: "Demande de devis"
+  nomEn: "Quote request"
   description: "Demande d’évaluation financière pour une prestation assurantielle."
+  descriptionEn: "Request for a financial estimate for an insurance service."
   domaineId: 31
 
 data120:
   nom: "Modification contrat"
+  nomEn: "Contract modification"
   description: "Demande de changement dans un contrat en cours de validité."
+  descriptionEn: "Request to modify an active contract."
   domaineId: 31
 
 data121:
   nom: "Demande de consultation"
+  nomEn: "Consultation request"
   description: "Demande de rendez-vous ou d’avis avec un professionnel juridique."
+  descriptionEn: "Request for an appointment or legal advice with a legal professional."
   domaineId: 32
 
 data122:
   nom: "Rédaction d’actes"
+  nomEn: "Document drafting"
   description: "Demande de rédaction d’un acte juridique ou administratif."
+  descriptionEn: "Request for the drafting of a legal or administrative document."
   domaineId: 32
 
 data123:
   nom: "Suivi d’un dossier en cours"
+  nomEn: "Ongoing case tracking"
   description: "Demande de mise à jour ou de suivi d’un dossier juridique existant."
+  descriptionEn: "Request for updates or tracking of an ongoing legal case."
   domaineId: 32
+
