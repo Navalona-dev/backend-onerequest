@@ -66,7 +66,7 @@ class CreateSuperAdminCommand extends Command
         $user->setEmail($email);
         $user->setPassword($hashedPassword);
         $user->setIsSuperAdmin(true);
-        $user->setRoles(["ROLE_USER"]);
+        $user->setRoles(["ROLE_USER", "ROLE_SUPER_ADMIN"]);
         $user->addPrivilege($privilege);
     
         $this->em->persist($user);

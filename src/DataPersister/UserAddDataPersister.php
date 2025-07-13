@@ -59,6 +59,8 @@ class UserAddDataPersister implements ProcessorInterface
 
             $hashedPassword = $this->passwordHasher->hashPassword($data, $password);
             $data->setPassword($hashedPassword);
+            $data->setRoles(["ROLE_USER"]);
+
             $data->setCreatedAt(new \DateTime());
         }
 

@@ -36,6 +36,7 @@ class UserRegisterController
         $user->setPrenom($data['prenom']);
         $user->setPhone($data['phone'] ?? null);
         $user->setAdresse($data['adresse'] ?? null);
+        $user->setRoles(["ROLE_USER"]);
 
         $hashedPassword = $hasher->hashPassword($user, $data['password']);
         $user->setPassword($hashedPassword);
