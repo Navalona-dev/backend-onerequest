@@ -1,39 +1,69 @@
 data1:
   title: "super_admin"
   description: "Accès à toutes les demandes, tous les sites, tout modifier, supprimer, valider"
+  descriptionEn: "Access to all requests and sites, full permissions to edit, delete, and validate"
+  libelleFr: "Super administrateur"
+  libelleEn: "Super Administrator"
 
 data2:
   title: "agent"
   description: "Créer une demande, voir ses demandes, modifier ses brouillons"
+  descriptionEn: "Create a request, view own requests, edit drafts"
+  libelleFr: "Agent"
+  libelleEn: "Agent"
 
 data3:
   title: "secretaire"
   description: "Consulter les demandes des agents, transmettre à RH ou autre service"
+  descriptionEn: "Review agent requests, forward to HR or other departments"
+  libelleFr: "Secrétaire"
+  libelleEn: "Secretary"
 
 data4:
   title: "departement_rh"
   description: "Valider ou rejeter les demandes RH, commenter, transmettre au service financier"
+  descriptionEn: "Approve or reject HR requests, comment, and forward to the finance department"
+  libelleFr: "Département RH"
+  libelleEn: "HR Department"
 
 data5:
   title: "departement_financier"
   description: "Valider ou rejeter la demande, attribuer un budget, envoyer pour approbation finale"
-  
+  descriptionEn: "Approve or reject the request, assign a budget, and send for final approval"
+  libelleFr: "Département financier"
+  libelleEn: "Finance Department"
+
 data6:
   title: "directeur"
   description: "Valider/rejeter en dernière étape, débloquer une demande bloquée"
+  descriptionEn: "Final step to approve/reject, unblock a blocked request"
+  libelleFr: "Directeur"
+  libelleEn: "Director"
 
 data7:
   title: "chef_departement"
   description: "Consulter toutes les demandes du département, faire un premier avis"
+  descriptionEn: "View all department requests, give a first opinion"
+  libelleFr: "Chef de département"
+  libelleEn: "Department Head"
 
 data8:
   title: "admin_site"
   description: "Gérer les utilisateurs du site, voir toutes les demandes du site"
+  descriptionEn: "Manage site users, view all site requests"
+  libelleFr: "Administrateur de site"
+  libelleEn: "Site Administrator"
 
 data9:
   title: "comptable"
   description: "Traiter le paiement ou exécution financière après validation"
+  descriptionEn: "Handle payment or financial execution after approval"
+  libelleFr: "Comptabilité"
+  libelleEn: "Accountant"
 
 data10:
   title: "demandeur"
   description: "Initie une demande et suit son traitement jusqu’à la décision finale."
+  descriptionEn: "Initiates a request and follows its progress until the final decision"
+  libelleFr: "Demandeur"
+  libelleEn: "Requester"

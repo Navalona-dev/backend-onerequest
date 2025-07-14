@@ -35,6 +35,8 @@ class UserBySiteController extends AbstractController
                 $privileges[] = [
                     'id' => $privilege->getId(),
                     'title' => $privilege->getTitle(),
+                    'libelleEn' => $privilege->getLibelleEn(),
+                    'libelleFr' => $privilege->getLibelleFr()
                 ];
             }
 

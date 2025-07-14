@@ -34,6 +34,8 @@ class UserConnectedController extends AbstractController
             $privileges[] = [
                 'id' => $privilege->getId(),
                 'title' => $privilege->getTitle(),
+                'libelleFr' => $privilege->getLibelleFr(),
+                'libelleEn' => $privilege->getLibelleEn()
                 // Ajoute d'autres champs si nécessaire
             ];
         }

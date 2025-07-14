@@ -20,7 +20,9 @@ class JwtLoginSuccessHandler
         foreach($user->getPrivileges() as $privilege) {
             $dataPrivileges[] = [
                 'id' => $privilege->getId(),
-                'title' => $privilege->getTitle()
+                'title' => $privilege->getTitle(),
+                'libelleFr' => $privilege->getLibelleFr(),
+                'libelleEn' => $privilege->getLibelleEn()
             ];
         }
 

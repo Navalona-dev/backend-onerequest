@@ -65,6 +65,18 @@ class Privilege
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'privileges')]
     private Collection $users;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['privilege:list', 'privilege:item', 'user:list', 'user:item'])]
+    private ?string $libelleFr = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['privilege:list', 'privilege:item', 'user:list', 'user:item'])]
+    private ?string $libelleEn = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['privilege:list', 'privilege:item', 'user:list', 'user:item'])]
+    private ?string $descriptionEn = null;
+
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
@@ -186,6 +198,42 @@ class Privilege
         if ($this->users->removeElement($user)) {
             $user->removePrivilege($this);
         }
+
+        return $this;
+    }
+
+    public function getLibelleFr(): ?string
+    {
+        return $this->libelleFr;
+    }
+
+    public function setLibelleFr(?string $libelleFr): static
+    {
+        $this->libelleFr = $libelleFr;
+
+        return $this;
+    }
+
+    public function getLibelleEn(): ?string
+    {
+        return $this->libelleEn;
+    }
+
+    public function setLibelleEn(?string $libelleEn): static
+    {
+        $this->libelleEn = $libelleEn;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(?string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
 
         return $this;
     }

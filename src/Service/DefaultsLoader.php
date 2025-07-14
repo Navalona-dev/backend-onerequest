@@ -120,6 +120,9 @@ class DefaultsLoader
                 $privilege->setTitle($content['title']);
                 $privilege->setLabel($label);
                 $privilege->setDescription($content['description']);
+                $privilege->setDescriptionEn($content['descriptionEn']);
+                $privilege->setLibelleFr($content['libelleFr']);
+                $privilege->setLibelleEn($content['libelleEn']);
                 $date = new \datetime();
                 $privilege->setCreatedAt($date);
 
