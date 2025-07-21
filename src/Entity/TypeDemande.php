@@ -128,10 +128,17 @@ class TypeDemande
     #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
     private ?string $descriptionEn = null;
 
+    /**
+     * @var Collection<int, DepartementRang>
+     */
+    #[ORM\OneToMany(targetEntity: DepartementRang::class, mappedBy: 'typeDemande')]
+    private Collection $departementRangs;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
         $this->dossierAFournirs = new ArrayCollection();
+        $this->departementRangs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -301,6 +308,36 @@ class TypeDemande
     public function setDescriptionEn(?string $descriptionEn): static
     {
         $this->descriptionEn = $descriptionEn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DepartementRang>
+     */
+    public function getDepartementRangs(): Collection
+    {
+        return $this->departementRangs;
+    }
+
+    public function addDepartementRang(DepartementRang $departementRang): static
+    {
+        if (!$this->departementRangs->contains($departementRang)) {
+            $this->departementRangs->add($departementRang);
+            $departementRang->setTypeDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartementRang(DepartementRang $departementRang): static
+    {
+        if ($this->departementRangs->removeElement($departementRang)) {
+            // set the owning side to null (unless already changed)
+            if ($departementRang->getTypeDemande() === $this) {
+                $departementRang->setTypeDemande(null);
+            }
+        }
 
         return $this;
     }

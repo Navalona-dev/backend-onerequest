@@ -7,14 +7,18 @@ use App\Entity\Service;
 use App\Entity\Tutoriel;
 use App\Entity\Privilege;
 use App\Entity\CodeCouleur;
+use App\Entity\Departement;
 use App\Entity\HeroSection;
 use App\Entity\TypeDemande;
 use App\Entity\AboutSection;
 use App\Entity\DossierAFournir;
 use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
+use App\Entity\NiveauHierarchique;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\String\u;
+use App\Repository\DepartementRepository;
 use App\Repository\TypeDemandeRepository;
 use App\Entity\CategorieDomaineEntreprise;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,18 +31,24 @@ class DefaultsLoader
     private $categorieDomaineRepo;
     private $domaineEntrepriseRepo;
     private $typeDemandeRepo;
+    private $siteRepo;
+    private $departementRepo;
 
     public function __construct(
         EntityManagerInterface $em, 
         CategorieDomaineEntrepriseRepository $categorieDomaineRepo,
         DomaineEntrepriseRepository $domaineEntrepriseRepo,
-        TypeDemandeRepository $typeDemandeRepo
+        TypeDemandeRepository $typeDemandeRepo,
+        SiteRepository $siteRepo,
+        DepartementRepository $departementRepo
     )
     {
         $this->em = $em;
         $this->categorieDomaineRepo = $categorieDomaineRepo;
         $this->domaineEntrepriseRepo = $domaineEntrepriseRepo;
         $this->typeDemandeRepo = $typeDemandeRepo;
+        $this->siteRepo = $siteRepo;
+        $this->departementRepo = $departementRepo;
     }
 
     private function maybeCreate($class, $criteria, ?string $repositoryMethodName = 'findOneBy'): array
@@ -64,6 +74,8 @@ class DefaultsLoader
         $this->aboutSections();
         $this->services();
         $this->tutoriels();
+        $this->departements();
+        $this->niveauHierarchiques();
         $this->copyFiles();
 
     }
@@ -295,20 +307,73 @@ class DefaultsLoader
         $tutoriels = Yaml::parseFile('defaults/data/tutoriel.yaml');
 
         foreach ($tutoriels as $label => $content) {
-            list($isNew, $tutorien) = $this->maybeCreate(Tutoriel::class, ['label' => $label]);
+            list($isNew, $tutoriel) = $this->maybeCreate(Tutoriel::class, ['label' => $label]);
             if($isNew){
-                $tutorien->setTitleFr($content['titleFr']);
-                $tutorien->setTitleEn($content['titleEn']);
-                $tutorien->setDescriptionFr($content['descriptionFr']);
-                $tutorien->setDescriptionEn($content['descriptionEn']);
-                $tutorien->setLabel($label);
-                $tutorien->setIcon($content['icon']);
-                $content['video'] ? $tutorien->setVideo($content['video']) : null;
-                $content['fichier'] ? $tutorien->setFichier($content['fichier']) : null;
-                $tutorien->setIsActive(true);
-                $tutorien->setCreatedAt(new \DateTime());
+                $tutoriel->setTitleFr($content['titleFr']);
+                $tutoriel->setTitleEn($content['titleEn']);
+                $tutoriel->setDescriptionFr($content['descriptionFr']);
+                $tutoriel->setDescriptionEn($content['descriptionEn']);
+                $tutoriel->setLabel($label);
+                $tutoriel->setIcon($content['icon']);
+                $content['video'] ? $tutoriel->setVideo($content['video']) : null;
+                $content['fichier'] ? $tutoriel->setFichier($content['fichier']) : null;
+                $tutoriel->setIsActive(true);
+                $tutoriel->setCreatedAt(new \DateTime());
 
-                $this->em->persist($tutorien);
+                $this->em->persist($tutoriel);
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function departements() {
+        $departements = Yaml::parseFile('defaults/data/departement.yaml');
+
+        foreach ($departements as $label => $content) {
+            list($isNew, $departement) = $this->maybeCreate(Departement::class, ['label' => $label]);
+            if($isNew){
+                $siteIds = $content['siteId'];
+                foreach($siteIds as $siteId) {
+                    $site = $this->siteRepo->findOneBy(['id' => $siteId]);
+                    if (!$site) {
+                        throw new \RuntimeException("Site introuvable avec l'ID : $siteId");
+                    }
+                    $departement->addSite($site);
+                }
+                $departement->setNom($content['nom']);
+                $departement->setNomEn($content['nomEn']);
+                $departement->setDescription($content['description']);
+                $departement->setDescriptionEn($content['descriptionEn']);
+                $departement->setLabel($label);
+                $departement->setIsActive(true);
+                $departement->setCreatedAt(new \DateTime());
+
+                $this->em->persist($departement);
+
+                $this->em->flush();
+            }
+        }
+    }
+
+    public function niveauHierarchiques() {
+        $niveauHierarchiques = Yaml::parseFile('defaults/data/niveau_hierarchique.yaml');
+
+        foreach ($niveauHierarchiques as $label => $content) {
+            list($isNew, $niveau) = $this->maybeCreate(NiveauHierarchique::class, ['label' => $label]);
+            if($isNew){
+                $departements = $this->departementRepo->findBy(['isActive' => true]);
+                foreach($departements as $departement) {
+                    $niveau->addDepartement($departement);
+                }
+                $niveau->setNom($content['nom']);
+                $niveau->setNomEn($content['nomEn']);
+                $niveau->setDescription($content['description']);
+                $niveau->setDescriptionEn($content['descriptionEn']);
+                $niveau->setLabel($label);
+                $niveau->setIsActive(true);
+                $niveau->setCreatedAt(new \DateTime());
+
+                $this->em->persist($niveau);
                 $this->em->flush();
             }
         }

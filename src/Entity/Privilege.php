@@ -2,19 +2,21 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\PrivilegeRepository;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
+use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Repository\PrivilegeRepository;
+use Doctrine\Common\Collections\Collection;
+use App\DataPersister\PrivilegeAddDataPersister;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\DataPersister\PrivilegeUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: PrivilegeRepository::class)]
 #[ApiResource(
@@ -25,6 +27,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Post(),
         new Patch(),
         new Delete(),
+        new Post( 
+            processor: PrivilegeAddDataPersister::class,
+        ),
+        new Patch( 
+            processor: PrivilegeUpdateDataPersister::class,
+        ),
     ]
 )]
 class Privilege

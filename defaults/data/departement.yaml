@@ -1,0 +1,69 @@
+data1:
+  nom: "Département des Ressources Humaines"
+  nomEn: "Human Resources Department"
+  description: "Gère le recrutement, la formation, la paie, les contrats, et le bien-être des employés."
+  descriptionEn: "Manages recruitment, training, payroll, contracts, and employee well-being."
+  siteId: [1, 2, 3]
+
+data2:
+  nom: "Département Marketing"
+  nomEn: "Marketing Department"
+  description: "Développe la stratégie pour promouvoir les produits/services de l’entreprise, analyse le marché et la concurrence."
+  descriptionEn: "Develops strategies to promote the company's products/services and analyzes the market and competitors."
+  siteId: [1, 2, 3]
+
+data3:
+  nom: "Département Logistique"
+  nomEn: "Logistics Department"
+  description: "Gère l’approvisionnement, le stockage, le transport et la distribution des produits ou matières premières."
+  descriptionEn: "Manages procurement, storage, transportation, and distribution of products or raw materials."
+  siteId: [1, 2, 3]
+
+data4:
+  nom: "Département Financier"
+  nomEn: "Finance Department"
+  description: "S’occupe de la gestion des finances : comptabilité, budget, prévisions, paiements et audits."
+  descriptionEn: "Handles financial management: accounting, budgeting, forecasting, payments, and audits."
+  siteId: [1, 2, 3]
+
+data5:
+  nom: "Département Informatique"
+  nomEn: "IT Department (Information Technology)"
+  description: "Gère les systèmes informatiques, la sécurité des données, le support technique et les réseaux de l’entreprise."
+  descriptionEn: "Manages IT systems, data security, technical support, and company networks."
+  siteId: [1, 2, 3]
+
+data6:
+  nom: "Département de Production"
+  nomEn: "Production Department"
+  description: "Supervise la fabrication des produits, la chaîne de production, la qualité et la maintenance des équipements."
+  descriptionEn: "Oversees product manufacturing, production lines, quality control, and equipment maintenance."
+  siteId: [1, 2, 3]
+
+data7:
+  nom: "Département des Achats"
+  nomEn: "Purchasing Department / Procurement"
+  description: "Gère l’achat de biens et services nécessaires au fonctionnement de l’entreprise."
+  descriptionEn: "Manages the purchase of goods and services needed for business operations."
+  siteId: [1, 2, 3]
+
+data8:
+  nom: "Département Juridique"
+  nomEn: "Legal Department"
+  description: "Gère les aspects légaux : contrats, litiges, conformité avec la loi, propriété intellectuelle, etc."
+  descriptionEn: "Handles legal matters: contracts, disputes, regulatory compliance, intellectual property, etc."
+  siteId: [1, 2, 3]
+
+data9:
+  nom: "Département Commercial / Ventes"
+  nomEn: "Sales Department / Commercial Department"
+  description: "Responsable de la relation client, de la prospection et de la vente des produits ou services."
+  descriptionEn: "Responsible for client relationships, prospecting, and selling the company’s products or services."
+  siteId: [1, 2, 3]
+
+data10:
+  nom: "Département Recherche & Développement (R&D)"
+  nomEn: "Research and Development Department (R&D)"
+  description: "Invente, teste et améliore de nouveaux produits, services ou technologies."
+  descriptionEn: "Creates, tests, and improves new products, services, or technologies."
+  siteId: [1, 2, 3]

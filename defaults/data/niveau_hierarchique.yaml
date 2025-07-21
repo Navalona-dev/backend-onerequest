@@ -1,0 +1,42 @@
+data1:
+  nom: "Direction Générale"
+  nomEn: "Executive Management / General Management"
+  description: "Dirige l’ensemble de l’organisation, prend les décisions stratégiques majeures."
+  descriptionEn: "Leads the entire organization and makes top-level strategic decisions."
+
+data2:
+  nom: "Directeur de Département"
+  nomEn: "Department Director / Head of Department"
+  description: "Supervise un département spécifique et veille à la bonne réalisation des objectifs."
+  descriptionEn: "Oversees a specific department and ensures objectives are met."
+
+data3:
+  nom: "Manager / Responsable"
+  nomEn: "Manager / Supervisor"
+  description: "Gère une équipe au sein du département, assure la coordination quotidienne des tâches."
+  descriptionEn: "Manages a team within a department, handles day-to-day task coordination."
+
+data4:
+  nom: "Chef d’équipe"
+  nomEn: "Team Leader"
+  description: "Encadre un petit groupe d’employés sur le terrain ou dans une section spécifique."
+  descriptionEn: "Leads a small group of employees on the field or within a specific unit."
+
+data5:
+  nom: "Agent / Employé Senior"
+  nomEn: "Senior Staff / Senior Agent"
+  description: "Employé expérimenté qui peut encadrer les nouveaux arrivants ou gérer des dossiers complexes."
+  descriptionEn: "Experienced staff who may mentor new hires or handle complex cases."
+
+data6:
+  nom: "Employé / Agent"
+  nomEn: "Staff / Agent"
+  description: "Exécute les tâches quotidiennes assignées selon les instructions."
+  descriptionEn: "Carries out daily tasks as assigned by management."
+
+data7:
+  nom: "Stagiaire / Apprenti"
+  nomEn: "Intern / Apprentice"
+  description: "En formation ou en stage, il/elle assiste les autres employés dans leurs tâches."
+  descriptionEn: "In training or internship, assists other staff in their tasks."
+  

@@ -211,6 +211,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Langue $langue = null;
 
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?NiveauHierarchique $niveauHierarchique = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Departement $departement = null;
+
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
@@ -449,6 +455,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLangue(?Langue $langue): static
     {
         $this->langue = $langue;
+
+        return $this;
+    }
+
+    public function getNiveauHierarchique(): ?NiveauHierarchique
+    {
+        return $this->niveauHierarchique;
+    }
+
+    public function setNiveauHierarchique(?NiveauHierarchique $niveauHierarchique): static
+    {
+        $this->niveauHierarchique = $niveauHierarchique;
+
+        return $this;
+    }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): static
+    {
+        $this->departement = $departement;
 
         return $this;
     }
