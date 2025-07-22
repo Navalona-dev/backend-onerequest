@@ -44,9 +44,29 @@ class UserConnectedController extends AbstractController
         $siteData = null;
 
         if ($site) {
+            $region = $site->getRegion();
+            $regionData = null;
+            if($region) {
+                $regionData = [
+                    'id' => $region->getId(),
+                    'nom' => $region->getNom(),
+                ];
+            }
+
+            $commune = $site->getCommune();
+            $communeData = null;
+            if($commune) {
+                $communeData = [
+                    'id' => $commune->getId(),
+                    'nom' => $commune->getNom(),
+                ];
+            }
+
             $siteData = [
                 'id' => $site->getId(),
-                'nom' => $site->getNom()
+                'nom' => $site->getNom(),
+                'region' => $regionData,
+                'commune' => $communeData
             ];
         }
 

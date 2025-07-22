@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\NiveauHierarchiqueRangRepository;
 use App\DataPersister\NiveauHierarchiqueRangAddDataPersister;
+use App\DataPersister\NiveauHierarchiqueRangUpdateDataPersister;
 
 #[ORM\Entity(repositoryClass: NiveauHierarchiqueRangRepository::class)]
 #[ApiResource(
@@ -23,6 +24,9 @@ use App\DataPersister\NiveauHierarchiqueRangAddDataPersister;
         new Delete(),
         new Post( 
             processor: NiveauHierarchiqueRangAddDataPersister::class,
+        ),
+        new Patch( 
+            processor: NiveauHierarchiqueRangUpdateDataPersister::class,
         ),
         
     ]

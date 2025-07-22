@@ -25,7 +25,7 @@ class RangByNiveauAndDepartementController extends AbstractController
             throw new NotFoundHttpException('Niveau hierarchique non trouvé.');
         }
 
-        $rang = $rangRepo->findByDepartementAndNiveau($dep, $niveau);
+        $rang = $rangRepo->findOneByDepartementAndNiveau($dep, $niveau);
 
         $rangTab = [
             'id' => $rang->getId(),

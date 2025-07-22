@@ -16,7 +16,7 @@ class NiveauHierarchiqueRangRepository extends ServiceEntityRepository
         parent::__construct($registry, NiveauHierarchiqueRang::class);
     }
 
-    public function findByDepartementAndNiveau($departement, $niveau)
+    public function findOneByDepartementAndNiveau($departement, $niveau)
     {
         return $this->createQueryBuilder('r')
             ->join('r.departement', 'd')
@@ -29,4 +29,16 @@ class NiveauHierarchiqueRangRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function findByDepartement($departement): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.departement', 'd')
+            ->andWhere('d.id = :idDep')
+            ->setParameter('idDep', $departement->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 }

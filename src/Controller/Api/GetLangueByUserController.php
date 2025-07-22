@@ -22,12 +22,17 @@ class GetLangueByUserController extends AbstractController
 {
     public function __invoke(User $data, LangueRepository $langueRepo, EntityManagerInterface $em): JsonResponse
     {
-
         if (!$data) {
             throw new NotFoundHttpException('Utilisateur non trouvé.');
         }
 
         $langue = $data->getLangue();
+
+        if (!$langue) {
+            return new JsonResponse([
+                'message' => 'Aucune langue n’est associée à cet utilisateur.',
+            ], Response::HTTP_NO_CONTENT); // ou HTTP 200 selon ton besoin
+        }
 
         return new JsonResponse([
             'id' => $langue->getId(),
@@ -36,8 +41,9 @@ class GetLangueByUserController extends AbstractController
             'isActive' => $langue->getIsActive(),
             'icon' => $langue->getIcon(),
             'indice' => $langue->getIndice(),
-            'message' => 'Langue selectionné avec succès.',
+            'message' => 'Langue sélectionnée avec succès.',
         ]);
     }
+
 }
 

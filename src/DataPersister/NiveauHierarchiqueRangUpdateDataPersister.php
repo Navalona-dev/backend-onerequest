@@ -11,7 +11,7 @@ use App\Repository\NiveauHierarchiqueRangRepository;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class NiveauHierarchiqueRangAddDataPersister implements ProcessorInterface
+class NiveauHierarchiqueRangUpdateDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -29,21 +29,18 @@ class NiveauHierarchiqueRangAddDataPersister implements ProcessorInterface
         $niveau = $data->getNiveauHierarchique();
 
         $rangs = $this->rangRepo->findByDepartement($departement);
-        $rangTab = [];
-        foreach($rangs as $rang) {
-            $rangTab[] = $rang->getRang();
-        }
-
         $newRang = $data->getRang();
-
-        //verifier si le rang n'existe pas encore sur le departement
-        if (in_array($newRang, $rangTab)) {
-            throw new BadRequestHttpException('Ce rang existe déjà pour ce département.');
+        $currentId = $data->getId(); // ID de l'entité en cours de modification
+        
+        foreach ($rangs as $rang) {
+            if ($rang->getRang() === $newRang && $rang->getId() !== $currentId) {
+                throw new BadRequestHttpException('Ce rang existe déjà pour ce département.');
+            }
         }
 
         $method = strtoupper($operation->getMethod());
 
-        if ($method === 'POST') {
+        if ($method === 'PATCH') {
             $data->setCreatedAt(new \DateTime());
         } 
         

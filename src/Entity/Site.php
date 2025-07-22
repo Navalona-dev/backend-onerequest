@@ -26,6 +26,7 @@ use App\Controller\Api\AddRegionBySiteController;
 use App\Controller\Api\AddCommuneBySiteController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
+use App\Controller\Api\DepartementBySiteController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ApiResource(
@@ -140,7 +141,23 @@ use App\Controller\Api\CodeCouleurBySiteController;
                 ]
             ]
         ),
-        
+        new Get(
+            normalizationContext: ['groups' => 'site:item'],
+            uriTemplate: '/sites/{id}/departements',
+            controller: DepartementBySiteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer les departements par site',
+                    'description' => 'Cette opération récupère les departements par site.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Post(
             uriTemplate: '/sites/{id}/select-region',
             controller: AddRegionBySiteController::class,
