@@ -16,9 +16,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\DataPersister\NiveauHierarchiqueAddDataPersister;
 use App\Controller\Api\RangByNiveauAndDepartementController;
+use App\DataPersister\NiveauHierarchiqueDeleteDataPersister;
 use App\DataPersister\NiveauHierarchiqueUpdateDataPersister;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Controller\Api\DepartementByNiveauHierarchiqueController;
+use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
 
 #[ORM\Entity(repositoryClass: NiveauHierarchiqueRepository::class)]
 #[ApiResource(
@@ -45,7 +47,7 @@ use App\Controller\Api\DepartementByNiveauHierarchiqueController;
         ),  
         new Get(
             normalizationContext: ['groups' => 'departement:item'],
-            uriTemplate: '/niveau_hierarchique/{id}/departement/{dep}',
+            uriTemplate: '/niveau_hierarchiques/{id}/departement/{dep}',
             controller: RangByNiveauAndDepartementController::class,
             read: false, // désactive la lecture automatique d'une entité
             deserialize: false,
@@ -62,12 +64,31 @@ use App\Controller\Api\DepartementByNiveauHierarchiqueController;
         ),        
         new Post(),
         new Patch(),
-        new Delete(),
+        new Delete(
+            normalizationContext: ['groups' => 'departement:item'],
+            uriTemplate: '/niveau_hierarchiques/{id}/departements/{dep}/rangs/{rang}/dissocier',
+            controller: DeleteNiveauHierarchiqueByDepartementController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Dissocier le niveau hierarchique dans le departement',
+                    'description' => 'Cette opération dissocie le niveau hierarchique dans le departement.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),   
         new Post( 
             processor: NiveauHierarchiqueAddDataPersister::class,
         ),
         new Patch( 
             processor: NiveauHierarchiqueUpdateDataPersister::class,
+        ),
+        new Delete( 
+            processor: NiveauHierarchiqueDeleteDataPersister::class,
         ),
         
     ]

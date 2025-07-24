@@ -1,42 +1,37 @@
 <?php
 namespace App\Controller\Api;
+
 use App\Entity\Departement;
 use App\Entity\NiveauHierarchique;
+use App\Entity\NiveauHierarchiqueRang;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Repository\NiveauHierarchiqueRangRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class RangByNiveauAndDepartementController extends AbstractController
+class DeleteNiveauHierarchiqueByDepartementController extends AbstractController
 {
     public function __invoke(
+        Request $request, 
+        EntityManagerInterface $em,
         NiveauHierarchique $niveau,
+        NiveauHierarchiqueRang $niveauRang,
         Departement $dep,
-        NiveauHierarchiqueRangRepository $rangRepo,
-        EntityManagerInterface $em
-    ): JsonResponse {
+    ): JsonResponse
+    {
         if (!$dep) {
             throw new NotFoundHttpException('Departement non trouvé.');
         }
-
         if (!$niveau) {
             throw new NotFoundHttpException('Niveau hierarchique non trouvé.');
         }
 
-        $rang = $rangRepo->findOneByDepartementAndNiveau($dep, $niveau);
+        $dep->removeNiveauHierarchique($niveau);
+        $dep->removeNiveauHierarchiqueRang($niveauRang);
+        $em->flush();
 
-        if (!$rang) {
-            return new JsonResponse(null, 204); // No Content, ou 404 selon ton besoin
-        }
-
-        $rangTab = [
-            'id' => $rang->getId(),
-            'rang' => $rang->getRang(),
-        ];
-
-        return new JsonResponse($rangTab);
-
+        return new JsonResponse(['message' => 'Niveau hiérarchique dissocié avec succès.'], 200);
     }
 }
