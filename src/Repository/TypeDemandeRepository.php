@@ -30,4 +30,20 @@ class TypeDemandeRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findBySiteAndDomaine($site, $domaine): array
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.sites', 's')
+            ->join('t.domaine', 'd')
+            ->andWhere('s.id = :val')
+            ->andWhere('d.id = :idDomaine')
+            ->andWhere('t.isActive = :active')
+            ->setParameter('val', $site->getId())
+            ->setParameter('idDomaine', $domaine->getId())
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }

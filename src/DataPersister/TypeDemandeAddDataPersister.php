@@ -30,6 +30,7 @@ class TypeDemandeAddDataPersister implements ProcessorInterface
 
         if ($method === 'POST') {
             $data->setCreatedAt(new \DateTime());
+            $data->setIsActive(true);
         } 
         
         $this->entityManager->persist($data);

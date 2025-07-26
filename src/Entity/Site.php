@@ -27,6 +27,7 @@ use App\Controller\Api\AddCommuneBySiteController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
 use App\Controller\Api\DepartementBySiteController;
+use App\Controller\Api\TypeDemandeBySiteController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ApiResource(
@@ -50,6 +51,24 @@ use App\Controller\Api\DepartementBySiteController;
                 ]
             ]
         ),
+
+        new Get(
+            normalizationContext: ['groups' => 'type_demande:list'],
+            uriTemplate: '/sites/{id}/type-demandes',
+            controller: TypeDemandeBySiteController::class,
+            read: true, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'récuperer la liste de type de demande par site et domaine entreprise',
+                    'description' => 'Cette opération récupère la liste de type de demande par site et domaine entreprise.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
        
         new Get(normalizationContext: ['groups' => 'site:item']),          
         new Post(),
@@ -279,12 +298,26 @@ class Site
     #[ORM\ManyToMany(targetEntity: Departement::class, mappedBy: 'sites')]
     private Collection $departements;
 
+    /**
+     * @var Collection<int, TypeDemande>
+     */
+    #[ORM\ManyToMany(targetEntity: TypeDemande::class, mappedBy: 'sites')]
+    private Collection $typeDemandes;
+
+    /**
+     * @var Collection<int, DepartementRang>
+     */
+    #[ORM\OneToMany(targetEntity: DepartementRang::class, mappedBy: 'site')]
+    private Collection $departementRangs;
+
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->departements = new ArrayCollection();
+        $this->typeDemandes = new ArrayCollection();
+        $this->departementRangs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -536,6 +569,63 @@ class Site
     {
         if ($this->departements->removeElement($departement)) {
             $departement->removeSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeDemande>
+     */
+    public function getTypeDemandes(): Collection
+    {
+        return $this->typeDemandes;
+    }
+
+    public function addTypeDemande(TypeDemande $typeDemande): static
+    {
+        if (!$this->typeDemandes->contains($typeDemande)) {
+            $this->typeDemandes->add($typeDemande);
+            $typeDemande->addSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeDemande(TypeDemande $typeDemande): static
+    {
+        if ($this->typeDemandes->removeElement($typeDemande)) {
+            $typeDemande->removeSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DepartementRang>
+     */
+    public function getDepartementRangs(): Collection
+    {
+        return $this->departementRangs;
+    }
+
+    public function addDepartementRang(DepartementRang $departementRang): static
+    {
+        if (!$this->departementRangs->contains($departementRang)) {
+            $this->departementRangs->add($departementRang);
+            $departementRang->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartementRang(DepartementRang $departementRang): static
+    {
+        if ($this->departementRangs->removeElement($departementRang)) {
+            // set the owning side to null (unless already changed)
+            if ($departementRang->getSite() === $this) {
+                $departementRang->setSite(null);
+            }
         }
 
         return $this;

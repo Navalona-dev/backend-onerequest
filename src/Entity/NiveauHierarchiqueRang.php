@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Repository\NiveauHierarchiqueRangRepository;
 use App\DataPersister\NiveauHierarchiqueRangAddDataPersister;
 use App\DataPersister\NiveauHierarchiqueRangUpdateDataPersister;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: NiveauHierarchiqueRangRepository::class)]
 #[ApiResource(

@@ -15,7 +15,7 @@ class CommuneByRegionController extends AbstractController
     public function __invoke(Region $data, CommuneRepository $communeRepo, EntityManagerInterface $em): JsonResponse
     {
         if (!$data) {
-            throw new NotFoundHttpException('Site non trouvé.');
+            throw new NotFoundHttpException('Region non trouvé.');
         }
 
         $communes = $communeRepo->findBy(['region' => $data]);

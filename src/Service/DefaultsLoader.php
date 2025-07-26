@@ -180,6 +180,11 @@ class DefaultsLoader
             if($isNew){
                 $domaineId = $content['domaineId'];
                 $domaine = $this->domaineEntrepriseRepo->findOneBy(['id' => $domaineId]);
+                $siteIds = $content['siteId'];
+                foreach($siteIds as $siteId) {
+                    $site = $this->siteRepo->findOneBy(['id' => $siteId]);
+                    $type->addSite($site);
+                }
 
                 $type->setNom($content['nom']);
                 $type->setNomEn($content['nomEn']);

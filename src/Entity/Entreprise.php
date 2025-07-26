@@ -14,12 +14,31 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Repository\EntrepriseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\Api\DomaineByEntrepriseController;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
         new GetCollection(),  
+        new Get(
+            normalizationContext: ['groups' => 'entreprise:item'],
+            uriTemplate: '/entreprises/domaines',
+            controller: DomaineByEntrepriseController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de domaine par entreprise',
+                    'description' => 'Cette opération récupère la liste de domaine par entreprise.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
         new Get(),            
         new Post(),
         new Patch(),

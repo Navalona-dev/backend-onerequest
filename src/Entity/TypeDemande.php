@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\DataPersister\TypeDemandeAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\TypeDemandeBySiteController;
 use App\DataPersister\TypeDemandeUpdateDataPersister;
 use App\Controller\Api\DossierAFournirByTypeDemandeController;
 use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
@@ -58,6 +59,7 @@ use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
                 ]
             ]
         ),  
+        
         new Get(normalizationContext: ['groups' => 'type_demande:item']), 
                 
         new Post(),
@@ -134,11 +136,18 @@ class TypeDemande
     #[ORM\OneToMany(targetEntity: DepartementRang::class, mappedBy: 'typeDemande')]
     private Collection $departementRangs;
 
+    /**
+     * @var Collection<int, Site>
+     */
+    #[ORM\ManyToMany(targetEntity: Site::class, inversedBy: 'typeDemandes')]
+    private Collection $sites;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
         $this->dossierAFournirs = new ArrayCollection();
         $this->departementRangs = new ArrayCollection();
+        $this->sites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -338,6 +347,30 @@ class TypeDemande
                 $departementRang->setTypeDemande(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Site>
+     */
+    public function getSites(): Collection
+    {
+        return $this->sites;
+    }
+
+    public function addSite(Site $site): static
+    {
+        if (!$this->sites->contains($site)) {
+            $this->sites->add($site);
+        }
+
+        return $this;
+    }
+
+    public function removeSite(Site $site): static
+    {
+        $this->sites->removeElement($site);
 
         return $this;
     }

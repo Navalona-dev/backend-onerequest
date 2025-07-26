@@ -24,6 +24,7 @@ use App\DataPersister\DomaineEntrepriseUpdateDataPersister;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'domaine_entreprise:list']), 
+          
         new Get(normalizationContext: ['groups' => 'domaine_entreprise:item']),            
         new Post(),
         new Patch(),
@@ -95,7 +96,6 @@ class DomaineEntreprise
 
     public function __construct()
     {
-        $this->entreprise = new ArrayCollection();
         $this->entreprises = new ArrayCollection();
         $this->typeDemandes = new ArrayCollection();
     }

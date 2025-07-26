@@ -16,28 +16,16 @@ class DomaineEntrepriseRepository extends ServiceEntityRepository
         parent::__construct($registry, DomaineEntreprise::class);
     }
 
-    //    /**
-    //     * @return DomaineEntreprise[] Returns an array of DomaineEntreprise objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findByEntreprise($entreprise): array
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.entreprises', 'e')
+            ->andWhere('e.id = :idEntreprise')
+            ->setParameter('idEntreprise', $entreprise->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    //    public function findOneBySomeField($value): ?DomaineEntreprise
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    
 }
