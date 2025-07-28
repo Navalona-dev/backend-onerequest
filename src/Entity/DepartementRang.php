@@ -11,16 +11,22 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DepartementRangRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\DataPersister\DepartementRangAddDataPersister;
+use App\Controller\Api\RangBySiteAndDepartementController;
 
 #[ORM\Entity(repositoryClass: DepartementRangRepository::class)]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'departement_rang:list']), 
-        new Get(normalizationContext: ['groups' => 'departement_rang:item']),           
+        new Get(normalizationContext: ['groups' => 'departement_rang:item']),  
+                
         new Post(),
         new Patch(),
         new Delete(),
+        new Post( 
+            processor: DepartementRangAddDataPersister::class,
+        ),
     ]
 )]
 class DepartementRang

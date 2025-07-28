@@ -28,6 +28,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
 use App\Controller\Api\DepartementBySiteController;
 use App\Controller\Api\TypeDemandeBySiteController;
+use App\Controller\Api\RangBySiteAndDepartementController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ApiResource(
@@ -177,6 +178,23 @@ use App\Controller\Api\TypeDemandeBySiteController;
                 ]
             ]
         ),
+        new Get(
+            normalizationContext: ['groups' => 'demande:item'],
+            uriTemplate: '/sites/{id}/departement/{dep}/rangs',
+            controller: RangBySiteAndDepartementController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de rang par site et departement',
+                    'description' => 'Cette opération récupère la liste de rang par site et departement.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
         new Post(
             uriTemplate: '/sites/{id}/select-region',
             controller: AddRegionBySiteController::class,
