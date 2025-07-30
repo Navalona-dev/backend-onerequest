@@ -25,10 +25,19 @@ class RangBySiteAndDepartementController extends AbstractController
         $rangs = $rangRepo->findByDepartementAndSite($dep, $site);
         $rangTab = [];
 
-        foreach ($rangs as $dep) {
+        foreach ($rangs as $rang) {
+            $typeDemandeData = [];
+            if($rang->getTypeDemande()) {
+                $type = $rang->getTypeDemande();
+                $typeDemandeData = [
+                    'id' => $type->getId(),
+                    'nom' => $type->getNom(),
+                ];
+            }
             $rangTab[] = [
-                'id' => $dep->getId(),
-                'rang' => $dep->getRang(),
+                'id' => $rang->getId(),
+                'rang' => $rang->getRang(),
+                'typeDemande' => $typeDemandeData
             ];
         }
 

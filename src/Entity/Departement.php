@@ -17,6 +17,7 @@ use App\DataPersister\DepartementAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\DataPersister\DepartementDeleteDataPersister;
 use App\DataPersister\DepartementUpdateDataPersister;
+use App\Controller\Api\DissocieDepartementBySiteController;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Controller\Api\NiveauHierarchiqueByDepartementController;
 
@@ -42,7 +43,24 @@ use App\Controller\Api\NiveauHierarchiqueByDepartementController;
                     ]
                 ]
             ]
-        ),         
+        ),  
+        new Delete(
+            normalizationContext: ['groups' => 'type_demande:list'],
+            uriTemplate: '/departements/{id}/site/{siteId}/dissocie',
+            controller: DissocieDepartementBySiteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'dissocié le departement du site',
+                    'description' => 'Cette opération dissocie le departement du site.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),       
         new Post(),
         new Patch(),
         new Delete(),

@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DepartementRangRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\DataPersister\DepartementRangAddDataPersister;
+use App\DataPersister\DepartementRangUpdateDataPersister;
 use App\Controller\Api\RangBySiteAndDepartementController;
 
 #[ORM\Entity(repositoryClass: DepartementRangRepository::class)]
@@ -27,6 +28,10 @@ use App\Controller\Api\RangBySiteAndDepartementController;
         new Post( 
             processor: DepartementRangAddDataPersister::class,
         ),
+        new Patch( 
+            processor: DepartementRangUpdateDataPersister::class,
+        ),
+         
     ]
 )]
 class DepartementRang
