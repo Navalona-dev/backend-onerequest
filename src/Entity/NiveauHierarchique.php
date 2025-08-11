@@ -66,7 +66,7 @@ use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
         new Patch(),
         new Delete(
             normalizationContext: ['groups' => 'departement:item'],
-            uriTemplate: '/niveau_hierarchiques/{id}/departements/{dep}/rangs/{rang}/dissocier',
+            uriTemplate: '/niveau_hierarchiques/{id}/departements/{dep}/dissocier',
             controller: DeleteNiveauHierarchiqueByDepartementController::class,
             read: false, // désactive la lecture automatique d'une entité
             deserialize: false,
@@ -95,7 +95,7 @@ use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
 )]
 class NiveauHierarchique
 {
-    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item', 'departement:list', 'departement:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

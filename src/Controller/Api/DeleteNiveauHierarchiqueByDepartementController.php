@@ -16,20 +16,32 @@ class DeleteNiveauHierarchiqueByDepartementController extends AbstractController
     public function __invoke(
         Request $request, 
         EntityManagerInterface $em,
-        NiveauHierarchique $niveau,
-        NiveauHierarchiqueRang $niveauRang,
-        Departement $dep,
     ): JsonResponse
     {
+        $departementId = $request->get('dep');
+        $niveauId = $request->get('id');
+
+        if (!$departementId || !$niveauId) {
+            return new JsonResponse(['message' => 'Paramètres manquants.'], 400);
+        }
+
+        $dep = $em->getRepository(Departement::class)->find($departementId);
         if (!$dep) {
             throw new NotFoundHttpException('Departement non trouvé.');
         }
+
+        $niveau = $em->getRepository(NiveauHierarchique::class)->find($niveauId);
         if (!$niveau) {
             throw new NotFoundHttpException('Niveau hierarchique non trouvé.');
         }
 
+        $niveauxRangs = $niveau->getNiveauHierarchiqueRangs();
+
+        foreach($niveauxRangs as $rang) {
+            $em->remove($rang);
+        }
+
         $dep->removeNiveauHierarchique($niveau);
-        $dep->removeNiveauHierarchiqueRang($niveauRang);
         $em->flush();
 
         return new JsonResponse(['message' => 'Niveau hiérarchique dissocié avec succès.'], 200);

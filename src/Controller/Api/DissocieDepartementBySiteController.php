@@ -18,19 +18,28 @@ class DissocieDepartementBySiteController extends AbstractController
     public function __invoke(
         Request $request, 
         EntityManagerInterface $em,
-        Departement $dep,
-        Site $site
     ): JsonResponse
     {
+        $departementId = $request->get('id');
+        $siteId = $request->get('siteId');
+        
+        $dep = $em->getRepository(Departement::class)->find($departementId);
         if (!$dep) {
-            throw new NotFoundHttpException('Departement non trouvé.');
+            throw new NotFoundHttpException('Département non trouvé.');
         }
+    
+        $site = $em->getRepository(Site::class)->find($siteId);
         if (!$site) {
             throw new NotFoundHttpException('Site non trouvé.');
         }
 
         $rangs = $dep->getDepartementRangs();
+        $rangNiveau = $dep->getNiveauHierarchiqueRangs();
         foreach($rangs as $rang) {
+            $em->remove($rang);
+        }
+
+        foreach($rangNiveau as $rang) {
             $em->remove($rang);
         }
 

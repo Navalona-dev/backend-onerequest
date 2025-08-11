@@ -2,15 +2,17 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProcessorInterface;
 use App\Entity\CodeCouleur;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\State\ProcessorInterface;
+use App\Repository\CodeCouleurRepository;
 
 class CodeCouleurAddDataPersister implements ProcessorInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private CodeCouleurRepository $codeCouleurRepo
     ) {}
 
     public function supports($data, array $context = []): bool
@@ -22,15 +24,12 @@ class CodeCouleurAddDataPersister implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         if ($data instanceof CodeCouleur && strtoupper($operation->getMethod()) === 'POST') {
-            $site = $data->getSite();
-            if ($site) {
 
-                foreach ($site->getCodeCouleurs() as $codeCouleur) {
+                foreach ($this->codeCouleurRepo->findAll() as $codeCouleur) {
                     if ($codeCouleur !== $data) {
                         $codeCouleur->setIsActive(false);
                         $this->entityManager->persist($codeCouleur);
                     }
-                }
                 
             }
 

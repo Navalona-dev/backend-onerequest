@@ -146,6 +146,7 @@ class Departement
      * @var Collection<int, NiveauHierarchique>
      */
     #[ORM\ManyToMany(targetEntity: NiveauHierarchique::class, mappedBy: 'departements')]
+    #[Groups(['departement:list', 'departement:item'])]
     private Collection $niveauHierarchiques;
 
     /**

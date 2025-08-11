@@ -35,13 +35,27 @@ class SiteUseCurrentController extends AbstractController
             'nom' => $site->getCommune()->getNom(),
         ];
 
+        $departements = $site->getDepartements();
+        $departementData = [];
+        foreach($departements as $dep) {
+            $departementData[] = [
+                'id' => $dep->getId(),
+                'nom' => $dep->getNom(),
+                'nomEn' => $dep->getNomEn(),
+                'description' => $dep->getDescription(),
+                'descriptionEn' => $dep->getDescriptionEn()
+            ];
+        }
+
         return new JsonResponse([
             'id' => $site->getId(),
             'nom' => $site->getNom(),
             'isCurrent' => $site->getIsCurrent(),
             'region' => $region,
             'commune' => $commune,
+            'departements' => $departementData,
             'message' => 'Un site trouvé.',
+
         ]);
     }
 }
