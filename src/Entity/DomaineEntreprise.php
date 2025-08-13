@@ -75,12 +75,6 @@ class DomaineEntreprise
     private ?string $label = null;
 
     /**
-     * @var Collection<int, Entreprise>
-     */
-    #[ORM\ManyToMany(targetEntity: Entreprise::class, inversedBy: 'domaineEntreprises')]
-    private Collection $entreprises;
-
-    /**
      * @var Collection<int, TypeDemande>
      */
     #[ORM\OneToMany(targetEntity: TypeDemande::class, mappedBy: 'domaine')]
@@ -96,7 +90,6 @@ class DomaineEntreprise
 
     public function __construct()
     {
-        $this->entreprises = new ArrayCollection();
         $this->typeDemandes = new ArrayCollection();
     }
 
@@ -173,30 +166,6 @@ class DomaineEntreprise
     public function setLabel(?string $label): static
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Entreprise>
-     */
-    public function getEntreprises(): Collection
-    {
-        return $this->entreprises;
-    }
-
-    public function addEntreprise(Entreprise $entreprise): static
-    {
-        if (!$this->entreprises->contains($entreprise)) {
-            $this->entreprises->add($entreprise);
-        }
-
-        return $this;
-    }
-
-    public function removeEntreprise(Entreprise $entreprise): static
-    {
-        $this->entreprises->removeElement($entreprise);
 
         return $this;
     }

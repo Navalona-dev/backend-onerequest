@@ -38,9 +38,11 @@ class TypeDemandeBySiteController extends AbstractController
         $entreprise = $entrepriseRepo->findOneBy(['id' => 1]);
     
         $types = [];
-        foreach ($entreprise->getDomaineEntreprises() as $domaine) {
-            $result = $typeRepo->findBySiteAndDomaine($site, $domaine);
-            $types = array_merge($types, $result);
+        foreach($entreprise->getCategorieDomaineEntreprises() as $categorie) {
+            foreach($categorie->getDomaines() as $domaine) {
+                $result = $typeRepo->findBySiteAndDomaine($site, $domaine);
+                $types = array_merge($types, $result);
+            }
         }
 
         $typeTab = [];

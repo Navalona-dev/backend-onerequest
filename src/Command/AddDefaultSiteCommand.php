@@ -63,6 +63,7 @@ class AddDefaultSiteCommand extends Command
             $site->setNom($nom);
             $site->setIsCurrent(true);
             $site->setEntreprise($entreprise);
+            $site->setIsActive(true);
         
             $this->em->persist($site);
             $this->em->flush();

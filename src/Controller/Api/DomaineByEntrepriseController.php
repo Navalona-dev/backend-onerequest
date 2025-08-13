@@ -19,17 +19,25 @@ class DomaineByEntrepriseController extends AbstractController
             throw new NotFoundHttpException('Entreprise non trouvé.');
         }
 
-        $domaines = $domaineRepo->findByEntreprise($entreprise);
-        $domaineTab = [];
+        $categories = $entreprise->getCategorieDomaineEntreprises();
 
-        foreach ($domaines as $domaine) {
-            $domaineTab[] = [
-                'id' => $domaine->getId(),
-                'libelle' => $domaine->getLibelle(),
-                'libelleEn' => $domaine->getLibelleEn(),
-                'description' => $domaine->getDescription(),
-                'descriptionEn' => $domaine->getDescriptionEn()
-            ];
+        $domaineTab = [];
+        foreach ($categories as $categorie) {
+            foreach ($categorie->getDomaines() as $domaine) {
+                
+                $domaineTab[] = [
+                    'id' => $domaine->getId(),
+                    'libelle' => $domaine->getLibelle(),
+                    'libelleEn' => $domaine->getLibelleEn(),
+                    'description' => $domaine->getDescription(),
+                    'descriptionEn' => $domaine->getDescriptionEn(),
+                    'categorieDomaineEntreprise' => [
+                        'id' => $categorie->getId(),
+                        'nom' => $categorie->getNom(),
+                        'nomEn' => $categorie->getNomEn()
+                    ]
+                ];
+            }
         }
 
         return new JsonResponse($domaineTab);

@@ -180,10 +180,17 @@ class DefaultsLoader
             if($isNew){
                 $domaineId = $content['domaineId'];
                 $domaine = $this->domaineEntrepriseRepo->findOneBy(['id' => $domaineId]);
-                $siteIds = $content['siteId'];
-                foreach($siteIds as $siteId) {
-                    $site = $this->siteRepo->findOneBy(['id' => $siteId]);
-                    $type->addSite($site);
+                $siteIds = $content['siteId'] ?? [];
+
+                foreach ($siteIds as $siteId) {
+                    $site = $this->siteRepo->find($siteId);
+                    if ($site) {
+                        $type->addSite($site);
+                    }  else {
+                        // On ignore juste l'ID inexistant
+                        // Tu peux aussi logger pour information
+                        // $output->writeln("<comment>⚠️ Site ID {$siteId} introuvable, ignoré.</comment>");
+                    }
                 }
 
                 $type->setNom($content['nom']);
@@ -337,14 +344,20 @@ class DefaultsLoader
         foreach ($departements as $label => $content) {
             list($isNew, $departement) = $this->maybeCreate(Departement::class, ['label' => $label]);
             if($isNew){
-                $siteIds = $content['siteId'];
-                foreach($siteIds as $siteId) {
-                    $site = $this->siteRepo->findOneBy(['id' => $siteId]);
-                    if (!$site) {
-                        throw new \RuntimeException("Site introuvable avec l'ID : $siteId");
+                $siteIds = $content['siteId'] ?? [];
+
+                foreach ($siteIds as $siteId) {
+                    $site = $this->siteRepo->find($siteId); // find() plus direct que findOneBy(['id' => ...])
+                    
+                    if ($site) {
+                        $departement->addSite($site);
+                    } else {
+                        // On ignore juste l'ID inexistant
+                        // Optionnel : logger un avertissement
+                        // $output->writeln("<comment>⚠️ Site introuvable avec l'ID : {$siteId}, ignoré.</comment>");
                     }
-                    $departement->addSite($site);
                 }
+                
                 $departement->setNom($content['nom']);
                 $departement->setNomEn($content['nomEn']);
                 $departement->setDescription($content['description']);

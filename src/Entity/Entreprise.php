@@ -14,8 +14,9 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Repository\EntrepriseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Controller\Api\DomaineByEntrepriseController;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\DomaineByEntrepriseController;
+use App\Controller\Api\CategorieByEntrepriseController;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 #[ApiResource(
@@ -32,6 +33,23 @@ use Symfony\Component\Serializer\Attribute\Groups;
                 'openapi_context' => [
                     'summary' => 'Récupérer la liste de domaine par entreprise',
                     'description' => 'Cette opération récupère la liste de domaine par entreprise.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
+        new Get(
+            normalizationContext: ['groups' => 'entreprise:item'],
+            uriTemplate: '/entreprises/categories',
+            controller: CategorieByEntrepriseController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de catégorie par entreprise',
+                    'description' => 'Cette opération récupère la liste de catégorie par entreprise.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']
@@ -71,15 +89,15 @@ class Entreprise
     private Collection $sites;
 
     /**
-     * @var Collection<int, DomaineEntreprise>
+     * @var Collection<int, CategorieDomaineEntreprise>
      */
-    #[ORM\ManyToMany(targetEntity: DomaineEntreprise::class, mappedBy: 'entreprises')]
-    private Collection $domaineEntreprises;
+    #[ORM\ManyToMany(targetEntity: CategorieDomaineEntreprise::class, mappedBy: 'entreprises')]
+    private Collection $categorieDomaineEntreprises;
 
     public function __construct()
     {
         $this->sites = new ArrayCollection();
-        $this->domaineEntreprises = new ArrayCollection();
+        $this->categorieDomaineEntreprises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,27 +184,27 @@ class Entreprise
     }
 
     /**
-     * @return Collection<int, DomaineEntreprise>
+     * @return Collection<int, CategorieDomaineEntreprise>
      */
-    public function getDomaineEntreprises(): Collection
+    public function getCategorieDomaineEntreprises(): Collection
     {
-        return $this->domaineEntreprises;
+        return $this->categorieDomaineEntreprises;
     }
 
-    public function addDomaineEntreprise(DomaineEntreprise $domaineEntreprise): static
+    public function addCategorieDomaineEntreprise(CategorieDomaineEntreprise $categorieDomaineEntreprise): static
     {
-        if (!$this->domaineEntreprises->contains($domaineEntreprise)) {
-            $this->domaineEntreprises->add($domaineEntreprise);
-            $domaineEntreprise->addEntreprise($this);
+        if (!$this->categorieDomaineEntreprises->contains($categorieDomaineEntreprise)) {
+            $this->categorieDomaineEntreprises->add($categorieDomaineEntreprise);
+            $categorieDomaineEntreprise->addEntreprise($this);
         }
 
         return $this;
     }
 
-    public function removeDomaineEntreprise(DomaineEntreprise $domaineEntreprise): static
+    public function removeCategorieDomaineEntreprise(CategorieDomaineEntreprise $categorieDomaineEntreprise): static
     {
-        if ($this->domaineEntreprises->removeElement($domaineEntreprise)) {
-            $domaineEntreprise->removeEntreprise($this);
+        if ($this->categorieDomaineEntreprises->removeElement($categorieDomaineEntreprise)) {
+            $categorieDomaineEntreprise->removeEntreprise($this);
         }
 
         return $this;

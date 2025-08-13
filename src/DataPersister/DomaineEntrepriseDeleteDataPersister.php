@@ -27,24 +27,38 @@ class DomaineEntrepriseDeleteDataPersister implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $method = strtoupper($operation->getMethod());
-
+    
         if ($method === 'DELETE') {
-            $entreprises = $data->getEntreprises();
-            foreach($entreprises as $entreprise) {
-                $entreprise->setDomaineEntreprise(null);
-                $this->entityManager->persist($entreprise);
-            }
-
-            $typeDemande = $data->getTypeDemandes();
-            foreach($typeDemande as $type) {
+            $typeDemandes = $data->getTypeDemandes();
+    
+            foreach ($typeDemandes as $type) {
+                if (count($type->getDemandes()) > 0) {
+                    throw new BadRequestHttpException(
+                        "Impossible de supprimer ce domaine : il existe déjà des demandes associées."
+                    );
+                }
+    
+                foreach ($type->getDossierAFournirs() as $dossier) {
+                    $type->removeDossierAFournir($dossier);
+                }
+    
+                foreach ($type->getDepartementRangs() as $rang) {
+                    $type->removeDepartementRang($rang);
+                    $this->entityManager->remove($rang);
+                }
+    
+                foreach ($type->getSites() as $site) {
+                    $type->removeSite($site);
+                }
+    
                 $this->entityManager->remove($type);
             }
-        } 
-        
+        }
+    
         $this->entityManager->remove($data);
-
         $this->entityManager->flush();
-
+    
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
+    
 }

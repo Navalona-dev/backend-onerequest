@@ -103,9 +103,16 @@ class CategorieDomaineEntreprise
     #[Groups(['categorie_domaine_entreprise:list', 'categorie_domaine_entreprise:item'])]
     private ?string $descriptionEn = null;
 
+    /**
+     * @var Collection<int, Entreprise>
+     */
+    #[ORM\ManyToMany(targetEntity: Entreprise::class, inversedBy: 'categorieDomaineEntreprises')]
+    private Collection $entreprises;
+
     public function __construct()
     {
         $this->domaines = new ArrayCollection();
+        $this->entreprises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +230,30 @@ class CategorieDomaineEntreprise
     public function setDescriptionEn(?string $descriptionEn): static
     {
         $this->descriptionEn = $descriptionEn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Entreprise>
+     */
+    public function getEntreprises(): Collection
+    {
+        return $this->entreprises;
+    }
+
+    public function addEntreprise(Entreprise $entreprise): static
+    {
+        if (!$this->entreprises->contains($entreprise)) {
+            $this->entreprises->add($entreprise);
+        }
+
+        return $this;
+    }
+
+    public function removeEntreprise(Entreprise $entreprise): static
+    {
+        $this->entreprises->removeElement($entreprise);
 
         return $this;
     }

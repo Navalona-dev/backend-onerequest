@@ -32,14 +32,36 @@ class CategorieDomaineEntrepriseDeleteDataPersister implements ProcessorInterfac
         if ($method === 'DELETE') {
             $domaines = $data->getDomaines();
             foreach($domaines as $domaine) {
-                $entreprises = $domaine->getEntreprise();
+                $entreprises = $domaine->getEntreprises();
+                dd(count($entreprises));
                 foreach($entreprises as $entreprise) {
-                    $entreprise->setDomaineEntreprise(null);
-                    $this->entityManager->persist($entreprise);
+                    $entreprise->removeDomaineEntreprise($domaine);
                 }
 
                 $typeDemande = $domaine->getTypeDemandes();
                 foreach($typeDemande as $type) {
+                    $demandes = $type->getDemandes();
+                    if(count($demandes) < 1) {
+                        throw new BadRequestHttpException('Type déjà une demande.');
+                    }
+
+                    foreach($demandes as $demande) {
+                        $this->entityManager->remove($demande);
+                    }
+                    $dossiers = $type->getDossierAFournirs();
+                    foreach($dossiers as $dossier) {
+                        $type->removeDossierAFournir($dossier);
+                    }
+                    $depRangs = $type->getDepartementRangs();
+                    foreach($depRangs as $rang) {
+                        $this->entityManager->remove($rang);
+                    }
+
+                    $sites = $type->getSites();
+                    foreach($sites as $site) {
+                        $type->removeSite($site);
+                    }
+                    
                     $this->entityManager->remove($type);
                 }
 

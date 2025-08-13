@@ -25,15 +25,21 @@ class SiteUseCurrentController extends AbstractController
             return new JsonResponse(null, Response::HTTP_NO_CONTENT);
         }
 
-        $region = [
-            'id' => $site->getRegion()->getId(),
-            'nom' => $site->getRegion()->getNom()
-        ];
+        $region = [];
+        if($site->getRegion()) {
+            $region = [
+                'id' => $site->getRegion()->getId(),
+                'nom' => $site->getRegion()->getNom()
+            ];
+        }
 
-        $commune = [
-            'id' => $site->getCommune()->getId(),
-            'nom' => $site->getCommune()->getNom(),
-        ];
+        $commune = [];
+        if($site->getCommune()) {
+            $commune = [
+                'id' => $site->getCommune()->getId(),
+                'nom' => $site->getCommune()->getNom(),
+            ];
+        }
 
         $departements = $site->getDepartements();
         $departementData = [];

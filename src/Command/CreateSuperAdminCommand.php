@@ -38,8 +38,8 @@ class CreateSuperAdminCommand extends Command
         $this
             ->addArgument('nom', InputArgument::REQUIRED, 'Nom de l\'utilisateur')
             ->addArgument('prenom', InputArgument::REQUIRED, 'Prénom de l\'utilisateur')
-            ->addArgument('email', InputArgument::REQUIRED, 'Email de l\'utilisateur')
-            ->addArgument('privilege_id', InputArgument::REQUIRED, 'ID du privilege de l\'utilisateur');
+            ->addArgument('email', InputArgument::REQUIRED, 'Email de l\'utilisateur');
+            //->addArgument('privilege_id', InputArgument::REQUIRED, 'ID du privilege de l\'utilisateur');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,13 +47,13 @@ class CreateSuperAdminCommand extends Command
         $nom = $input->getArgument('nom');
         $prenom = $input->getArgument('prenom');
         $email = $input->getArgument('email');
-        $privilegeId = $input->getArgument('privilege_id');
+        //$privilegeId = $input->getArgument('privilege_id');
     
         // Recherche du privilege existant par ID
-        $privilege = $this->em->getRepository(Privilege::class)->find($privilegeId);
+        $privilege = $this->em->getRepository(Privilege::class)->find(1);
     
         if (!$privilege) {
-            $output->writeln("<error>❌ DomaineEntreprise avec l'ID '$privilegeId' introuvable.</error>");
+            $output->writeln("<error>❌ DomaineEntreprise avec l'ID 1 introuvable.</error>");
             return Command::FAILURE;
         }
     
