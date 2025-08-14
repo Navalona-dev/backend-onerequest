@@ -140,6 +140,7 @@ class TypeDemande
      * @var Collection<int, Site>
      */
     #[ORM\ManyToMany(targetEntity: Site::class, inversedBy: 'typeDemandes')]
+    #[Groups(['type_demande:list', 'type_demande:item', 'site:list', 'site:item'])]
     private Collection $sites;
 
     public function __construct()

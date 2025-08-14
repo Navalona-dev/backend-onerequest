@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\DomaineByEntrepriseController;
 use App\Controller\Api\CategorieByEntrepriseController;
+use App\Controller\Api\TypeDemandeByEntrepriseController;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 #[ApiResource(
@@ -50,6 +51,23 @@ use App\Controller\Api\CategorieByEntrepriseController;
                 'openapi_context' => [
                     'summary' => 'Récupérer la liste de catégorie par entreprise',
                     'description' => 'Cette opération récupère la liste de catégorie par entreprise.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
+        new Get(
+            normalizationContext: ['groups' => 'entreprise:item'],
+            uriTemplate: '/entreprises/type-demandes',
+            controller: TypeDemandeByEntrepriseController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de type de demande par entreprise',
+                    'description' => 'Cette opération récupère la liste de type de demande par entreprise.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']

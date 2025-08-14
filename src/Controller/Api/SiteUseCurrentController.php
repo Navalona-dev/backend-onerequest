@@ -53,6 +53,18 @@ class SiteUseCurrentController extends AbstractController
             ];
         }
 
+        $types = $site->getTypeDemandes();
+        $typeDemandeData = [];
+        foreach($types as $type) {
+            $typeDemandeData[] = [
+                'id' => $type->getId(),
+                'nom' => $type->getNom(),
+                'nomEn' => $type->getNomEn(),
+                'description' => $type->getDescription(),
+                'descriptionEn' => $type->getDescriptionEn()
+            ];
+        }
+
         return new JsonResponse([
             'id' => $site->getId(),
             'nom' => $site->getNom(),
@@ -60,6 +72,7 @@ class SiteUseCurrentController extends AbstractController
             'region' => $region,
             'commune' => $commune,
             'departements' => $departementData,
+            'typeDemandes' => $typeDemandeData,
             'message' => 'Un site trouvé.',
 
         ]);

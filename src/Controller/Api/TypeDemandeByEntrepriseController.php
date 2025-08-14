@@ -14,33 +14,24 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class TypeDemandeBySiteController extends AbstractController
+class TypeDemandeByEntrepriseController extends AbstractController
 {
     public function __invoke(
         Request $request,
         TypeDemandeRepository $typeRepo, 
         EntrepriseRepository $entrepriseRepo,
-        SiteRepository $siteRepo
     ): JsonResponse
     {
-        $siteId = $request->attributes->get('id');
-    
-        if (!$siteId) {
-            throw new NotFoundHttpException('ID du site manquant.');
-        }
-    
-        $site = $siteRepo->find($siteId);
-    
-        if (!$site) {
-            throw new NotFoundHttpException('Site non trouvé.');
-        }
     
         $entreprise = $entrepriseRepo->findOneBy(['id' => 1]);
-    
+        if (!$entreprise) {
+            throw new NotFoundHttpException('Entreprise non trouvé.');
+        }
+
         $types = [];
         foreach($entreprise->getCategorieDomaineEntreprises() as $categorie) {
             foreach($categorie->getDomaines() as $domaine) {
-                $result = $typeRepo->findBySiteAndDomaine($site, $domaine);
+                $result = $typeRepo->findByDomaine($domaine);
                 $types = array_merge($types, $result);
             }
         }
