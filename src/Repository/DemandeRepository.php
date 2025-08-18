@@ -16,28 +16,19 @@ class DemandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Demande::class);
     }
 
-    //    /**
-    //     * @return Demande[] Returns an array of Demande objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBySiteAndTypeDemande($site, $type): array
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.site', 's')
+            ->join('d.type', 't')
+            ->andWhere('s.id = :idSite')
+            ->andWhere('t.id = :idType')
+            ->setParameter('idSite', $site)
+            ->setParameter('idType', $type)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    //    public function findOneBySomeField($value): ?Demande
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+   
 }

@@ -17,7 +17,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\DataPersister\TypeDemandeAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\TypeDemandeBySiteController;
+use App\DataPersister\DeleteTypeDemandeDataPersister;
 use App\DataPersister\TypeDemandeUpdateDataPersister;
+use App\Controller\Api\DissociateTypeDemandeBySiteController;
 use App\Controller\Api\DossierAFournirByTypeDemandeController;
 use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
 
@@ -65,12 +67,31 @@ use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
         new Post(),
         new Patch(),
         new Delete(),
-
+        new Delete(
+            normalizationContext: ['groups' => 'departement:item'],
+            uriTemplate: '/type_demandes/{idType}/site/{idSite}/dissocier',
+            controller: DissociateTypeDemandeBySiteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Dissocier le type de deamnde par site',
+                    'description' => 'Cette opération dissocie le type de deamnde par site.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
         new Post( 
             processor: TypeDemandeAddDataPersister::class,
         ),
         new Patch( 
             processor: TypeDemandeUpdateDataPersister::class,
+        ),
+        new Delete( 
+            processor: DeleteTypeDemandeDataPersister::class,
         ),
     ],
     paginationEnabled: false
