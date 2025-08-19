@@ -18,6 +18,7 @@ use App\DataPersister\CodeCouleurAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
 use App\Controller\Api\CodeCouleurToggleController;
+use App\DataPersister\CodeCouleurDeleteDataPersister;
 use App\DataPersister\CodeCouleurUpdateDataPersister;
 use App\Controller\Api\CodeCouleurGetActiveController;
 use App\Controller\Api\CodeCouleurGetGlobalActiveController;
@@ -74,6 +75,9 @@ use App\Controller\Api\CodeCouleurGetGlobalActiveController;
 
         new Patch( 
             processor: CodeCouleurUpdateDataPersister::class,
+        ),
+        new Delete( 
+            processor: CodeCouleurDeleteDataPersister::class,
         ),
     ],
 )]

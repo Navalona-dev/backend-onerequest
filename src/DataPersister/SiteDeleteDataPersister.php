@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class SiteUpdateDataPersister implements ProcessorInterface
+class SiteDeleteDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -26,13 +26,16 @@ class SiteUpdateDataPersister implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $method = strtoupper($operation->getMethod());
-        // POST: Création => vérifier s'il existe déjà un utilisateur avec cet email
-        if ($method === 'PATCH') {
-            $data->setUpdatedAt(new \DateTime());
+        if ($method === 'DELETE') {
+            $demandes = $data->getDemandes();
+            if(count($demandes) > 0) {
+                throw new BadRequestHttpException(
+                    "Impossible de supprimer ce site : il existe déjà des demandes associées, vos pouvez faire seuelemnt le rendre indisponible."
+                );
+            } else {
+                $this->entityManager->remove($data);
+            }
         }
-
-
-        $this->entityManager->persist($data);
 
         $this->entityManager->flush();
 

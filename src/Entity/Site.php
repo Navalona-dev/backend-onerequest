@@ -16,6 +16,7 @@ use App\DataPersister\SiteAddDataPersister;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\SiteToggleController;
 use App\Controller\Api\UserBySiteController;
+use App\DataPersister\SiteDeleteDataPersister;
 use App\DataPersister\SiteUpdateDataPersister;
 use App\Controller\Api\DemandeBySiteController;
 use App\Controller\Api\UserConnectedController;
@@ -28,6 +29,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\CodeCouleurBySiteController;
 use App\Controller\Api\DepartementBySiteController;
 use App\Controller\Api\TypeDemandeBySiteController;
+use App\Controller\Api\SiteToggleDisponibleController;
 use App\Controller\Api\RangBySiteAndDepartementController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
@@ -229,12 +231,33 @@ use App\Controller\Api\RangBySiteAndDepartementController;
             ]
         ),
 
+        new Post(
+            uriTemplate: '/sites/{id}/toggle-disponible',
+            controller: SiteToggleDisponibleController::class,
+            read: true,
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Disponible/INdisponible un site',
+                    'description' => 'Cette opération rend le site disponible ou indisponible.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
         new Post( 
             processor: SiteAddDataPersister::class,
         ),
 
         new Patch( 
             processor: SiteUpdateDataPersister::class,
+        ),
+
+        new Delete( 
+            processor: SiteDeleteDataPersister::class,
         ),
        
     ],
@@ -327,6 +350,10 @@ class Site
      */
     #[ORM\OneToMany(targetEntity: DepartementRang::class, mappedBy: 'site')]
     private Collection $departementRangs;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item'])]
+    private ?bool $isIndisponible = null;
 
     public function __construct()
     {
@@ -645,6 +672,18 @@ class Site
                 $departementRang->setSite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsIndisponible(): ?bool
+    {
+        return $this->isIndisponible;
+    }
+
+    public function setIsIndisponible(?bool $isIndisponible): static
+    {
+        $this->isIndisponible = $isIndisponible;
 
         return $this;
     }
