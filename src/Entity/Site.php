@@ -96,7 +96,7 @@ use App\Controller\Api\RangBySiteAndDepartementController;
             ]
         ),
         new Post(
-            uriTemplate: '/sites/toggle-active',
+            uriTemplate: '/sites/{id}/toggle-active',
             controller: SiteToggleController::class,
             read: true,
             deserialize: false,

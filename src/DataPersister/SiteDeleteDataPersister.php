@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -28,11 +29,18 @@ class SiteDeleteDataPersister implements ProcessorInterface
         $method = strtoupper($operation->getMethod());
         if ($method === 'DELETE') {
             $demandes = $data->getDemandes();
-            if(count($demandes) > 0) {
-                throw new BadRequestHttpException(
-                    "Impossible de supprimer ce site : il existe déjà des demandes associées, vos pouvez faire seuelemnt le rendre indisponible."
+            if (count($demandes) > 0) {
+                throw new HttpException(
+                    409, 
+                    "Impossible de supprimer ce site : il existe déjà des demandes associées, vous pouvez seulement le rendre indisponible."
                 );
-            } else {
+            } elseif ($data->getIsCurrent() === true) {
+                throw new HttpException(
+                    403, 
+                    "Suppression impossible : ce site est actuellement utilisé. Veuillez sélectionner un autre site avant de pouvoir le supprimer."
+                );
+            }
+            else {
                 $this->entityManager->remove($data);
             }
         }

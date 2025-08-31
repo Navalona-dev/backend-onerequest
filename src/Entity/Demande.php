@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;  
@@ -126,6 +128,17 @@ class Demande
     #[Groups(['demande:list', 'demande:item'])]
     private ?string $fichier = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'demandesTraitees')]
+    private Collection $responsables;
+
+    public function __construct()
+    {
+        $this->responsables = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -235,6 +248,30 @@ class Demande
     public function setFichier(?string $fichier): static
     {
         $this->fichier = $fichier;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getResponsables(): Collection
+    {
+        return $this->responsables;
+    }
+
+    public function addResponsable(User $responsable): static
+    {
+        if (!$this->responsables->contains($responsable)) {
+            $this->responsables->add($responsable);
+        }
+
+        return $this;
+    }
+
+    public function removeResponsable(User $responsable): static
+    {
+        $this->responsables->removeElement($responsable);
 
         return $this;
     }

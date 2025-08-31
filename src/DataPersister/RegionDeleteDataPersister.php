@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -30,18 +31,21 @@ class RegionDeleteDataPersister implements ProcessorInterface
         if ($method === "DELETE") {
             $sites = $data->getSites();
 
-            foreach($sites as $site) {
-                $site->setRegion(null);
-                $this->entityManager->persist($site);
-            }
-
-            $communes = $region->getCommunes();
+            $communes = $data->getCommunes();
 
             foreach($communes as $commune) {
-                $sites = $commune->getSites();
                 foreach($sites as $site) {
-                    $site->setCommune(null);
-                    $this->entityManager->persist($site);
+                    $demandes = $site->getDemandes();
+                    if(count($demandes) > 0) {
+                        throw new HttpException(
+                            409, 
+                            "Impossible de supprimer cette region : il existe déjà des demandes associées aux sites associés."
+                        );
+                    } else {
+                        $site->setCommune(null);
+                        $site->setRegion(null);
+                        $this->entityManager->persist($site);
+                    }
                 }
                 $this->entityManager->remove($commune);
             }

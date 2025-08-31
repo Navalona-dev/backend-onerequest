@@ -217,10 +217,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Departement $departement = null;
 
+    /**
+     * @var Collection<int, Demande>
+     */
+    #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'responsables')]
+    private Collection $demandesTraitees;
+
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->demandesTraitees = new ArrayCollection();
     }
     
 
@@ -479,6 +486,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDepartement(?Departement $departement): static
     {
         $this->departement = $departement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesTraitees(): Collection
+    {
+        return $this->demandesTraitees;
+    }
+
+    public function addDemandesTraitee(Demande $demandesTraitee): static
+    {
+        if (!$this->demandesTraitees->contains($demandesTraitee)) {
+            $this->demandesTraitees->add($demandesTraitee);
+            $demandesTraitee->addResponsable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesTraitee(Demande $demandesTraitee): static
+    {
+        if ($this->demandesTraitees->removeElement($demandesTraitee)) {
+            $demandesTraitee->removeResponsable($this);
+        }
 
         return $this;
     }

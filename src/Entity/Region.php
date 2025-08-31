@@ -110,6 +110,7 @@ class Region
      * @var Collection<int, Commune>
      */
     #[ORM\OneToMany(targetEntity: Commune::class, mappedBy: 'region')]
+    #[Groups(['region:list', 'region:item', 'site:list', 'site:item'])]
     private Collection $communes;
 
     public function __construct()

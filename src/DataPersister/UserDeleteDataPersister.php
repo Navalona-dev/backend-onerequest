@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class CommuneDeleteDataPersister implements ProcessorInterface
+class UserDeleteDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -21,7 +21,7 @@ class CommuneDeleteDataPersister implements ProcessorInterface
 
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof Commune;
+        return $data instanceof User;
     }
 
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
@@ -29,20 +29,12 @@ class CommuneDeleteDataPersister implements ProcessorInterface
         $method = strtoupper($operation->getMethod());
 
         if ($method === "DELETE") {
-            $sites = $data->getSites();
-
-            foreach($sites as $site) {
-                $demandes = $site->getDemandes();
-                if(count($demandes) > 0) {
-                    throw new HttpException(
-                        409, 
-                        "Impossible de supprimer cette commune : il existe déjà des demandes associées aux sites associés."
-                    );
-                } else {
-                    $site->setCommune(null);
-                    $this->entityManager->persist($site);
-                }
-                
+            $demandes = $data->getDemandesTraitees();
+            if(count($demandes) > 0) {
+                throw new HttpException(
+                    409, 
+                    "Impossible de supprimer cet utilisateur : il existe déjà des demandes associées."
+                );
             }
         } 
         
