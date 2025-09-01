@@ -1,17 +1,17 @@
 data1:
   title: Carte d'identité
   titleEn: Identity card
-  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+  idTypeDemande: [1,2,3,4,5,6]
 
 data2:
   title: Justificatif de domicile
   titleEn: Proof of residence
-  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+  idTypeDemande: [1,2,3,4,5,6]
 
 data3:
   title: Photo d'identité
   titleEn: ID photo
-  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+  idTypeDemande: [1,2,3,4,5,6]
 
 data4:
   title: Acte de naissance
@@ -21,7 +21,7 @@ data4:
 data5:
   title: Fiche de renseignement
   titleEn: Information sheet
-  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+  idTypeDemande: [1,2,3,4,5,6]
 
 data6:
   title: Curriculum Vitae (CV)
@@ -66,7 +66,7 @@ data13:
 data14:
   title: Autorisation parentale
   titleEn: Parental authorization
-  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+  idTypeDemande: [1,2,3,4,5,6]
 
 data15:
   title: Justificatif de revenu ou salaire
@@ -76,4 +76,4 @@ data15:
 data16:
   title: Contrat précédent ou preuve d’emploi
   titleEn: Previous contract or proof of employment
-  idTypeDemande: [16, 17, 18, 19, 33, 34, 35, 36]
+  idTypeDemande: [1,2,3,4,5,6]

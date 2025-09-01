@@ -19,6 +19,7 @@ use App\DataPersister\AddUserDataPersister;
 use App\DataPersister\UserAddDataPersister;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\Api\UserRegisterController;
+use App\DataPersister\UserDeleteDataPersister;
 use App\DataPersister\UserUpdateDataPersister;
 use App\Controller\Api\DemandeByUserController;
 use App\Controller\Api\UserConnectedController;
@@ -135,6 +136,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new Patch( 
             processor: UserUpdateDataPersister::class,
         ),
+
+        new Delete( 
+            processor: UserDeleteDataPersister::class,
+        ),
         
     ]
 )]
@@ -223,11 +228,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'responsables')]
     private Collection $demandesTraitees;
 
+    /**
+     * @var Collection<int, Traitement>
+     */
+    #[ORM\OneToMany(targetEntity: Traitement::class, mappedBy: 'user')]
+    private Collection $traitements;
+
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->demandesTraitees = new ArrayCollection();
+        $this->traitements = new ArrayCollection();
     }
     
 
@@ -512,6 +524,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->demandesTraitees->removeElement($demandesTraitee)) {
             $demandesTraitee->removeResponsable($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Traitement>
+     */
+    public function getTraitements(): Collection
+    {
+        return $this->traitements;
+    }
+
+    public function addTraitement(Traitement $traitement): static
+    {
+        if (!$this->traitements->contains($traitement)) {
+            $this->traitements->add($traitement);
+            $traitement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraitement(Traitement $traitement): static
+    {
+        if ($this->traitements->removeElement($traitement)) {
+            // set the owning side to null (unless already changed)
+            if ($traitement->getUser() === $this) {
+                $traitement->setUser(null);
+            }
         }
 
         return $this;

@@ -26,5 +26,16 @@ class SiteRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findActiveAndAvailable(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.isActive = :active')
+            ->andWhere('s.isIndisponible = :false OR s.isIndisponible IS NULL')
+            ->setParameter('active', true)
+            ->setParameter('false', false)
+            ->getQuery()
+            ->getResult();
+    }
+
   
 }

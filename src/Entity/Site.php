@@ -31,6 +31,7 @@ use App\Controller\Api\DepartementBySiteController;
 use App\Controller\Api\TypeDemandeBySiteController;
 use App\Controller\Api\SiteToggleDisponibleController;
 use App\Controller\Api\RangBySiteAndDepartementController;
+use App\Controller\Api\GetSiteActiveAndDisponibleController;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ApiResource(
@@ -47,6 +48,24 @@ use App\Controller\Api\RangBySiteAndDepartementController;
                 'openapi_context' => [
                     'summary' => 'Récuperer un site sélectionné',
                     'description' => 'Cette opération recupère un site selectionné.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'site:item'],
+            uriTemplate: '/sites/active-and-disponible',
+            controller: GetSiteActiveAndDisponibleController::class,
+            read: false,
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récuperer la liste de site activé et disponible',
+                    'description' => 'Cette opération recupère la liste de site activé et disponible.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']
