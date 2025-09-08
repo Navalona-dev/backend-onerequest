@@ -30,6 +30,26 @@ class UserBySiteController extends AbstractController
                 ];
             }
 
+            $dep = $user->getDepartement();
+            $depData = [];
+            if($dep) {
+                $depData = [
+                    'id' => $dep->getId(),
+                    'nom' => $dep->getNom(),
+                    'nomEn' => $dep->getNomEn()
+                ];
+            }
+
+            $niveau = $user->getNiveauHierarchique();
+            $niveauData = [];
+            if($niveau) {
+                $niveauData = [
+                    'id' => $niveau->getId(),
+                    'nom' => $niveau->getNom(),
+                    'nomEn' => $niveau->getNomEn()
+                ];
+            }
+
             $privileges = [];
             foreach ($user->getPrivileges() as $privilege) {
                 $privileges[] = [
@@ -47,6 +67,8 @@ class UserBySiteController extends AbstractController
                 'email' => $user->getEmail(),
                 'site' => $siteData,
                 'privileges' => $privileges,
+                'departement' => $depData,
+                'niveauHierarchique' => $niveauData
             ];
         }
 

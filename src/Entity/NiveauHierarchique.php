@@ -152,6 +152,10 @@ class NiveauHierarchique
     #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item'])]
     private Collection $departements;
 
+    #[ORM\ManyToOne(inversedBy: 'niveauHierarchiques')]
+    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    private ?Privilege $privilege = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -340,6 +344,18 @@ class NiveauHierarchique
     public function removeDepartement(Departement $departement): static
     {
         $this->departements->removeElement($departement);
+
+        return $this;
+    }
+
+    public function getPrivilege(): ?Privilege
+    {
+        return $this->privilege;
+    }
+
+    public function setPrivilege(?Privilege $privilege): static
+    {
+        $this->privilege = $privilege;
 
         return $this;
     }

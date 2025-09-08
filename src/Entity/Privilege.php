@@ -85,10 +85,17 @@ class Privilege
     #[Groups(['privilege:list', 'privilege:item', 'user:list', 'user:item'])]
     private ?string $descriptionEn = null;
 
+    /**
+     * @var Collection<int, NiveauHierarchique>
+     */
+    #[ORM\OneToMany(targetEntity: NiveauHierarchique::class, mappedBy: 'privilege')]
+    private Collection $niveauHierarchiques;
+
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->niveauHierarchiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,6 +249,36 @@ class Privilege
     public function setDescriptionEn(?string $descriptionEn): static
     {
         $this->descriptionEn = $descriptionEn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NiveauHierarchique>
+     */
+    public function getNiveauHierarchiques(): Collection
+    {
+        return $this->niveauHierarchiques;
+    }
+
+    public function addNiveauHierarchique(NiveauHierarchique $niveauHierarchique): static
+    {
+        if (!$this->niveauHierarchiques->contains($niveauHierarchique)) {
+            $this->niveauHierarchiques->add($niveauHierarchique);
+            $niveauHierarchique->setPrivilege($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNiveauHierarchique(NiveauHierarchique $niveauHierarchique): static
+    {
+        if ($this->niveauHierarchiques->removeElement($niveauHierarchique)) {
+            // set the owning side to null (unless already changed)
+            if ($niveauHierarchique->getPrivilege() === $this) {
+                $niveauHierarchique->setPrivilege(null);
+            }
+        }
 
         return $this;
     }

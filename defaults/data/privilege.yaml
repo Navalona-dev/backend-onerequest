@@ -67,3 +67,35 @@ data10:
   descriptionEn: "Initiates a request and follows its progress until the final decision"
   libelleFr: "Demandeur"
   libelleEn: "Requester"
+
+data11:
+  title: "manager"
+  description: "Supervise une équipe, coordonne les activités quotidiennes et valide les premières étapes"
+  descriptionEn: "Supervises a team, coordinates daily activities, and validates first steps"
+  libelleFr: "Manager / Responsable"
+  libelleEn: "Manager / Supervisor"
+
+data12:
+  title: "chef_equipe"
+  description: "Encadre une petite équipe, suit les tâches quotidiennes et rend compte au responsable"
+  descriptionEn: "Leads a small team, monitors daily tasks, and reports to the manager"
+  libelleFr: "Chef d’équipe"
+  libelleEn: "Team Leader"
+
+data13:
+  title: "agent_senior"
+  description: "Agent expérimenté pouvant encadrer les nouveaux arrivants ou gérer des cas complexes"
+  descriptionEn: "Experienced agent who may mentor new hires or handle complex cases"
+  libelleFr: "Agent Senior"
+  libelleEn: "Senior Agent"
+
+data14:
+  title: "stagiaire"
+  description: "Rôle limité, principalement observation et assistance sous supervision"
+  descriptionEn: "Limited role, mainly observation and assistance under supervision"
+  libelleFr: "Stagiaire"
+  libelleEn: "Intern"
+
+
+
+

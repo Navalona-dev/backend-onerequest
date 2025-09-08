@@ -34,13 +34,24 @@ class NiveauHierarchiqueByDepartementController extends AbstractController
                 ];
             }
 
+            $privilege = $niveau->getPrivilege();
+            $privilegeData= [];
+
+            if($privilege) {
+                $privilegeData = [
+                    'id' => $privilege->getId(),
+                    'title' => $privilege->getTitle()
+                ];
+            }
+
             $niveauTab[] = [
                 'id' => $niveau->getId(),
                 'nom' => $niveau->getNom(),
                 'nomEn' => $niveau->getNomEn(),
                 'description' => $niveau->getDescription(),
                 'descriptionEn' => $niveau->getDescriptionEn(),
-                'isActive' => $niveau->getIsActive()
+                'isActive' => $niveau->getIsActive(),
+                'privilege' => $privilegeData
             ];
         }
 

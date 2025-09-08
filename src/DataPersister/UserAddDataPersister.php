@@ -52,8 +52,10 @@ class UserAddDataPersister implements ProcessorInterface
 
                 if($is_demandeur) {
                     $privilege = $this->privilegeRepo->findOneBy(['id' => 10]);
-
+                    $data->setIsClient(true);
                     $data->addPrivilege($privilege);
+                } else {
+                    $data->setIsEmploye(true);
                 }
             }
 

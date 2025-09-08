@@ -16,6 +16,7 @@ use Symfony\Component\Yaml\Yaml;
 use App\Entity\DomaineEntreprise;
 use App\Entity\NiveauHierarchique;
 use App\Repository\SiteRepository;
+use App\Repository\PrivilegeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use function Symfony\Component\String\u;
 use App\Repository\DepartementRepository;
@@ -33,6 +34,7 @@ class DefaultsLoader
     private $typeDemandeRepo;
     private $siteRepo;
     private $departementRepo;
+    private $privilegeRepo;
 
     public function __construct(
         EntityManagerInterface $em, 
@@ -40,7 +42,8 @@ class DefaultsLoader
         DomaineEntrepriseRepository $domaineEntrepriseRepo,
         TypeDemandeRepository $typeDemandeRepo,
         SiteRepository $siteRepo,
-        DepartementRepository $departementRepo
+        DepartementRepository $departementRepo,
+        PrivilegeRepository $privilegeRepo
     )
     {
         $this->em = $em;
@@ -49,6 +52,7 @@ class DefaultsLoader
         $this->typeDemandeRepo = $typeDemandeRepo;
         $this->siteRepo = $siteRepo;
         $this->departementRepo = $departementRepo;
+        $this->privilegeRepo = $privilegeRepo;
     }
 
     private function maybeCreate($class, $criteria, ?string $repositoryMethodName = 'findOneBy'): array
@@ -383,6 +387,12 @@ class DefaultsLoader
                 foreach($departements as $departement) {
                     $niveau->addDepartement($departement);
                 }
+                $title = $content['privilege'];
+                $privilege = $this->privilegeRepo->findOneBy(['title' => $title]);
+                if($privilege) {
+                    $niveau->setPrivilege($privilege);
+                }
+
                 $niveau->setNom($content['nom']);
                 $niveau->setNomEn($content['nomEn']);
                 $niveau->setDescription($content['description']);

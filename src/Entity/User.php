@@ -217,6 +217,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Langue $langue = null;
 
     #[ORM\ManyToOne(inversedBy: 'user')]
+    #[Groups(['user:list', 'user:item', 'langue:list', 'langue:item'])]
     private ?NiveauHierarchique $niveauHierarchique = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -233,6 +234,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Traitement::class, mappedBy: 'user')]
     private Collection $traitements;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isClient = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isEmploye = null;
 
     public function __construct()
     {
@@ -555,6 +562,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $traitement->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsClient(): ?bool
+    {
+        return $this->isClient;
+    }
+
+    public function setIsClient(?bool $isClient): static
+    {
+        $this->isClient = $isClient;
+
+        return $this;
+    }
+
+    public function getIsEmploye(): ?bool
+    {
+        return $this->isEmploye;
+    }
+
+    public function setIsEmploye(?bool $isEmploye): static
+    {
+        $this->isEmploye = $isEmploye;
 
         return $this;
     }
