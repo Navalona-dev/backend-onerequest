@@ -30,12 +30,15 @@ class NiveauHierarchiqueRangRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByDepartement($departement): array
+    public function findByDepartementAndType($departement, $type): array
     {
         return $this->createQueryBuilder('r')
             ->join('r.departement', 'd')
+            ->join('r.typeDemande', 't')
             ->andWhere('d.id = :idDep')
+            ->andWhere('t.id = :idType')
             ->setParameter('idDep', $departement->getId())
+            ->setParameter('idType', $type->getId())
             ->getQuery()
             ->getResult()
         ;

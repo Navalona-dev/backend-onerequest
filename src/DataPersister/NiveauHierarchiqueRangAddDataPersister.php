@@ -27,8 +27,9 @@ class NiveauHierarchiqueRangAddDataPersister implements ProcessorInterface
     {
         $departement = $data->getDepartement();
         $niveau = $data->getNiveauHierarchique();
+        $type = $data->getTypeDemande();
 
-        $rangs = $this->rangRepo->findByDepartement($departement);
+        $rangs = $this->rangRepo->findByDepartementAndType($departement, $type);
         $rangTab = [];
         foreach($rangs as $rang) {
             $rangTab[] = $rang->getRang();
@@ -38,7 +39,7 @@ class NiveauHierarchiqueRangAddDataPersister implements ProcessorInterface
 
         //verifier si le rang n'existe pas encore sur le departement
         if (in_array($newRang, $rangTab)) {
-            throw new BadRequestHttpException('Ce rang existe déjà pour ce département.');
+            throw new BadRequestHttpException('Ce rang existe déjà pour ce département et ce type de demande.');
         }
 
         $method = strtoupper($operation->getMethod());

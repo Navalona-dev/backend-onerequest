@@ -164,12 +164,19 @@ class TypeDemande
     #[Groups(['type_demande:list', 'type_demande:item', 'site:list', 'site:item'])]
     private Collection $sites;
 
+    /**
+     * @var Collection<int, NiveauHierarchiqueRang>
+     */
+    #[ORM\OneToMany(targetEntity: NiveauHierarchiqueRang::class, mappedBy: 'typeDemande')]
+    private Collection $niveauHierarchiqueRangs;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
         $this->dossierAFournirs = new ArrayCollection();
         $this->departementRangs = new ArrayCollection();
         $this->sites = new ArrayCollection();
+        $this->niveauHierarchiqueRangs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -393,6 +400,36 @@ class TypeDemande
     public function removeSite(Site $site): static
     {
         $this->sites->removeElement($site);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NiveauHierarchiqueRang>
+     */
+    public function getNiveauHierarchiqueRangs(): Collection
+    {
+        return $this->niveauHierarchiqueRangs;
+    }
+
+    public function addNiveauHierarchiqueRang(NiveauHierarchiqueRang $niveauHierarchiqueRang): static
+    {
+        if (!$this->niveauHierarchiqueRangs->contains($niveauHierarchiqueRang)) {
+            $this->niveauHierarchiqueRangs->add($niveauHierarchiqueRang);
+            $niveauHierarchiqueRang->setTypeDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNiveauHierarchiqueRang(NiveauHierarchiqueRang $niveauHierarchiqueRang): static
+    {
+        if ($this->niveauHierarchiqueRangs->removeElement($niveauHierarchiqueRang)) {
+            // set the owning side to null (unless already changed)
+            if ($niveauHierarchiqueRang->getTypeDemande() === $this) {
+                $niveauHierarchiqueRang->setTypeDemande(null);
+            }
+        }
 
         return $this;
     }

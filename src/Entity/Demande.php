@@ -140,6 +140,9 @@ class Demande
     #[ORM\OneToMany(targetEntity: Traitement::class, mappedBy: 'demande')]
     private Collection $traitements;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reference = null;
+
     public function __construct()
     {
         $this->responsables = new ArrayCollection();
@@ -309,6 +312,18 @@ class Demande
                 $traitement->setDemande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): static
+    {
+        $this->reference = $reference;
 
         return $this;
     }

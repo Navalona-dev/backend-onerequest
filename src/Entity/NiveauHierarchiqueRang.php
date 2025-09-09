@@ -60,6 +60,9 @@ class NiveauHierarchiqueRang
     #[Groups(['niveau_hierarchique_rang:list', 'niveau_hierarchique_rang:item'])]
     private ?\DateTime $updatedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'niveauHierarchiqueRangs')]
+    private ?TypeDemande $typeDemande = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +124,18 @@ class NiveauHierarchiqueRang
     public function setUpdatedAt(?\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getTypeDemande(): ?TypeDemande
+    {
+        return $this->typeDemande;
+    }
+
+    public function setTypeDemande(?TypeDemande $typeDemande): static
+    {
+        $this->typeDemande = $typeDemande;
 
         return $this;
     }
