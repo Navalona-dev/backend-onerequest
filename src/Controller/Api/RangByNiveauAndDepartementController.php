@@ -31,9 +31,20 @@ class RangByNiveauAndDepartementController extends AbstractController
             return new JsonResponse(null, 204); // No Content, ou 404 selon ton besoin
         }
 
+        $rangTypeTab = null;
+
+        if ($rang->getTypeDemande()) {
+            $rangTypeTab = [
+                'id' => $rang->getTypeDemande()->getId(),
+                'nom' => $rang->getTypeDemande()->getNom(),
+                'nomEn' => $rang->getTypeDemande()->getNomEn()
+            ];
+        }
+
         $rangTab = [
             'id' => $rang->getId(),
             'rang' => $rang->getRang(),
+            'typeDemande' => $rangTypeTab
         ];
 
         return new JsonResponse($rangTab);
