@@ -9,17 +9,35 @@ use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use App\Repository\NiveauHierarchiqueRangRepository;
+use App\Controller\Api\RangsByNiveauAndDepartementController;
 use App\DataPersister\NiveauHierarchiqueRangAddDataPersister;
 use App\DataPersister\NiveauHierarchiqueRangUpdateDataPersister;
-use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: NiveauHierarchiqueRangRepository::class)]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'niveau_hierarchique_rang:list']), 
-        new Get(normalizationContext: ['groups' => 'niveau_hierarchique_rang:item']),           
+        new Get(normalizationContext: ['groups' => 'niveau_hierarchique_rang:item']),  
+        new Get(
+            normalizationContext: ['groups' => 'departement:item'],
+            uriTemplate: '/niveau_hierarchique_rangs/niveau/{id}/departement/{dep}',
+            controller: RangsByNiveauAndDepartementController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de rang par departement et niveau hierarchique',
+                    'description' => 'Cette opération récupère la liste de rang par departement et niveau hierarchique.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),  
         new Post(),
         new Patch(),
         new Delete(),
