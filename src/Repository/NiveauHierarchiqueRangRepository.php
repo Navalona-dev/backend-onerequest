@@ -57,5 +57,16 @@ class NiveauHierarchiqueRangRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByNiveau($niveau): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.niveauHierarchique', 'n')
+            ->andWhere('n.id = :idNiveau')
+            ->setParameter('idNiveau', $niveau->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 }

@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Controller\Api\RangsByNiveauController;
 use App\Repository\NiveauHierarchiqueRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -62,6 +63,23 @@ use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
                 ]
             ]
         ),        
+        new Get(
+            normalizationContext: ['groups' => 'departement:item'],
+            uriTemplate: '/niveau_hierarchiques/{id}/rangs',
+            controller: RangsByNiveauController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer le rang par niveau hierarchique',
+                    'description' => 'Cette opération récupère le rang par niveau hierarchique.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),       
         new Post(),
         new Patch(),
         new Delete(
