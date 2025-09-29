@@ -153,6 +153,7 @@ class Departement
      * @var Collection<int, DepartementRang>
      */
     #[ORM\OneToMany(targetEntity: DepartementRang::class, mappedBy: 'departement')]
+    #[Groups(['departement:list', 'departement:item'])]
     private Collection $departementRangs;
 
     public function __construct()

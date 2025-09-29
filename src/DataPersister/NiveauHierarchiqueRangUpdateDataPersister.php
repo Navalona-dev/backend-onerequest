@@ -27,14 +27,15 @@ class NiveauHierarchiqueRangUpdateDataPersister implements ProcessorInterface
     {
         $departement = $data->getDepartement();
         $niveau = $data->getNiveauHierarchique();
+        $type = $data->getTypeDemande();
 
-        $rangs = $this->rangRepo->findByDepartement($departement);
+        $rangs = $this->rangRepo->findByDepartementAndType($departement, $type);
         $newRang = $data->getRang();
-        $currentId = $data->getId(); // ID de l'entité en cours de modification
+        $currentId = $data->getId();
         
         foreach ($rangs as $rang) {
             if ($rang->getRang() === $newRang && $rang->getId() !== $currentId) {
-                throw new BadRequestHttpException('Ce rang existe déjà pour ce département.');
+                throw new BadRequestHttpException('Ce rang existe déjà pour ce département et ce type de demande.');
             }
         }
 

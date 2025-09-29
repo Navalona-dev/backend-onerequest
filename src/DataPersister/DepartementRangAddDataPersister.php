@@ -43,6 +43,8 @@ class DepartementRangAddDataPersister implements ProcessorInterface
             throw new BadRequestHttpException('Ce rang existe déjà pour ce site et type de demande.');
         }
 
+        //dd('ici');
+
         $method = strtoupper($operation->getMethod());
 
         if ($method === 'POST') {
@@ -53,6 +55,9 @@ class DepartementRangAddDataPersister implements ProcessorInterface
 
         $this->entityManager->flush();
 
-        return $data;
+        return [
+            'message' => 'Rang ajouté avec succès',
+            'id' => $data->getId()
+        ];
     }
 }

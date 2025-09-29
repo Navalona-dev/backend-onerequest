@@ -58,6 +58,9 @@ class DepartementRangUpdateDataPersister implements ProcessorInterface
 
         $this->entityManager->flush();
 
-        return $data;
+        return [
+            'message' => 'Rang ajouté avec succès',
+            'id' => $data->getId()
+        ];
     }
 }

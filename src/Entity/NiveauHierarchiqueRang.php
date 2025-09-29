@@ -22,7 +22,7 @@ use App\DataPersister\NiveauHierarchiqueRangUpdateDataPersister;
         new GetCollection(normalizationContext: ['groups' => 'niveau_hierarchique_rang:list']), 
         new Get(normalizationContext: ['groups' => 'niveau_hierarchique_rang:item']),  
         new Get(
-            normalizationContext: ['groups' => 'departement:item'],
+            normalizationContext: ['groups' => 'niveau_hierarchique_rang:item'],
             uriTemplate: '/niveau_hierarchique_rangs/niveau/{id}/departement/{dep}',
             controller: RangsByNiveauAndDepartementController::class,
             read: false, // désactive la lecture automatique d'une entité

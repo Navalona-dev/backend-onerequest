@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DepartementRangRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\RangsByDepartementController;
 use App\DataPersister\DepartementRangAddDataPersister;
 use App\DataPersister\DepartementRangUpdateDataPersister;
 use App\Controller\Api\RangBySiteAndDepartementController;
@@ -20,9 +21,25 @@ use App\Controller\Api\RangBySiteAndDepartementController;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'departement_rang:list']), 
+        new Get(
+            normalizationContext: ['groups' => 'departement_rang:item'],
+            uriTemplate: '/departement_rangs/departement/{dep}/rangs',
+            controller: RangsByDepartementController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de rang par departement',
+                    'description' => 'Cette opération récupère la liste de rang par departement.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
         new Get(normalizationContext: ['groups' => 'departement_rang:item']),  
-                
-        new Post(),
+        
         new Patch(),
         new Delete(),
         new Post( 
@@ -47,9 +64,11 @@ class DepartementRang
     private ?int $rang = null;
 
     #[ORM\ManyToOne(inversedBy: 'departementRangs')]
+    #[Groups(['departement_rang:list', 'departement_rang:item'])]
     private ?Departement $departement = null;
 
     #[ORM\ManyToOne(inversedBy: 'departementRangs')]
+    #[Groups(['departement_rang:list', 'departement_rang:item'])]
     private ?TypeDemande $typeDemande = null;
 
     #[ORM\Column(nullable: true)]
@@ -61,6 +80,7 @@ class DepartementRang
     private ?\DateTime $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'departementRangs')]
+    #[Groups(['departement_rang:list', 'departement_rang:item'])]
     private ?Site $site = null;
 
     public function getId(): ?int
