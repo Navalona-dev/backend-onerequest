@@ -56,6 +56,43 @@ class JwtLoginSuccessHandler
             ];
         }
 
+        $depTab = null;
+
+        if($user->getDepartement()) {
+            $rangsTab = [];
+            foreach($user->getDepartement()->getDepartementRangs() as $rang) {
+                $rangsTab[] = [
+                    'id' => $rang->getId(),
+                    'rang' => $rang->getRang()
+                ];
+            }
+            $depTab = [
+                'id' => $user->getDepartement()->getId(),
+                'nom' => $user->getDepartement()->getNom(),
+                'nomEn' => $user->getDepartement()->getNomEn(),
+                'rangs' => $rangsTab
+            ];
+        }
+
+        $niveauTab = null;
+
+        if($user->getNiveauHierarchique()) {
+            
+            $rangsTab = [];
+            foreach($user->getNiveauHierarchique()->getNiveauHierarchiqueRangs() as $rang) {
+                $rangsTab[] = [
+                    'id' => $rang->getId(),
+                    'rang' => $rang->getRang()
+                ];
+            }
+            $niveauTab = [
+                'id' => $user->getNiveauHierarchique()->getId(),
+                'nom' => $user->getNiveauHierarchique()->getNom(),
+                'nomEn' => $user->getNiveauHierarchique()->getNomEn(),
+                'rangs' => $rangsTab
+            ];
+        }
+
         $data['data'] = [
             'id' => $user->getId(),
             'email' => $user->getUserIdentifier(),
@@ -66,7 +103,9 @@ class JwtLoginSuccessHandler
             'phone' => $user->getPhone(),
             'adresse' => $user->getAdresse(),
             'privileges' => $dataPrivileges,
-            'site' => $siteData
+            'site' => $siteData,
+            'niveauHierarchique' => $niveauTab,
+            'departement' => $depTab
         ];
 
         $event->setData($data);

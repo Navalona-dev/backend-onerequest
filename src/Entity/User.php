@@ -221,6 +221,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?NiveauHierarchique $niveauHierarchique = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[Groups(['user:list', 'user:item', 'langue:list', 'langue:item'])]
     private ?Departement $departement = null;
 
     /**
