@@ -12,7 +12,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class DemandeBySiteController extends AbstractController
+class DemandeEnAttenteController extends AbstractController
 {
     public function __construct(
         private SluggerInterface $slugger,
@@ -25,7 +25,9 @@ class DemandeBySiteController extends AbstractController
             throw new NotFoundHttpException('Site non trouvé.');
         }
 
-        $demandes = $demandeRepo->findBy(['site' => $data]);
+        $type = //obtenir le type de demande;
+
+        $demandes = $demandeRepo->findBySiteAndTypeDemande(['site' => $data, $type]);
 
 
         $demandeTab = [];

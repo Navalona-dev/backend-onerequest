@@ -30,6 +30,20 @@ class DepartementRangRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByTypeAndDepartement($type, $dep): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.typeDemande', 't')
+            ->join('r.departement', 'd')
+            ->andWhere('t.id = :idType')
+            ->andWhere('d.id = :idDep')
+            ->setParameter('idType', $type->getId())
+            ->setParameter('idDep', $dep->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findByDepartementAndSite($departement, $site): array
     {
         return $this->createQueryBuilder('r')

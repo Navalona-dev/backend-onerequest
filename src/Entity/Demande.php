@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;  
@@ -14,10 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DemandeRepository;
 use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
 use App\DataPersister\DemandeAddDataPersister;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\DataPersister\DemandeUpdateDataPersister;
+use App\Controller\Api\DemandeEnAttenteController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\ListeStatutDemandeController;
-use App\DataPersister\DemandeUpdateDataPersister;
 
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
@@ -25,6 +26,23 @@ use App\DataPersister\DemandeUpdateDataPersister;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'demande:list']), 
+        new Get(
+            normalizationContext: ['groups' => 'demande:list'],
+            uriTemplate: '/demandes/en-attente',
+            controller: DemandeEnAttenteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer demande en attente par type de demande',
+                    'description' => 'Cette opération récupère les demandes en attente par type de demande.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Get(
             normalizationContext: ['groups' => 'demande:item'],
             uriTemplate: '/demandes/statut',
@@ -142,6 +160,9 @@ class Demande
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
+
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?Departement $departement = null;
 
     public function __construct()
     {
@@ -324,6 +345,18 @@ class Demande
     public function setReference(?string $reference): static
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): static
+    {
+        $this->departement = $departement;
 
         return $this;
     }

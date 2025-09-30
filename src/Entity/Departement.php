@@ -156,6 +156,12 @@ class Departement
     #[Groups(['departement:list', 'departement:item'])]
     private Collection $departementRangs;
 
+    /**
+     * @var Collection<int, Demande>
+     */
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'departement')]
+    private Collection $demandes;
+
     public function __construct()
     {
         $this->sites = new ArrayCollection();
@@ -164,6 +170,7 @@ class Departement
         $this->niveauHierarchiqueRangs = new ArrayCollection();
         $this->niveauHierarchiques = new ArrayCollection();
         $this->departementRangs = new ArrayCollection();
+        $this->demandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -446,6 +453,36 @@ class Departement
             // set the owning side to null (unless already changed)
             if ($departementRang->getDepartement() === $this) {
                 $departementRang->setDepartement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): static
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setDepartement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): static
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getDepartement() === $this) {
+                $demande->setDepartement(null);
             }
         }
 

@@ -19,9 +19,20 @@ class DepartementRepository extends ServiceEntityRepository
     public function findByNh($nh): array
     {
         return $this->createQueryBuilder('d')
-            ->join('n.niveauHierarchiques', 'n')
+            ->join('d.niveauHierarchiques', 'n')
             ->andWhere('n.id = :idNiveau')
             ->setParameter('idNiveau', $nh->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findBySite($site): array
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.sites', 's')
+            ->andWhere('s.id = :idSite')
+            ->setParameter('idSite', $site->getId())
             ->getQuery()
             ->getResult()
         ;

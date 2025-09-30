@@ -2,13 +2,28 @@
 // src/Security/JwtLoginSuccessHandler.php
 namespace App\Security;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use App\Repository\DepartementRangRepository;
+use App\Repository\NiveauHierarchiqueRangRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\User; // si tu veux typer plus précisément
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 
 class JwtLoginSuccessHandler
 {
-    public function __invoke(AuthenticationSuccessEvent $event): void
+    private NiveauHierarchiqueRangRepository $rangNiveauRepo;
+    private DepartementRangRepository $rangDepRepo;
+
+    public function __construct(
+        NiveauHierarchiqueRangRepository $rangNiveauRepo,
+        DepartementRangRepository $rangDepRepo
+    ) {
+        $this->rangNiveauRepo = $rangNiveauRepo;
+        $this->rangDepRepo = $rangDepRepo;
+    }
+
+    public function __invoke(
+        AuthenticationSuccessEvent $event
+    ): void
     {
         /** @var User $user */
         $user = $event->getUser();
@@ -60,7 +75,8 @@ class JwtLoginSuccessHandler
 
         if($user->getDepartement()) {
             $rangsTab = [];
-            foreach($user->getDepartement()->getDepartementRangs() as $rang) {
+            $rangs = $this->rangDepRepo->findByDepartementAndSite($user->getDepartement(), $user->getSite());
+            foreach($rangs as $rang) {
                 $rangsTab[] = [
                     'id' => $rang->getId(),
                     'rang' => $rang->getRang()
@@ -79,7 +95,8 @@ class JwtLoginSuccessHandler
         if($user->getNiveauHierarchique()) {
             
             $rangsTab = [];
-            foreach($user->getNiveauHierarchique()->getNiveauHierarchiqueRangs() as $rang) {
+            $rangs = $this->rangNiveauRepo->findByDepartementAndNiveau($user->getDepartement(), $user->getNiveauHierarchique());
+            foreach($rangs as $rang) {
                 $rangsTab[] = [
                     'id' => $rang->getId(),
                     'rang' => $rang->getRang()

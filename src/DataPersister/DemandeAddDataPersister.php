@@ -8,8 +8,11 @@ use App\Entity\Demande;
 use App\Entity\DomaineEntreprise;
 use App\Repository\SiteRepository;
 use ApiPlatform\Metadata\Operation;
+use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
+use App\Repository\DepartementRepository;
+use App\Repository\DepartementRangRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -22,7 +25,10 @@ class DemandeAddDataPersister implements ProcessorInterface
         private EntityManagerInterface $entityManager,
         private SiteRepository $siteRepo,
         private RequestStack $requestStack ,
-        private ParameterBagInterface $params
+        private ParameterBagInterface $params,
+        private DemandeRepository $demandeRepo,
+        private DepartementRepository $depRepo,
+        private DepartementRangRepository $depRangRepo
     ) {}
 
     public function supports($data, array $context = []): bool
@@ -68,6 +74,39 @@ class DemandeAddDataPersister implements ProcessorInterface
             $data->setStatut($statut);
             $data->setObjet($objet);
             $data->setContenu($contenu);
+
+            $newRef = $this->generateUniqueReference();
+            $data->setReference($newRef);
+
+            //gerer le setsepartement
+
+            $departement = null;
+            $minRang = null;
+
+            $deps = $this->depRepo->findBySite($site);
+
+            $rangsTab = [];
+
+            foreach($deps as $dep) {
+                $rangs = $this->depRangRepo->findByTypeAndDepartement($type, $dep);
+                $rangsTab = array_merge($rangsTab, $rangs);
+            }
+
+            $rangTab = [];
+
+            foreach ($rangsTab as $rang) {
+                $rangTab[] = $rang->getRang();
+
+                if ($rang->getTypeDemande()->getId() === $type->getId()) {
+                    if ($minRang === null || $rang->getRang() < $minRang) {
+                        $minRang = $rang->getRang();
+                        $departement = $rang->getDepartement();
+                    }
+                }
+            }
+
+            $data->setDepartement($departement);
+        
         
             if ($fichier) {
                 $nomFichier = uniqid() . '-' . $fichier->getClientOriginalName();
@@ -96,6 +135,37 @@ class DemandeAddDataPersister implements ProcessorInterface
             return (int) $matches[1];
         }
         return null;
+    }
+
+    private function generateUniqueReference(): string
+    {
+        $alphabet = range('A', 'Z');
+
+        do {
+            // Générer 5 chiffres
+            $numbers = [];
+            for ($i = 0; $i < 5; $i++) {
+                $numbers[] = (string) random_int(0, 9);
+            }
+
+            // Générer 5 lettres
+            $letters = [];
+            for ($i = 0; $i < 5; $i++) {
+                $letters[] = $alphabet[random_int(0, 25)];
+            }
+
+            // Mélanger chiffres et lettres
+            $chars = array_merge($numbers, $letters);
+            shuffle($chars);
+
+            $newRef = implode('', $chars);
+
+            // Vérifier que cette référence n'existe pas déjà
+            $exists = $this->demandeRepo->findOneBy(['reference' => $newRef]);
+
+        } while ($exists);
+
+        return $newRef;
     }
 
 }

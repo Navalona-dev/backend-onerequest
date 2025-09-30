@@ -2,6 +2,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Repository\PrivilegeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,8 @@ class UserRegisterController
         Request $request,
         UserPasswordHasherInterface $hasher, 
         PrivilegeRepository $privilegeRepo,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserRepository $userRepo
     ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -28,6 +30,12 @@ class UserRegisterController
 
         if ($data['password'] !== $data['confirmPassword']) {
             throw new BadRequestHttpException('Les mots de passe ne correspondent pas.');
+        }
+
+        // Vérification si l'email existe déjà
+        $existingUser = $userRepo->findOneBy(['email' => $data['email']]);
+        if ($existingUser) {
+            throw new BadRequestHttpException('Cet email est déjà utilisé.');
         }
 
         $user = new User();
