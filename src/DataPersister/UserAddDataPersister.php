@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\NiveauHierarchiqueRangRepository;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -18,7 +19,8 @@ class UserAddDataPersister implements ProcessorInterface
         private EntityManagerInterface $entityManager,
         private UserPasswordHasherInterface $passwordHasher,
         private PrivilegeRepository $privilegeRepo,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
+        private NiveauHierarchiqueRangRepository $rangRepo
     ) {}
 
     public function supports($data, array $context = []): bool
@@ -56,6 +58,14 @@ class UserAddDataPersister implements ProcessorInterface
                     $data->addPrivilege($privilege);
                 } else {
                     $data->setIsEmploye(true);
+                    $niveau = $data->getNiveauHierarchique();
+                    $dep = $data->getDepartement();
+                    $rangs = $this->rangRepo->findByDepartementAndNiveau($dep, $niveau);
+                    if(count($rangs) > 0) {
+                        foreach($rangs as $rang) {
+                            $rang->addUser($data);
+                        }
+                    }
                 }
             }
 

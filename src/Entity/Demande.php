@@ -26,23 +26,7 @@ use App\Controller\Api\ListeStatutDemandeController;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'demande:list']), 
-        new Get(
-            normalizationContext: ['groups' => 'demande:list'],
-            uriTemplate: '/demandes/en-attente',
-            controller: DemandeEnAttenteController::class,
-            read: false, // désactive la lecture automatique d'une entité
-            deserialize: false,
-            extraProperties: [
-                'openapi_context' => [
-                    'summary' => 'Récupérer demande en attente par type de demande',
-                    'description' => 'Cette opération récupère les demandes en attente par type de demande.',
-                    'responses' => [
-                        '200' => ['description' => 'Succès'],
-                        '404' => ['description' => 'Non trouvé']
-                    ]
-                ]
-            ]
-        ),
+        
         new Get(
             normalizationContext: ['groups' => 'demande:item'],
             uriTemplate: '/demandes/statut',
@@ -53,6 +37,23 @@ use App\Controller\Api\ListeStatutDemandeController;
                 'openapi_context' => [
                     'summary' => 'Récupérer la liste de statut de demande',
                     'description' => 'Cette opération récupère la liste de statut de demande.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'demande:list'],
+            uriTemplate: '/demandes/{user}/en-attente',
+            controller: DemandeEnAttenteController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer demande en attente par type de demande, site, departement',
+                    'description' => 'Cette opération récupère les demandes en attente par type de demande, site, departement.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']

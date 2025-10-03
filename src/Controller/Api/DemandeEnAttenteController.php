@@ -3,11 +3,13 @@
 namespace App\Controller\Api;
 
 use App\Entity\Site;
+use App\Entity\User;
 use App\Entity\Demande;
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Repository\NiveauHierarchiqueRangRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,19 +18,109 @@ class DemandeEnAttenteController extends AbstractController
 {
     public function __construct(
         private SluggerInterface $slugger,
-        private RequestStack $requestStack
+        private RequestStack $requestStack,
     ) {}
     
-    public function __invoke(Site $data, DemandeRepository $demandeRepo, EntityManagerInterface $em): JsonResponse
+    public function __invoke(
+        User $user,
+        DemandeRepository $demandeRepo, 
+        EntityManagerInterface $em,
+        NiveauHierarchiqueRangRepository $rangNiveauRepo
+    ): JsonResponse
     {
-        if (!$data) {
-            throw new NotFoundHttpException('Site non trouvé.');
+        if (!$user) {
+            throw new NotFoundHttpException('Utilisateur non trouvé.');
         }
 
-        $type = //obtenir le type de demande;
+        $site = $user->getSite();
 
-        $demandes = $demandeRepo->findBySiteAndTypeDemande(['site' => $data, $type]);
+        $dep = $user->getDepartement();
 
+        $niveau = $user->getNiveauHierarchique();
+        //$rangs = $rangNiveauRepo->findByDepartementAndNiveau($departement, $niveau);
+
+        /*$type = null;
+        $minRang = null;
+
+        foreach ($rangs as $rang) {
+            if ($minRang === null || $rang->getRang() < $minRang) {
+                $minRang = $rang->getRang();
+                $type = $rang->getTypeDemande();
+            }
+        }*/
+
+        $rangsTab = [];
+
+        $rangs = $rangNiveauRepo->findByDepartementAndNiveau($dep, $niveau);
+
+        foreach ($rangs as $rang) {
+            $typeDemande = $rang->getTypeDemande();
+            $departement = $rang->getDepartement();
+            $niv = $rang->getNiveauHierarchique();
+
+            $users = $departement->getUsers();
+
+            $userTab = [];
+
+            if (count($users) > 0) {
+                foreach ($users as $u) {
+                    $site = $u->getSite();
+                    $userTab[] = [
+                        'id' => $u->getId(),
+                        'email' => $u->getEmail(),
+                        'nom' => $u->getNom(),
+                        'prenom' => $u->getPrenom(),
+                        'site' => $site ? [
+                            'id' => $site->getId(),
+                            'nom' => $site->getNom()
+                        ] : null
+                    ];
+                }
+            }
+    
+            $rangsTab[] = [
+                'id' => $rang->getId(),
+                'rang' => $rang->getRang(),
+                'typeDemande' => $typeDemande ? [
+                    'id' => $typeDemande->getId(),
+                    'nom' => $typeDemande->getNom(),
+                    'nomEn' => $typeDemande->getNomEn(),
+                ] : null,
+                'departement' => $departement ? [
+                    'id' => $departement->getId(),
+                    'nom' => $departement->getNom(),
+                    'nomEn' => $departement->getNomEn(),
+                    'users' => $userTab
+                ] : null,
+                'niveauHierarchique' => $niv ? [
+                    'id' => $niv->getId(),
+                    'nom' => $niv->getNom(),
+                    'nomEn' => $niv->getNomEn()
+                ] : null
+            ];
+        }
+
+        $minimumRangs = [];
+
+        if (!empty($rangs)) {
+            $minValue = min(array_map(fn($r) => $r->getRang(), $rangs));
+
+            $minimumRangs = array_filter($rangs, function ($r) use ($minValue) {
+                return $r->getRang() === $minValue;
+            });
+        }
+
+        $demandes = [];
+
+        foreach ($minimumRangs as $minimumRang) {
+            $type = $minimumRang->getTypeDemande();
+            $departement = $minimumRang->getDepartement();
+
+            $demandes = array_merge(
+                $demandes,
+                $demandeRepo->findBySiteAndTypeDemandeAndDep($site, $type, $departement)
+            );
+        }
 
         $demandeTab = [];
 

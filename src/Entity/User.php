@@ -26,7 +26,9 @@ use App\Controller\Api\UserConnectedController;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Controller\Api\GetLangueByUserController;
 use App\Controller\Api\SetLangueByUserController;
+use App\Controller\Api\GetAllRangByUserController;
 use Symfony\Component\Serializer\Attribute\Groups;
+use App\Controller\Api\UserConnectedFrontController;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -67,6 +69,42 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
                 'openapi_context' => [
                     'summary' => 'Récupérer un utilisateur connecté',
                     'description' => 'Cette opération récupère un utilisateur connecté.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/users/{email}/get-demandeur-connected',
+            controller: UserConnectedFrontController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer un utilisateur connecté',
+                    'description' => 'Cette opération récupère un utilisateur connecté.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+
+        new Get(
+            normalizationContext: ['groups' => 'user:item'],
+            uriTemplate: '/users/{id}/rangs',
+            controller: GetAllRangByUserController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer tous les rangs de tous les niveaux hierarchiques réliés au departement qui relie à lutilisateur connecté',
+                    'description' => 'Cette opération récupère tous les rangs de tous les niveaux hierarchiques réliés au departement qui relie à lutilisateur connecté.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']
@@ -242,12 +280,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isEmploye = null;
 
+    /**
+     * @var Collection<int, NiveauHierarchiqueRang>
+     */
+    #[ORM\ManyToMany(targetEntity: NiveauHierarchiqueRang::class, mappedBy: 'users')]
+    private Collection $niveauHierarchiqueRangs;
+
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->demandesTraitees = new ArrayCollection();
         $this->traitements = new ArrayCollection();
+        $this->niveauHierarchiqueRangs = new ArrayCollection();
     }
     
 
@@ -587,6 +632,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsEmploye(?bool $isEmploye): static
     {
         $this->isEmploye = $isEmploye;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NiveauHierarchiqueRang>
+     */
+    public function getNiveauHierarchiqueRangs(): Collection
+    {
+        return $this->niveauHierarchiqueRangs;
+    }
+
+    public function addNiveauHierarchiqueRang(NiveauHierarchiqueRang $niveauHierarchiqueRang): static
+    {
+        if (!$this->niveauHierarchiqueRangs->contains($niveauHierarchiqueRang)) {
+            $this->niveauHierarchiqueRangs->add($niveauHierarchiqueRang);
+            $niveauHierarchiqueRang->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNiveauHierarchiqueRang(NiveauHierarchiqueRang $niveauHierarchiqueRang): static
+    {
+        if ($this->niveauHierarchiqueRangs->removeElement($niveauHierarchiqueRang)) {
+            $niveauHierarchiqueRang->removeUser($this);
+        }
 
         return $this;
     }

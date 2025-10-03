@@ -65,7 +65,7 @@ use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
         ),        
         new Get(
             normalizationContext: ['groups' => 'departement:item'],
-            uriTemplate: '/niveau_hierarchiques/{id}/rangs',
+            uriTemplate: '/niveau_hierarchiques/{id}/departement/{dep}/rangs',
             controller: RangsByNiveauController::class,
             read: false, // désactive la lecture automatique d'une entité
             deserialize: false,

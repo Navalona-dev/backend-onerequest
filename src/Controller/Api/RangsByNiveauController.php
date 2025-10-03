@@ -13,15 +13,19 @@ class RangsByNiveauController extends AbstractController
 {
     public function __invoke(
         NiveauHierarchique $niveau,
+        Departement $dep,
         NiveauHierarchiqueRangRepository $rangRepo,
         EntityManagerInterface $em
     ): JsonResponse {
 
+        if (!$dep) {
+            throw new NotFoundHttpException('Departement non trouvé.');
+        }
         if (!$niveau) {
             throw new NotFoundHttpException('Niveau hierarchique non trouvé.');
         }
 
-        $rangs = $rangRepo->findByNiveau($niveau);
+        $rangs = $rangRepo->findByDepartementAndNiveau($dep, $niveau);
 
         $niveauTab = [
             'id' => $niveau->getId(),

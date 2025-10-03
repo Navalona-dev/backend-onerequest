@@ -2,6 +2,7 @@
 
 namespace App\DataPersister;
 
+use App\Repository\UserRepository;
 use ApiPlatform\Metadata\Operation;
 use App\Entity\NiveauHierarchiqueRang;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +16,8 @@ class NiveauHierarchiqueRangUpdateDataPersister implements ProcessorInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private NiveauHierarchiqueRangRepository $rangRepo
+        private NiveauHierarchiqueRangRepository $rangRepo,
+        private UserRepository $userRepo
     ) {}
 
     public function supports($data, array $context = []): bool
@@ -42,6 +44,15 @@ class NiveauHierarchiqueRangUpdateDataPersister implements ProcessorInterface
         $method = strtoupper($operation->getMethod());
 
         if ($method === 'PATCH') {
+            $users = $this->userRepo->findByNiveauAndDep($niveau, $departement);
+            
+            foreach ($users as $user) {
+                if (!$user->getNiveauHierarchiqueRangs()->contains($data)) {
+                    $user->addNiveauHierarchiqueRang($data);
+                }
+            }
+            
+            
             $data->setCreatedAt(new \DateTime());
         } 
         

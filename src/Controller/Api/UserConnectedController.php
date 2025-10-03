@@ -11,13 +11,18 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\NiveauHierarchiqueRangRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserConnectedController extends AbstractController
 {
-    public function __invoke(Security $security, UserRepository $userRepo): JsonResponse
+    public function __invoke(
+        Security $security, 
+        UserRepository $userRepo,
+        NiveauHierarchiqueRangRepository $rangNiveauRepo
+    ): JsonResponse
     {
         $user = $security->getUser();
         //$email = $user->getEmail();
@@ -70,6 +75,19 @@ class UserConnectedController extends AbstractController
             ];
         }
 
+        $dep = $user->getDepartement();
+        $niveau = $user->getNiveauHierarchique();
+        $rangsNiveau = $rangNiveauRepo->findByDepartementAndNiveau($dep, $niveau);
+        $rangsNiveauTab = [];
+        if(count($rangsNiveau)) {
+            foreach($rangsNiveau as $rang) {
+                $rangsNiveauTab[] = [
+                    'id' => $rang->getId(),
+                    'rang' => $rang->getRang()
+                ];
+            }
+        }
+
         return new JsonResponse([
             'id' => $user->getId(),
             'nom' => $user->getNom(),
@@ -78,6 +96,18 @@ class UserConnectedController extends AbstractController
             'site' => $siteData,
             'isSuperAdmin' => $user->getIsSuperAdmin(),
             'message' => 'Un utilisateur connecté.',
+            'departement' => $dep ? [
+                'id' => $dep->getId(),
+                'nom' => $dep->getNom(),
+                'nomEn' => $dep->getNomeEn()
+            ] : null,
+
+            'niveauHierarchique' => $niveau ? [
+                'id' => $niveau->getId(),
+                'nom' => $niveau->getNom(),
+                'nomEn' => $niveau->getNomEn(),
+            ] : null,
+            'rangs' => $rangsNiveauTab
         ]);
     }
 }
