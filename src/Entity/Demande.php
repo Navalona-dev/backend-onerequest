@@ -163,6 +163,7 @@ class Demande
     private ?string $reference = null;
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
+    #[Groups(['demande:list', 'demande:item', 'departement:list', 'departement:item'])]
     private ?Departement $departement = null;
 
     public function __construct()
