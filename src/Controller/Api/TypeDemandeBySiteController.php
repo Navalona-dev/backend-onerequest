@@ -35,7 +35,7 @@ class TypeDemandeBySiteController extends AbstractController
             throw new NotFoundHttpException('Site non trouvé.');
         }
     
-        $entreprise = $entrepriseRepo->findOneBy(['id' => 1]);
+        /*$entreprise = $entrepriseRepo->findOneBy(['id' => 1]);
     
         $types = [];
         foreach($entreprise->getCategorieDomaineEntreprises() as $categorie) {
@@ -43,7 +43,9 @@ class TypeDemandeBySiteController extends AbstractController
                 $result = $typeRepo->findBySiteAndDomaine($site, $domaine);
                 $types = array_merge($types, $result);
             }
-        }
+        }*/
+
+        $types = $site->getTypeDemandes();
 
         $typeTab = [];
         foreach ($types as $type) {

@@ -15,6 +15,7 @@ use App\Controller\Api\RangsByDepartementController;
 use App\DataPersister\DepartementRangAddDataPersister;
 use App\DataPersister\DepartementRangUpdateDataPersister;
 use App\Controller\Api\RangBySiteAndDepartementController;
+use App\Controller\Api\RangsDepartementBySiteAndDepartementController;
 
 #[ORM\Entity(repositoryClass: DepartementRangRepository::class)]
 #[ApiResource(
@@ -38,6 +39,25 @@ use App\Controller\Api\RangBySiteAndDepartementController;
                 ]
             ]
         ), 
+
+        new Get(
+            normalizationContext: ['groups' => 'departement_rang:item'],
+            uriTemplate: '/departement_rangs/departement/{dep}/site/{site}/rangs',
+            controller: RangsDepartementBySiteAndDepartementController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de rang par departement et site',
+                    'description' => 'Cette opération récupère la liste de rang par departement et site.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
+
         new Get(normalizationContext: ['groups' => 'departement_rang:item']),  
         
         new Patch(),

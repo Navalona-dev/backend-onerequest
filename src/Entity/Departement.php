@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DepartementRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\Api\ListeDepartementController;
 use App\DataPersister\DepartementAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\DataPersister\DepartementDeleteDataPersister;
@@ -26,6 +27,24 @@ use App\Controller\Api\NiveauHierarchiqueByDepartementController;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'departement:list']), 
+
+        new Get(
+            normalizationContext: ['groups' => 'departement:item'],
+            uriTemplate: '/departements/liste',
+            controller: ListeDepartementController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de departement',
+                    'description' => 'Cette opération récupère la liste de departement.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
         new Get(normalizationContext: ['groups' => 'departement:item']),  
         new Get(
             normalizationContext: ['groups' => 'departement:item'],

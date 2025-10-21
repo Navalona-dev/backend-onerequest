@@ -19,6 +19,7 @@ use App\DataPersister\DemandeUpdateDataPersister;
 use App\Controller\Api\DemandeEnAttenteController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\ListeStatutDemandeController;
+use App\Controller\Api\GetSiteByTypeDemandeController;
 
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
@@ -54,6 +55,23 @@ use App\Controller\Api\ListeStatutDemandeController;
                 'openapi_context' => [
                     'summary' => 'Récupérer demande en attente par type de demande, site, departement',
                     'description' => 'Cette opération récupère les demandes en attente par type de demande, site, departement.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
+        new Get(
+            normalizationContext: ['groups' => 'demande:list'],
+            uriTemplate: '/demandes/{id}/sites',
+            controller: GetSiteByTypeDemandeController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de sites reliés au type de demande rélié à la demande',
+                    'description' => 'Cette opération récupère la liste de sites reliés au type de demande rélié à la demande.',
                     'responses' => [
                         '200' => ['description' => 'Succès'],
                         '404' => ['description' => 'Non trouvé']

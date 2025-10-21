@@ -37,17 +37,6 @@ class DemandeEnAttenteController extends AbstractController
         $dep = $user->getDepartement();
 
         $niveau = $user->getNiveauHierarchique();
-        //$rangs = $rangNiveauRepo->findByDepartementAndNiveau($departement, $niveau);
-
-        /*$type = null;
-        $minRang = null;
-
-        foreach ($rangs as $rang) {
-            if ($minRang === null || $rang->getRang() < $minRang) {
-                $minRang = $rang->getRang();
-                $type = $rang->getTypeDemande();
-            }
-        }*/
 
         $rangsTab = [];
 
@@ -64,15 +53,15 @@ class DemandeEnAttenteController extends AbstractController
 
             if (count($users) > 0) {
                 foreach ($users as $u) {
-                    $site = $u->getSite();
+                    $siteUser = $u->getSite();
                     $userTab[] = [
                         'id' => $u->getId(),
                         'email' => $u->getEmail(),
                         'nom' => $u->getNom(),
                         'prenom' => $u->getPrenom(),
-                        'site' => $site ? [
-                            'id' => $site->getId(),
-                            'nom' => $site->getNom()
+                        'site' => $siteUser ? [
+                            'id' => $siteUser->getId(),
+                            'nom' => $siteUser->getNom()
                         ] : null
                     ];
                 }
@@ -111,18 +100,27 @@ class DemandeEnAttenteController extends AbstractController
         }
 
         $demandes = [];
+        $demandeTab = [];
+
+        $types = [];
+        $departements = [];
 
         foreach ($minimumRangs as $minimumRang) {
             $type = $minimumRang->getTypeDemande();
             $departement = $minimumRang->getDepartement();
 
-            $demandes = array_merge(
-                $demandes,
-                $demandeRepo->findBySiteAndTypeDemandeAndDep($site, $type, $departement)
-            );
+            $types[] = $type;
+            $departements[] = $departement;
         }
 
-        $demandeTab = [];
+        $typeTitle = [];
+
+        foreach($types as $index => $type) {
+            $typeTitle[] = $type->getNom();
+            $dep = $departements[$index];
+            $demandesPourType = $demandeRepo->findBySiteAndTypeDemandeAndDep($site, $type, $dep);
+            $demandes = array_merge($demandes, $demandesPourType);
+        }
 
         foreach ($demandes as $demande) {
             $nomFichier = $demande->getFichier();
