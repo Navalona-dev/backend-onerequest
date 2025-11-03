@@ -2,7 +2,9 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\User;
 use App\Entity\Demande;
+use App\Entity\Traitement;
 use App\Repository\SiteRepository;
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,6 +56,35 @@ class SendDemandeDepartementController extends AbstractController
         if ($site) {
             $demande->setSite($site);
         }
+
+        $user = null;
+        $userIri = $payload['user'] ?? null;
+
+        if ($userIri) {
+            $userId = (int) basename($userIri);
+            $user = $this->em->getRepository(User::class)->find($userId);
+        }
+
+        $commentaire = $payload['commentaire'] ?? null;
+
+        //gerer le traitement
+        $traitement = new Traitement();
+        $traitement->setUser($user);
+        $traitement->setDemande($demande);
+        $traitement->setDate(new \DateTime());
+        $traitement->setCommentaire($commentaire);
+
+        if ($user->getSite()) {
+            $traitement->setSite($user->getSite());
+        }
+        
+        if ($user->getDepartement()) {
+            $traitement->setDepartement($user->getDepartement());
+        }
+
+        $traitement->setStatut(1);
+
+        $this->em->persist($traitement);
 
         $demande->setUpdatedAt(new \DateTime());
         $this->em->flush();

@@ -28,8 +28,8 @@ use App\Controller\Api\NiveauHierarchiqueByDepartementController;
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'departement:list']), 
 
-        new Get(
-            normalizationContext: ['groups' => 'departement:item'],
+        new GetCollection(
+            normalizationContext: ['groups' => 'departement:list'],
             uriTemplate: '/departements/liste',
             controller: ListeDepartementController::class,
             read: false, // désactive la lecture automatique d'une entité
@@ -181,6 +181,12 @@ class Departement
     #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'departement')]
     private Collection $demandes;
 
+    /**
+     * @var Collection<int, Traitement>
+     */
+    #[ORM\OneToMany(targetEntity: Traitement::class, mappedBy: 'departement')]
+    private Collection $traitements;
+
     public function __construct()
     {
         $this->sites = new ArrayCollection();
@@ -190,6 +196,7 @@ class Departement
         $this->niveauHierarchiques = new ArrayCollection();
         $this->departementRangs = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->traitements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -502,6 +509,36 @@ class Departement
             // set the owning side to null (unless already changed)
             if ($demande->getDepartement() === $this) {
                 $demande->setDepartement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Traitement>
+     */
+    public function getTraitements(): Collection
+    {
+        return $this->traitements;
+    }
+
+    public function addTraitement(Traitement $traitement): static
+    {
+        if (!$this->traitements->contains($traitement)) {
+            $this->traitements->add($traitement);
+            $traitement->setDepartement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraitement(Traitement $traitement): static
+    {
+        if ($this->traitements->removeElement($traitement)) {
+            // set the owning side to null (unless already changed)
+            if ($traitement->getDepartement() === $this) {
+                $traitement->setDepartement(null);
             }
         }
 

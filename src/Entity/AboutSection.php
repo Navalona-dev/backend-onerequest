@@ -19,7 +19,7 @@ use App\Controller\Api\AboutSectionListeController;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'about_section:list']), 
-        new Get(
+        new GetCollection(
             normalizationContext: ['groups' => 'about_section:list'],
             uriTemplate: '/about_sections/liste',
             controller: AboutSectionListeController::class,

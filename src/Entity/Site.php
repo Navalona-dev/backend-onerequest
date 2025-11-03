@@ -374,6 +374,12 @@ class Site
     #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item'])]
     private ?bool $isIndisponible = null;
 
+    /**
+     * @var Collection<int, Traitement>
+     */
+    #[ORM\OneToMany(targetEntity: Traitement::class, mappedBy: 'site')]
+    private Collection $traitements;
+
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
@@ -382,6 +388,7 @@ class Site
         $this->departements = new ArrayCollection();
         $this->typeDemandes = new ArrayCollection();
         $this->departementRangs = new ArrayCollection();
+        $this->traitements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -703,6 +710,36 @@ class Site
     public function setIsIndisponible(?bool $isIndisponible): static
     {
         $this->isIndisponible = $isIndisponible;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Traitement>
+     */
+    public function getTraitements(): Collection
+    {
+        return $this->traitements;
+    }
+
+    public function addTraitement(Traitement $traitement): static
+    {
+        if (!$this->traitements->contains($traitement)) {
+            $this->traitements->add($traitement);
+            $traitement->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraitement(Traitement $traitement): static
+    {
+        if ($this->traitements->removeElement($traitement)) {
+            // set the owning side to null (unless already changed)
+            if ($traitement->getSite() === $this) {
+                $traitement->setSite(null);
+            }
+        }
 
         return $this;
     }

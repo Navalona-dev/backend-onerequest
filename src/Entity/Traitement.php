@@ -2,32 +2,84 @@
 
 namespace App\Entity;
 
-use App\Repository\TraitementRepository;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\TraitementRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: TraitementRepository::class)]
+#[ApiResource(
+    paginationEnabled: false,
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => 'traitement:list']),  
+        new Get(normalizationContext: ['groups' => 'traitement:item']),            
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ]
+)]
 class Traitement
 {
+    const TYPE = [
+        1 => "Traitement interne",
+        2 => "Transferer à un departement",
+        3 => "Transferer à un site"
+    ];
+
+    const STATUT = [
+        1 => "Envoyé",                // La demande vient d’être envoyée
+        2 => "Reçue",                 // Le département ou site destinataire l’a reçue
+        3 => "En cours de traitement",// Quelqu’un travaille dessus
+        4 => "Transférée",            // La demande a été redirigée ailleurs
+        5 => "Traitée",               // Traitement terminé
+        6 => "Clôturée",              // Traitement définitivement clos / archivé
+    ];
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['traitement:list', 'traitement:item'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'traitements')]
+    #[Groups(['traitement:list', 'traitement:item'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'traitements')]
+    #[Groups(['traitement:list', 'traitement:item'])]
     private ?Demande $demande = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['traitement:list', 'traitement:item'])]
     private ?\DateTime $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traitement:list', 'traitement:item'])]
     private ?string $statut = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['traitement:list', 'traitement:item'])]
     private ?string $commentaire = null;
+
+    #[ORM\ManyToOne(inversedBy: 'traitements')]
+    #[Groups(['traitement:list', 'traitement:item'])]
+    private ?Site $site = null;
+
+    #[ORM\ManyToOne(inversedBy: 'traitements')]
+    #[Groups(['traitement:list', 'traitement:item'])]
+    private ?Departement $departement = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traitement:list', 'traitement:item'])]
+    private ?string $type = null;
 
     public function getId(): ?int
     {
@@ -90,6 +142,42 @@ class Traitement
     public function setCommentaire(?string $commentaire): static
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): static
+    {
+        $this->departement = $departement;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

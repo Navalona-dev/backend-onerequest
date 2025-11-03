@@ -20,6 +20,7 @@ use App\Controller\Api\DemandeEnAttenteController;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\ListeStatutDemandeController;
 use App\Controller\Api\GetSiteByTypeDemandeController;
+use App\Controller\Api\ListeTraitementByDemandeController;
 
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
@@ -45,6 +46,9 @@ use App\Controller\Api\GetSiteByTypeDemandeController;
                 ]
             ]
         ),
+
+        new Get(normalizationContext: ['groups' => 'demande:item']),      
+
         new Get(
             normalizationContext: ['groups' => 'demande:list'],
             uriTemplate: '/demandes/{user}/en-attente',
@@ -79,7 +83,23 @@ use App\Controller\Api\GetSiteByTypeDemandeController;
                 ]
             ]
         ),
-        new Get(normalizationContext: ['groups' => 'demande:item']),            
+        new Get(
+            normalizationContext: ['groups' => 'demande:list'],
+            uriTemplate: '/demandes/{id}/traitements',
+            controller: ListeTraitementByDemandeController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de traitements de demande par demande',
+                    'description' => 'Cette opération récupère la liste de traitements de demande par demande.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ),
         new Post(),
         new Patch(),
         new Delete(),

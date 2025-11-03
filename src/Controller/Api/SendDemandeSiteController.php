@@ -104,6 +104,16 @@ class SendDemandeSiteController extends AbstractController
             $traitement->setDate(new \DateTime());
             $traitement->setCommentaire($commentaire);
 
+            if ($user->getSite()) {
+                $traitement->setSite($user->getSite());
+            }
+            
+            if ($user->getDepartement()) {
+                $traitement->setDepartement($user->getDepartement());
+            }
+
+            $traitement->setStatut(1);
+
             $demande->setUpdatedAt(new \DateTime());
             $this->em->persist($traitement);
             $this->em->flush();
