@@ -97,14 +97,14 @@ use App\Controller\Api\NiveauHierarchiqueByDepartementController;
 )]
 class Departement
 {
-    #[Groups(['departement:list', 'departement:item', 'niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    #[Groups(['departement:list', 'departement:item', 'niveau_hierarchique:list', 'niveau_hierarchique:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['departement:list', 'departement:item', 'niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    #[Groups(['departement:list', 'departement:item', 'niveau_hierarchique:list', 'niveau_hierarchique:item', 'traitement:list', 'traitement:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -139,7 +139,7 @@ class Departement
     private Collection $departements;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['departement:list', 'departement:item', 'niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    #[Groups(['departement:list', 'departement:item', 'niveau_hierarchique:list', 'niveau_hierarchique:item', 'traitement:list', 'traitement:item'])]
     private ?string $nomEn = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -544,4 +544,5 @@ class Departement
 
         return $this;
     }
+
 }

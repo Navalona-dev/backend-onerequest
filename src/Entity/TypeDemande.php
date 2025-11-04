@@ -105,7 +105,7 @@ class TypeDemande
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
@@ -144,7 +144,7 @@ class TypeDemande
     private Collection $dossierAFournirs;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
     private ?string $nomEn = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -170,6 +170,12 @@ class TypeDemande
     #[ORM\OneToMany(targetEntity: NiveauHierarchiqueRang::class, mappedBy: 'typeDemande')]
     private Collection $niveauHierarchiqueRangs;
 
+    /**
+     * @var Collection<int, TypeDemandeEtape>
+     */
+    #[ORM\OneToMany(targetEntity: TypeDemandeEtape::class, mappedBy: 'typeDemande')]
+    private Collection $typeDemandeEtapes;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
@@ -177,6 +183,7 @@ class TypeDemande
         $this->departementRangs = new ArrayCollection();
         $this->sites = new ArrayCollection();
         $this->niveauHierarchiqueRangs = new ArrayCollection();
+        $this->typeDemandeEtapes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -428,6 +435,36 @@ class TypeDemande
             // set the owning side to null (unless already changed)
             if ($niveauHierarchiqueRang->getTypeDemande() === $this) {
                 $niveauHierarchiqueRang->setTypeDemande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeDemandeEtape>
+     */
+    public function getTypeDemandeEtapes(): Collection
+    {
+        return $this->typeDemandeEtapes;
+    }
+
+    public function addTypeDemandeEtape(TypeDemandeEtape $typeDemandeEtape): static
+    {
+        if (!$this->typeDemandeEtapes->contains($typeDemandeEtape)) {
+            $this->typeDemandeEtapes->add($typeDemandeEtape);
+            $typeDemandeEtape->setTypeDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeDemandeEtape(TypeDemandeEtape $typeDemandeEtape): static
+    {
+        if ($this->typeDemandeEtapes->removeElement($typeDemandeEtape)) {
+            // set the owning side to null (unless already changed)
+            if ($typeDemandeEtape->getTypeDemande() === $this) {
+                $typeDemandeEtape->setTypeDemande(null);
             }
         }
 

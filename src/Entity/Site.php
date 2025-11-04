@@ -283,13 +283,13 @@ use App\Controller\Api\GetSiteActiveAndDisponibleController;
 )]
 class Site
 {
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
@@ -330,7 +330,7 @@ class Site
     #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item'])]
     private ?bool $isCurrent = null;
 
-    #[Groups(['site:list', 'site:item', 'region:list', 'region:item', 'demande:list', 'demande:item'])]
+    #[Groups(['site:list', 'site:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
     #[ORM\ManyToOne(inversedBy: 'sites')]
     private ?Region $region = null;
 
@@ -342,7 +342,7 @@ class Site
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
 
-    #[Groups(['site:list', 'site:item', 'region:list', 'region:item', 'demande:list', 'demande:item'])]
+    #[Groups(['site:list', 'site:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
     #[ORM\ManyToOne(inversedBy: 'sites')]
     private ?Commune $commune = null;
 
@@ -380,6 +380,12 @@ class Site
     #[ORM\OneToMany(targetEntity: Traitement::class, mappedBy: 'site')]
     private Collection $traitements;
 
+    /**
+     * @var Collection<int, TypeDemandeEtape>
+     */
+    #[ORM\OneToMany(targetEntity: TypeDemandeEtape::class, mappedBy: 'site')]
+    private Collection $typeDemandeEtapes;
+
     public function __construct()
     {
         $this->codeCouleurs = new ArrayCollection();
@@ -389,6 +395,7 @@ class Site
         $this->typeDemandes = new ArrayCollection();
         $this->departementRangs = new ArrayCollection();
         $this->traitements = new ArrayCollection();
+        $this->typeDemandeEtapes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -738,6 +745,36 @@ class Site
             // set the owning side to null (unless already changed)
             if ($traitement->getSite() === $this) {
                 $traitement->setSite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeDemandeEtape>
+     */
+    public function getTypeDemandeEtapes(): Collection
+    {
+        return $this->typeDemandeEtapes;
+    }
+
+    public function addTypeDemandeEtape(TypeDemandeEtape $typeDemandeEtape): static
+    {
+        if (!$this->typeDemandeEtapes->contains($typeDemandeEtape)) {
+            $this->typeDemandeEtapes->add($typeDemandeEtape);
+            $typeDemandeEtape->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeDemandeEtape(TypeDemandeEtape $typeDemandeEtape): static
+    {
+        if ($this->typeDemandeEtapes->removeElement($typeDemandeEtape)) {
+            // set the owning side to null (unless already changed)
+            if ($typeDemandeEtape->getSite() === $this) {
+                $typeDemandeEtape->setSite(null);
             }
         }
 

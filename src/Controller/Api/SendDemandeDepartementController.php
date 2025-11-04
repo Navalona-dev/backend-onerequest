@@ -83,6 +83,7 @@ class SendDemandeDepartementController extends AbstractController
         }
 
         $traitement->setStatut(1);
+        $traitement->setType(2);
 
         $this->em->persist($traitement);
 

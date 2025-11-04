@@ -145,14 +145,14 @@ class Demande
     ];
     
 
-    #[Groups(['demande:list', 'demande:item'])]
+    #[Groups(['demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
-    #[Groups(['demande:list', 'demande:item'])]
+    #[Groups(['demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
     private ?TypeDemande $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]

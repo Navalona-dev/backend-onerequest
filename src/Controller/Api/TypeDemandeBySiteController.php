@@ -10,6 +10,7 @@ use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TypeDemandeRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\TypeDemandeEtapeRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,7 +21,8 @@ class TypeDemandeBySiteController extends AbstractController
         Request $request,
         TypeDemandeRepository $typeRepo, 
         EntrepriseRepository $entrepriseRepo,
-        SiteRepository $siteRepo
+        SiteRepository $siteRepo,
+        TypeDemandeEtapeRepository $etapeRepo
     ): JsonResponse
     {
         $siteId = $request->attributes->get('id');
@@ -35,20 +37,11 @@ class TypeDemandeBySiteController extends AbstractController
             throw new NotFoundHttpException('Site non trouvé.');
         }
     
-        /*$entreprise = $entrepriseRepo->findOneBy(['id' => 1]);
-    
-        $types = [];
-        foreach($entreprise->getCategorieDomaineEntreprises() as $categorie) {
-            foreach($categorie->getDomaines() as $domaine) {
-                $result = $typeRepo->findBySiteAndDomaine($site, $domaine);
-                $types = array_merge($types, $result);
-            }
-        }*/
-
         $types = $site->getTypeDemandes();
 
         $typeTab = [];
         foreach ($types as $type) {
+            $countEtape = $etapeRepo->countByTypeAndSite($site, $type);
             $domaineData = [];
             $sitesData = [];
             if($type->getDomaine()) {
@@ -86,7 +79,8 @@ class TypeDemandeBySiteController extends AbstractController
                 'nomEn' => $type->getNomEn(),
                 'descriptionEn' => $type->getDescriptionEn(),
                 'domaine' => $domaineData,
-                'sites' => $sitesData
+                'sites' => $sitesData,
+                'countEtape' => $countEtape
             ];
         }
     

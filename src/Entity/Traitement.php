@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\TraitementRepository;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -27,13 +28,19 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class Traitement
 {
-    const TYPE = [
+    const TYPE_FR = [
         1 => "Traitement interne",
         2 => "Transferer à un departement",
         3 => "Transferer à un site"
     ];
 
-    const STATUT = [
+    const TYPE_EN = [
+        1 => "Internal processing",
+        2 => "Transfer to a department",
+        3 => "Transfer to a site"
+    ];
+
+    const STATUT_FR = [
         1 => "Envoyé",                // La demande vient d’être envoyée
         2 => "Reçue",                 // Le département ou site destinataire l’a reçue
         3 => "En cours de traitement",// Quelqu’un travaille dessus
@@ -42,6 +49,14 @@ class Traitement
         6 => "Clôturée",              // Traitement définitivement clos / archivé
     ];
 
+    const STATUT_EN = [
+        1 => "Sent",                     // The request has just been sent
+        2 => "Received",                 // The department or site has received it
+        3 => "In progress",              // Someone is currently working on it
+        4 => "Transferred",              // The request has been redirected elsewhere
+        5 => "Processed",                // Processing completed
+        6 => "Closed",                   // Request definitively closed / archived
+    ];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

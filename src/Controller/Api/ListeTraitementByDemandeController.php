@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Demande;
+use App\Entity\Traitement;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,12 +25,21 @@ class ListeTraitementByDemandeController extends AbstractController
         $traitementTab = [];
 
         foreach ($traitements as $traitement) {
+
             $traitementTab[] = [
                 'id' => $traitement->getId(),
-                'createdAt' => $traitement->getCreatedAt(),
+                'date' => $traitement->getDate()?->format('Y-m-d H:i:s'),
                 'site' => [
-                    'id' => $traitement->getSite()->getId(),
-                    'nom' => $traitement->getSite()->getNom()
+                    'id' => $traitement->getSite()?->getId(),
+                    'nom' => $traitement->getSite()?->getNom(),
+                    'commune' => $traitement->getSite()?->getCommune() ? [
+                        'id' => $traitement->getSite()->getCommune()->getId(),
+                        'nom' => $traitement->getSite()->getCommune()->getNom()
+                    ] : null,
+                    'region' => $traitement->getSite()?->getRegion() ? [
+                        'id' => $traitement->getSite()->getRegion()->getId(),
+                        'nom' => $traitement->getSite()->getRegion()->getNom()
+                    ] : null,
                 ],
                 'departement' => [
                     'id' => $traitement->getDepartement()->getId(),
@@ -43,8 +53,18 @@ class ListeTraitementByDemandeController extends AbstractController
                     'email' => $traitement->getUser()->getEmail()
                 ],
                 'commentaire' => $traitement->getCommentaire(),
-                'type' => Traitement::TYPE[$traitement->getType()],
-                'statut' => Traitement::STATUT[$traitement->getStatut()]
+                'typeFr' => Traitement::TYPE_FR[$traitement->getType()],
+                'typeEn' => Traitement::TYPE_EN[$traitement->getType()],
+                'statutFr' => Traitement::STATUT_FR[$traitement->getStatut()],
+                'statutEn' => Traitement::STATUT_EN[$traitement->getStatut()],
+                'demande' => [
+                    'id' => $traitement->getDemande()->getId(),
+                    'type' => [
+                        'id' => $traitement->getDemande()->getType()->getId(),
+                        'nom' => $traitement->getDemande()->getType()->getNom(),
+                        'nomEn' => $traitement->getDemande()->getType()->getNomEn()
+                    ]
+                ]
                
             ];
         }

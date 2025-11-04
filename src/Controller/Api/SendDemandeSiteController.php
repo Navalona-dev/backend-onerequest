@@ -113,6 +113,7 @@ class SendDemandeSiteController extends AbstractController
             }
 
             $traitement->setStatut(1);
+            $traitement->setType(3);
 
             $demande->setUpdatedAt(new \DateTime());
             $this->em->persist($traitement);

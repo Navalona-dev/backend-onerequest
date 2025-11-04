@@ -40,13 +40,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 class Commune
 {
-    #[Groups(['commune:list', 'commune:item', 'region:list', 'region:item', 'site:list', 'site:item'])]
+    #[Groups(['commune:list', 'commune:item', 'region:list', 'region:item', 'site:list', 'site:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['commune:list', 'commune:item', 'region:list', 'region:item', 'site:list', 'site:item'])]
+    #[Groups(['commune:list', 'commune:item', 'region:list', 'region:item', 'site:list', 'site:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 

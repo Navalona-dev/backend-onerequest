@@ -184,21 +184,21 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ApiFilter(RoleFilter::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prenom = null;
 
-    #[Groups(['user:list', 'user:item', 'site:list', 'site:item'])]
+    #[Groups(['user:list', 'user:item', 'site:list', 'site:item', 'traitement:list', 'traitement:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
