@@ -4,14 +4,13 @@ namespace App\Controller\Api;
 
 use App\Entity\Site;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\DepartementRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DepartementBySiteController extends AbstractController
 {
-    public function __invoke(Site $data, DepartementRepository $langueRepo, EntityManagerInterface $em): JsonResponse
+    public function __invoke(Site $data, EntityManagerInterface $em): JsonResponse
     {
         if (!$data) {
             throw new NotFoundHttpException('Site non trouvé.');

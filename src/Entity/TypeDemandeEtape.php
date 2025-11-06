@@ -2,10 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\TypeDemandeEtapeRepository;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\TypeDemandeEtapeRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: TypeDemandeEtapeRepository::class)]
+#[ApiResource(
+    paginationEnabled: false,
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => 'demande:list']),  
+        new Get(normalizationContext: ['groups' => 'demande:item']),            
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ]
+)]
 class TypeDemandeEtape
 {
     #[ORM\Id]
@@ -30,6 +49,9 @@ class TypeDemandeEtape
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $statutINitial = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $titleEn = null;
 
     public function getId(): ?int
     {
@@ -104,6 +126,18 @@ class TypeDemandeEtape
     public function setStatutINitial(?string $statutINitial): static
     {
         $this->statutINitial = $statutINitial;
+
+        return $this;
+    }
+
+    public function getTitleEn(): ?string
+    {
+        return $this->titleEn;
+    }
+
+    public function setTitleEn(?string $titleEn): static
+    {
+        $this->titleEn = $titleEn;
 
         return $this;
     }

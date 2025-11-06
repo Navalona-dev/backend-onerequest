@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\DataPersister\TypeDemandeAddDataPersister;
 use Symfony\Component\Serializer\Attribute\Groups;
 use App\Controller\Api\TypeDemandeBySiteController;
+use App\Controller\Api\EtapeByTypeDemandeController;
 use App\DataPersister\DeleteTypeDemandeDataPersister;
 use App\DataPersister\TypeDemandeUpdateDataPersister;
 use App\Controller\Api\DissociateTypeDemandeBySiteController;
@@ -63,6 +64,24 @@ use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
         ),  
         
         new Get(normalizationContext: ['groups' => 'type_demande:item']), 
+
+        new Get(
+            normalizationContext: ['groups' => 'type_demande:list'],
+            uriTemplate: '/type_demandes/{id}/etapes',
+            controller: EtapeByTypeDemandeController::class,
+            read: true, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'récuperer la liste des étapes par type de demande',
+                    'description' => 'Cette opération récupère la liste des étapes par type de demande.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
                 
         new Post(),
         new Patch(),
