@@ -283,13 +283,13 @@ use App\Controller\Api\GetSiteActiveAndDisponibleController;
 )]
 class Site
 {
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item', 'traitement:list', 'traitement:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item', 'traitement:list', 'traitement:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item', 'traitement:list', 'traitement:item'])]
+    #[Groups(['site:list', 'site:item', 'code_couleur:list', 'code_couleur:item', 'user:list', 'user:item', 'region:list', 'region:item', 'demande:list', 'demande:item', 'type_demande:list', 'type_demande:item', 'traitement:list', 'traitement:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 

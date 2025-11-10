@@ -19,6 +19,7 @@ use App\DataPersister\NiveauHierarchiqueAddDataPersister;
 use App\Controller\Api\RangByNiveauAndDepartementController;
 use App\DataPersister\NiveauHierarchiqueDeleteDataPersister;
 use App\DataPersister\NiveauHierarchiqueUpdateDataPersister;
+use App\Controller\Api\GetNiveauHierarchiqueActiveController;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Controller\Api\DepartementByNiveauHierarchiqueController;
 use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
@@ -28,6 +29,23 @@ use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
     paginationEnabled: false,
     operations: [
         new GetCollection(normalizationContext: ['groups' => 'niveau_hierarchique:list']), 
+        new Get(
+            normalizationContext: ['groups' => 'departement:item'],
+            uriTemplate: '/niveau_hierarchiques/get-liste-active',
+            controller: GetNiveauHierarchiqueActiveController::class,
+            read: false, // désactive la lecture automatique d'une entité
+            deserialize: false,
+            extraProperties: [
+                'openapi_context' => [
+                    'summary' => 'Récupérer la liste de  niveau hierarchique activé',
+                    'description' => 'Cette opération récupère la liste de  niveau hierarchique activé.',
+                    'responses' => [
+                        '200' => ['description' => 'Succès'],
+                        '404' => ['description' => 'Non trouvé']
+                    ]
+                ]
+            ]
+        ), 
         new Get(normalizationContext: ['groups' => 'niveau_hierarchique:item']),   
         new Get(
             normalizationContext: ['groups' => 'departement:item'],
@@ -113,14 +131,14 @@ use App\Controller\Api\DeleteNiveauHierarchiqueByDepartementController;
 )]
 class NiveauHierarchique
 {
-    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item', 'departement:list', 'departement:item'])]
+    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item', 'departement:list', 'departement:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -132,7 +150,7 @@ class NiveauHierarchique
     private ?string $descriptionEn = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item'])]
+    #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     private ?string $nomEn = null;
 
     #[ORM\Column(nullable: true)]
@@ -174,11 +192,18 @@ class NiveauHierarchique
     #[Groups(['niveau_hierarchique:list', 'niveau_hierarchique:item'])]
     private ?Privilege $privilege = null;
 
+    /**
+     * @var Collection<int, TypeDemandeEtape>
+     */
+    #[ORM\OneToMany(targetEntity: TypeDemandeEtape::class, mappedBy: 'niveauHierarchique')]
+    private Collection $typeDemandeEtapes;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->niveauHierarchiqueRangs = new ArrayCollection();
         $this->departements = new ArrayCollection();
+        $this->typeDemandeEtapes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -374,6 +399,36 @@ class NiveauHierarchique
     public function setPrivilege(?Privilege $privilege): static
     {
         $this->privilege = $privilege;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeDemandeEtape>
+     */
+    public function getTypeDemandeEtapes(): Collection
+    {
+        return $this->typeDemandeEtapes;
+    }
+
+    public function addTypeDemandeEtape(TypeDemandeEtape $typeDemandeEtape): static
+    {
+        if (!$this->typeDemandeEtapes->contains($typeDemandeEtape)) {
+            $this->typeDemandeEtapes->add($typeDemandeEtape);
+            $typeDemandeEtape->setNiveauHierarchique($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeDemandeEtape(TypeDemandeEtape $typeDemandeEtape): static
+    {
+        if ($this->typeDemandeEtapes->removeElement($typeDemandeEtape)) {
+            // set the owning side to null (unless already changed)
+            if ($typeDemandeEtape->getNiveauHierarchique() === $this) {
+                $typeDemandeEtape->setNiveauHierarchique(null);
+            }
+        }
 
         return $this;
     }

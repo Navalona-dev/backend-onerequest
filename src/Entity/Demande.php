@@ -204,6 +204,9 @@ class Demande
     #[Groups(['demande:list', 'demande:item', 'departement:list', 'departement:item'])]
     private ?Departement $departement = null;
 
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?TypeDemandeEtape $etapeDemande = null;
+
     public function __construct()
     {
         $this->responsables = new ArrayCollection();
@@ -397,6 +400,18 @@ class Demande
     public function setDepartement(?Departement $departement): static
     {
         $this->departement = $departement;
+
+        return $this;
+    }
+
+    public function getEtapeDemande(): ?TypeDemandeEtape
+    {
+        return $this->etapeDemande;
+    }
+
+    public function setEtapeDemande(?TypeDemandeEtape $etapeDemande): static
+    {
+        $this->etapeDemande = $etapeDemande;
 
         return $this;
     }

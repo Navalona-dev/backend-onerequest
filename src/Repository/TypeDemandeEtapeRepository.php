@@ -29,6 +29,20 @@ class TypeDemandeEtapeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findByTypeAndSite($site, $type)
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.site', 's')
+            ->join('t.typeDemande', 'td')
+            ->andWhere('s.id = :siteId')
+            ->andWhere('td.id = :typeId')
+            ->setParameter('siteId', $site->getId())
+            ->setParameter('typeId', $type->getId())
+            ->getQuery()
+            ->getResult(); 
+    }
+
     
 
 }

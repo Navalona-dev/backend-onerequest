@@ -67,9 +67,9 @@ use App\Controller\Api\TypeDemandeByDomaineEntrepriseController;
 
         new Get(
             normalizationContext: ['groups' => 'type_demande:list'],
-            uriTemplate: '/type_demandes/{id}/etapes',
+            uriTemplate: '/type_demandes/{id}/site/{site}/etapes',
             controller: EtapeByTypeDemandeController::class,
-            read: true, // désactive la lecture automatique d'une entité
+            read: true, 
             deserialize: false,
             extraProperties: [
                 'openapi_context' => [
@@ -120,11 +120,11 @@ class TypeDemande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
@@ -163,7 +163,7 @@ class TypeDemande
     private Collection $dossierAFournirs;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item'])]
+    #[Groups(['type_demande:list', 'type_demande:item', 'demande:list', 'demande:item', 'traitement:list', 'traitement:item', 'type_demande_etape:list', 'type_demande_etape:item'])]
     private ?string $nomEn = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
